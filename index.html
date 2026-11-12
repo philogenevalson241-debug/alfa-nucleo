@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALFA NÚCLEO - Licitações</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#0f172a;color:white}
+header{background:#1e293b;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:22px;color:#22c55e}
+header span{font-size:12px;background:#22c55e;color:#000;padding:4px 8px;border-radius:20px;font-weight:bold}
+.container{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:#1e293b;padding:20px;border-radius:12px;margin-bottom:15px}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white}
+button{background:#22c55e;border:0;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px}
+button.sec{background:#334155;color:white}
+.item{background:#0f172a;padding:12px;border-radius:8px;margin:8px 0;border-left:4px solid #22c55e}
+small{color:#94a3b8}
+.tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}
+.tabs button{width:auto;padding:10px 16px}
+.tabs button.active{background:white;color:black}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header><div><b>ALFA NÚCLEO</b><br><small>Gestão de Licitações</small></div><span>ONLINE</span></header>
+<div class="container">
+
+<div class="card" id="configCard">
+<h3>🔑 1º - Ligar com o Supabase (só 1 vez)</h3>
+<p><small>Cole aqui as 2 coisas que você copiou do bloco de notas</small></p>
+<label>URL do Projeto</label>
+<input id="url" placeholder="https://xxxx.supabase.co">
+<label>Publishable Key</label>
+<input id="key" placeholder="sb_publishable_...">
+<button onclick="salvar()">SALVAR E CONECTAR</button>
+<p id="status"><small>Aguardando conexão...</small></p>
+</div>
+
+<div id="app" class="hidden">
+<div class="tabs">
+<button class="active" onclick="aba('licitacoes',this)">📋 Licitações</button>
+<button onclick="aba('fornecedores',this)">🏢 Fornecedores</button>
+<button onclick="aba('produtos',this)">📦 Produtos</button>
+</div>
+
+<div id="sec-licitacoes">
+<div class="card">
+<h3>Nova Licitação</h3>
+<input id="l-num" placeholder="Nº Ex: 001/2026">
+<input id="l-orgao" placeholder="Órgão Ex: Prefeitura Curitiba">
+<input id="l-objeto" placeholder="Objeto Ex: Material de escritório">
+<input id="l-valor" type="number" placeholder="Valor Estimado Ex: 50000">
+<input id="l-data" type="date">
+<button onclick="addLicitacao()">+ CADASTRAR LICITAÇÃO</button>
+</div>
+<div class="card"><h3>Licitações Cadastradas</h3><div id="lista-licitacoes">Carregando...</div></div>
+</div>
+
+<div id="sec-fornecedores" class="hidden">
+<div class="card">
+<h3>Novo Fornecedor</h3>
+<input id="f-nome" placeholder="Nome / Razão Social">
+<input id="f-cnpj" placeholder="CNPJ">
+<input id="f-tel" placeholder="Telefone / WhatsApp">
+<button onclick="addFornecedor()">+ CADASTRAR FORNECEDOR</button>
+</div>
+<div class="card"><h3>Fornecedores</h3><div id="lista-fornecedores"></div></div>
+</div>
+
+<div id="sec-produtos" class="hidden">
+<div class="card">
+<h3>Novo Produto</h3>
+<input id="p-nome" placeholder="Nome do produto">
+<input id="p-preco" type="number" placeholder="Preço">
+<input id="p-estoque" type="number" placeholder="Estoque">
+<button onclick="addProduto()">+ CADASTRAR PRODUTO</button>
+</div>
+<div class="card"><h3>Produtos</h3><div id="lista-produtos"></div></div>
+</div>
+
+<button class="sec" onclick="localStorage.clear();location.reload()">Sair / Trocar chaves</button>
+</div>
+</div>
+
+<script>
+let supabaseClient=null;
+function aba(id,btn){
+document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+['licitacoes','fornecedores','produtos'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
+document.getElementById('sec-'+id).classList.remove('hidden');
+}
+function salvar(){
+let u=document.getElementById('url').value.trim();
+let k=document.getElementById('key').value.trim();
+if(!u||!k){alert('Cole a URL e a KEY!');return;}
+localStorage.setItem('alfa_url',u);
+localStorage.setItem('alfa_key',k);
+conectar();
+}
+function conectar(){
+let u=localStorage.getItem('alfa_url');
+let k=localStorage.getItem('alfa_key');
+if(!u||!k) return;
+supabaseClient=supabase.createClient(u,k);
+document.getElementById('configCard').classList.add('hidden');
+document.getElementById('app').classList.remove('hidden');
+document.getElementById('status').innerHTML='Conectado!';
+carregarTudo();
+}
+async function carregarTudo(){
+let {data:l}=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});
+document.getElementById('lista-licitacoes').innerHTML=(l||[]).map(x=>`<div class="item"><b>${x.numero||''} - ${x.objeto||x.titulo||''}</b><br><small>${x.orgao||''} | R$ ${x.valor_estimado||x.valor||''} | ${x.data_abertura||''}</small></div>`).join('')||'Nenhuma ainda';
+let {data:f}=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});
+document.getElementById('lista-fornecedores').innerHTML=(f||[]).map(x=>`<div class="item"><b>${x.nome||x.razao_social||''}</b><br><small>${x.cnpj||''} - ${x.telefone||''}</small></div>`).join('')||'Nenhum ainda';
+let {data:p}=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});
+document.getElementById('lista-produtos').innerHTML=(p||[]).map(x=>`<div class="item"><b>${x.nome||''}</b><br><small>R$ ${x.preco||''} - Estoque: ${x.estoque||x.quantidade||''}</small></div>`).join('')||'Nenhum ainda';
+}
+async function addLicitacao(){
+let numero=document.getElementById('l-num').value;
+let orgao=document.getElementById('l-orgao').value;
+let objeto=document.getElementById('l-objeto').value;
+let valor=document.getElementById('l-valor').value;
+let data=document.getElementById('l-data').value;
+let {error}=await supabaseClient.from('licitacoes').insert([{numero,orgao,objeto,valor_estimado:valor,data_abertura:data}]);
+if(error) alert('Erro: '+error.message); else {alert('Licitação salva!');carregarTudo();}
+}
+async function addFornecedor(){
+let nome=document.getElementById('f-nome').value;
+let cnpj=document.getElementById('f-cnpj').value;
+let telefone=document.getElementById('f-tel').value;
+let {error}=await supabaseClient.from('fornecedores').insert([{nome,cnpj,telefone}]);
+if(error) alert('Erro: '+error.message); else {alert('Fornecedor salvo!');carregarTudo();}
+}
+async function addProduto(){
+let nome=document.getElementById('p-nome').value;
+let preco=document.getElementById('p-preco').value;
+let estoque=document.getElementById('p-estoque').value;
+let {error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}]);
+if(error) alert('Erro: '+error.message); else {alert('Produto salvo!');carregarTudo();}
+}
+conectar();
+</script>
+</body>
+</html>
