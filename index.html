@@ -46,6 +46,20 @@ small{color:#94a3b8}
 <button onclick="aba('produtos',this)">📦 Produtos</button>
 </div>
 
+ <input id="pesquisaGeral" type="text" placeholder="🔍 Pesquisar..." oninput="filtrarGeral()" style="margin-bottom:15px;">
+<script>
+function filtrarGeral(){
+  let texto = document.getElementById('pesquisaGeral').value.toLowerCase();
+  let itens = document.querySelectorAll('.item');
+  itens.forEach(function(item){
+    if(item.innerText.toLowerCase().includes(texto)){
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+</script> 
 <div id="sec-licitacoes">
 <div class="card">
 <h3>Nova Licitação</h3>
