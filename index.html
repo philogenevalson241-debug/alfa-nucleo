@@ -43,7 +43,8 @@ small{color:#94a3b8}
 <div class="tabs">
 <button class="active" onclick="aba('licitacoes',this)">📋 Licitações</button>
 <button onclick="aba('fornecedores',this)">🏢 Fornecedores</button>
-<button onclick="aba('produtos',this)">📦 Produtos</button>
+<button onclick="aba('carburador',this)">🧮 Carburador</button>
+ <button onclick="aba('produtos',this)">📦 Produtos</button>
 </div>
 
  <input id="pesquisaGeral" type="text" placeholder="🔍 Pesquisar..." oninput="filtrarGeral()" style="margin-bottom:15px;">
@@ -89,6 +90,58 @@ function atualizarTotais(){
   document.getElementById('totalLicitacoes').innerText = 'R$ ' + totalLic.toLocaleString('pt-BR',{minimumFractionDigits:2});
 }
 setInterval(atualizarTotais, 1000);
+</script>
+<div id="sec-carburador" class="hidden">
+  <h2>🧮 Carburador Inteligente</h2>
+  <p style="font-size:13px;color:#ccc;">Preencha seu custo real. Ele trava pra você não ter prejuízo.</p>
+  <label>Custo do produto R$</label>
+  <input id="carb-custo" type="number" placeholder="Ex: 35" oninput="calcularCarb()">
+  <label>Frete R$</label>
+  <input id="carb-frete" type="number" placeholder="Ex: 5" oninput="calcularCarb()">
+  <label>Outros custos R$</label>
+  <input id="carb-outros" type="number" placeholder="Ex: 0" oninput="calcularCarb()">
+  <label>Imposto %</label>
+  <input id="carb-imposto" type="number" placeholder="Ex: 10" oninput="calcularCarb()">
+  <label>Valor Máximo do Edital R$</label>
+  <input id="carb-edital" type="number" placeholder="Ex: 65" oninput="calcularCarb()">
+  <div style="margin-top:15px; background:#0f1a0f; padding:15px; border-radius:10px; border:1px solid #22c55e;">
+    <div>💰 Custo Total: <b id="carb-custoTotal">R$ 0,00</b></div>
+    <div style="font-size:12px;color:#ccc;" id="carb-conta">Preencha acima</div>
+    <hr>
+    <div>🥉 Agressivo: <span id="carb-agressivo">R$ 0,00</span> - <span id="carb-lucro1"></span></div>
+    <div style="background:#22c55e; color:#000; padding:8px; border-radius:8px; margin:8px 0;">🥈 Equilibrado ✅ RECOMENDADO: <span id="carb-equilibrado">R$ 0,00</span> - <span id="carb-lucro2"></span></div>
+    <div>🥇 Máximo: <span id="carb-maximo">R$ 0,00</span> - <span id="carb-lucro3"></span></div>
+    <div id="carb-alerta" style="margin-top:10px; font-weight:bold;"></div>
+  </div>
+</div>
+<script>
+function calcularCarb(){
+  let custo = parseFloat(document.getElementById('carb-custo').value) || 0;
+  let frete = parseFloat(document.getElementById('carb-frete').value) || 0;
+  let outros = parseFloat(document.getElementById('carb-outros').value) || 0;
+  let impostoPct = parseFloat(document.getElementById('carb-imposto').value) || 0;
+  let edital = parseFloat(document.getElementById('carb-edital').value) || 0;
+  let base = custo + frete + outros;
+  let custoTotal = base + (base * (impostoPct/100));
+  let agressivo = custoTotal * 1.12;
+  let equilibrado = custoTotal * 1.25;
+  let maximo = custoTotal * 1.40;
+  if(edital > 0 && maximo > edital * 0.95) maximo = edital * 0.95;
+  if(edital > 0 && equilibrado > edital * 0.95) equilibrado = edital * 0.90;
+  if(edital > 0 && agressivo > edital * 0.95) agressivo = edital * 0.85;
+  function fmt(v){ return 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2}); }
+  document.getElementById('carb-custoTotal').innerText = fmt(custoTotal);
+  document.getElementById('carb-conta').innerText = custo.toFixed(2) + ' + ' + frete.toFixed(2) + ' + ' + outros.toFixed(2) + ' + imposto = ' + fmt(custoTotal);
+  document.getElementById('carb-agressivo').innerText = fmt(agressivo);
+  document.getElementById('carb-equilibrado').innerText = fmt(equilibrado);
+  document.getElementById('carb-maximo').innerText = fmt(maximo);
+  document.getElementById('carb-lucro1').innerText = 'Lucro ' + fmt(agressivo - custoTotal);
+  document.getElementById('carb-lucro2').innerText = 'Lucro ' + fmt(equilibrado - custoTotal);
+  document.getElementById('carb-lucro3').innerText = 'Lucro ' + fmt(maximo - custoTotal);
+  let alerta = document.getElementById('carb-alerta');
+  if(edital > 0 && custoTotal >= edital){ alerta.innerText = '⚠️ PREJUÍZO! Custo maior que edital. NÃO vale a pena!'; alerta.style.color = 'red'; }
+  else if(edital > 0){ alerta.innerText = '✅ SEGURO! Todos abaixo do edital de ' + fmt(edital); alerta.style.color = '#22c55e'; }
+}
 </script>
  <div id="sec-licitacoes">
 <div class="card">
