@@ -44,6 +44,7 @@ small{color:#94a3b8}
 <button class="active" onclick="aba('licitacoes',this)">📋 Licitações</button>
 <button onclick="aba('fornecedores',this)">🏢 Fornecedores</button>
 <button onclick="aba('carburador',this)">🧮 Carburador</button>
+<button onclick="aba('proposta',this)">📄 Proposta</button>
  <button onclick="aba('produtos',this)">📦 Produtos</button>
 </div>
 
@@ -91,7 +92,58 @@ function atualizarTotais(){
 }
 setInterval(atualizarTotais, 1000);
 </script>
-<div id="sec-carburador" class="hidden">
+<div id="sec-proposta" class="hidden">
+  <h2>📄 Preparar Proposta + WhatsApp</h2>
+  <p style="font-size:13px;color:#ccc;">Preencha, ele monta a mensagem e você envia no WhatsApp com 1 clique.</p>
+  <label>Nº da Licitação / Edital</label>
+  <input id="prop-licitacao" type="text" placeholder="Ex: 0001/2026" oninput="gerarMsg()">
+  <label>Nome do Fornecedor</label>
+  <input id="prop-fornecedor" type="text" placeholder="Ex: João Papelaria" oninput="gerarMsg()">
+  <label>WhatsApp do Fornecedor (só números com DDD)</label>
+  <input id="prop-telefone" type="text" placeholder="Ex: 41999999999" oninput="gerarMsg()">
+  <label>Produto</label>
+  <input id="prop-produto" type="text" placeholder="Ex: Papel A4 75g" oninput="gerarMsg()">
+  <label>Quantidade</label>
+  <input id="prop-qtd" type="number" placeholder="Ex: 35" oninput="gerarMsg()">
+  <label>Preço que você quer pagar / Lance R$</label>
+  <input id="prop-preco" type="number" placeholder="Ex: 55 - pega do Carburador" oninput="gerarMsg()">
+  <label>Especificações do Edital / Prazo de Entrega</label>
+  <input id="prop-espec" type="text" placeholder="Ex: Entrega em 10 dias, Papel 500 folhas" oninput="gerarMsg()">
+  <label>Mensagem pronta:</label>
+  <textarea id="prop-msg" rows="7" style="width:100%; padding:10px; border-radius:8px;"></textarea>
+  <div style="display:flex; gap:10px; margin-top:10px;">
+    <button onclick="gerarMsg()" style="flex:1;">🔄 Gerar Mensagem</button>
+    <button onclick="copiarMsg()" style="flex:1;">📋 Copiar</button>
+  </div>
+  <button onclick="enviarZap()" style="width:100%; margin-top:10px; background:#25D366; color:#000; font-weight:bold; padding:12px;">📲 Enviar no WhatsApp do Fornecedor</button>
+  <p id="prop-aviso" style="font-size:12px;color:#ffcc00;"></p>
+</div>
+<script>
+function gerarMsg(){
+  let lic = document.getElementById('prop-licitacao').value || '[Nº LICITAÇÃO]';
+  let forn = document.getElementById('prop-fornecedor').value || 'fornecedor';
+  let prod = document.getElementById('prop-produto').value || '[PRODUTO]';
+  let qtd = document.getElementById('prop-qtd').value || '[QTD]';
+  let preco = document.getElementById('prop-preco').value || '[PREÇO]';
+  let espec = document.getElementById('prop-espec').value || '';
+  let texto = 'Olá ' + forn + ', tudo bem? Aqui é da ALFA NÚCLEO - Gestão de Licitações.\n\nPreciso de orçamento para a Licitação ' + lic + ':\n\n📦 Produto: ' + prod + '\n🔢 Quantidade: ' + qtd + '\n💰 Preço alvo / Lance: R$ ' + preco + '\n📋 Especificações: ' + espec + '\n\nVocê consegue me confirmar disponibilidade e melhor preço?\nObrigado!';
+  document.getElementById('prop-msg').value = texto;
+}
+function copiarMsg(){
+  let t = document.getElementById('prop-msg');
+  t.select(); document.execCommand('copy');
+  document.getElementById('prop-aviso').innerText = '✅ Copiado! Pode colar onde quiser.';
+}
+function enviarZap(){
+  let tel = document.getElementById('prop-telefone').value.replace(/\D/g,'');
+  if(tel.length < 10){ document.getElementById('prop-aviso').innerText = '⚠️ Coloque o WhatsApp com DDD, ex: 41999999999'; return; }
+  if(tel.length === 11) tel = '55' + tel;
+  let msg = encodeURIComponent(document.getElementById('prop-msg').value);
+  window.open('https://wa.me/' + tel + '?text=' + msg, '_blank');
+}
+gerarMsg();
+</script>
+ <div id="sec-carburador" class="hidden">
   <h2>🧮 Carburador Inteligente</h2>
   <p style="font-size:13px;color:#ccc;">Preencha seu custo real. Ele trava pra você não ter prejuízo.</p>
   <label>Custo do produto R$</label>
