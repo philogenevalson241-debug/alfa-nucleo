@@ -72,16 +72,21 @@ function filtrarGeral(){
 </div>
 <script>
 function atualizarTotais(){
-  let total = 0;
-  let itens = document.querySelectorAll('.item');
-  itens.forEach(function(item){
-    let m = item.innerText.match(/R\$\s*([\d\.,]+)/);
-    if(m){ total += parseFloat(m[1].replace(/\./g,'').replace(',','.')) || 0; }
+  let totalProd = 0;
+  let totalLic = 0;
+  document.querySelectorAll('#sec-produtos .item').forEach(function(item){
+    let mPreco = item.innerText.match(/R\$\s*([\d\.,]+)/);
+    let mEst = item.innerText.match(/Estoque:\s*(\d+)/);
+    let preco = mPreco ? parseFloat(mPreco[1].replace(/\./g,'').replace(',','.')) : 0;
+    let est = mEst ? parseInt(mEst[1]) : 1;
+    totalProd += preco * est;
   });
-  let elP = document.getElementById('totalProdutos');
-  let elL = document.getElementById('totalLicitacoes');
-  if(elP) elP.innerText = 'R$ ' + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
-  if(elL) elL.innerText = 'R$ ' + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  document.querySelectorAll('#sec-licitacoes .item').forEach(function(item){
+    let m = item.innerText.match(/R\$\s*([\d\.,]+)/);
+    if(m){ totalLic += parseFloat(m[1].replace(/\./g,'').replace(',','.')) || 0; }
+  });
+  document.getElementById('totalProdutos').innerText = 'R$ ' + totalProd.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  document.getElementById('totalLicitacoes').innerText = 'R$ ' + totalLic.toLocaleString('pt-BR',{minimumFractionDigits:2});
 }
 setInterval(atualizarTotais, 1000);
 </script>
