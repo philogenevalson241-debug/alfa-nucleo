@@ -60,7 +60,32 @@ function filtrarGeral(){
   });
 }
 </script> 
-<div id="sec-licitacoes">
+<div id="totais" style="display:flex; gap:10px; margin:10px 0;">
+  <div style="flex:1; background:#1a2b1a; padding:12px; border-radius:10px; text-align:center; border:1px solid #22c55e;">
+    <div style="font-size:13px;">💰 Total Produtos</div>
+    <div id="totalProdutos" style="font-size:20px; font-weight:bold; color:#22c55e;">R$ 0,00</div>
+  </div>
+  <div style="flex:1; background:#1a2b1a; padding:12px; border-radius:10px; text-align:center; border:1px solid #22c55e;">
+    <div style="font-size:13px;">💰 Total Licitações</div>
+    <div id="totalLicitacoes" style="font-size:20px; font-weight:bold; color:#22c55e;">R$ 0,00</div>
+  </div>
+</div>
+<script>
+function atualizarTotais(){
+  let total = 0;
+  let itens = document.querySelectorAll('.item');
+  itens.forEach(function(item){
+    let m = item.innerText.match(/R\$\s*([\d\.,]+)/);
+    if(m){ total += parseFloat(m[1].replace(/\./g,'').replace(',','.')) || 0; }
+  });
+  let elP = document.getElementById('totalProdutos');
+  let elL = document.getElementById('totalLicitacoes');
+  if(elP) elP.innerText = 'R$ ' + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  if(elL) elL.innerText = 'R$ ' + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
+}
+setInterval(atualizarTotais, 1000);
+</script>
+ <div id="sec-licitacoes">
 <div class="card">
 <h3>Nova Licitação</h3>
 <input id="l-num" placeholder="Nº Ex: 001/2026">
