@@ -239,10 +239,14 @@ function calcularCarb(){
 <script>
 let supabaseClient=null;
 function aba(id,btn){
-document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-['licitacoes','fornecedores','produtos'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
-document.getElementById('sec-'+id).classList.remove('hidden');
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  if(btn){ btn.classList.add('active'); }
+  ['licitacoes','fornecedores','produtos','carburador','proposta'].forEach(s=>{
+    let el = document.getElementById('sec-'+s) || document.getElementById('aba-'+s);
+    if(el){ el.classList.add('hidden'); el.style.display='none'; }
+  });
+  let alvo = document.getElementById('sec-'+id) || document.getElementById('aba-'+id);
+  if(alvo){ alvo.classList.remove('hidden'); alvo.style.display='block'; }
 }
 function salvar(){
 let u=document.getElementById('url').value.trim();
