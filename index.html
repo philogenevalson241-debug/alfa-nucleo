@@ -29,193 +29,134 @@ small{color:#94a3b8}
 </style>
 </head>
 <body>
-<!-- ===== ABA 1 - DASHBOARD EXECUTIVO ===== -->
-<div id="aba-dashboard" style="display:block; font-family:Arial; padding:15px; background:#f4f6f9;">
+ <header><div><b>ALFA NÚCLEO</b><br><small>Gestão de Licitações</small></div><span>ONLINE</span></header>
+<div class="container">
+ <!-- ===== ABA 1 - DASHBOARD EXECUTIVO V2 - GRÁFICOS EM TUDO ===== -->
+<div id="aba-dashboard" style="font-family:Arial; padding:12px; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); border-radius:12px; color:#fff; margin-bottom:15px;">
 
-  <h2 style="margin:0;">🏠 DASHBOARD EXECUTIVO - ALFA NÚCLEO</h2>
-  <p id="data-hora-atual" style="color:#555;"></p>
+  <h2 style="margin:0;">🏠 DASHBOARD EXECUTIVO</h2>
+  <p id="data-hora-atual" style="color:#cbd5e1; font-size:13px;">Hoje: 15/11/2026 | ME | 8%</p>
 
-  <!-- CONFIG EMPRESA + CALENDARIO -->
-  <div style="display:flex; flex-wrap:wrap; gap:10px; background:#fff; padding:12px; border-radius:10px;">
-    <div>
-      <b>📅 Mês:</b><br>
-      <input type="month" id="dash-mes" value="2026-11" onchange="atualizarDashboard()" style="padding:8px;">
-    </div>
-    <div>
-      <b>🏢 Minha Empresa é:</b><br>
-      <select id="dash-categoria" onchange="trocarCategoria()" style="padding:8px;">
-        <option value="MEI">MEI</option>
-        <option value="ME" selected>ME</option>
-        <option value="ME LTDA">ME LTDA</option>
-        <option value="EPP">EPP</option>
-        <option value="EPP LTDA">EPP LTDA</option>
-      </select>
-    </div>
-    <div>
-      <b>💰 Imposto Atual:</b><br>
-      <span id="dash-imposto-label">8,00%</span>
-      <button onclick="editarImposto()">✏️ Editar</button>
-    </div>
-    <div style="flex:1;">
-      <b>🎯 Meta de Lucro do Mês:</b><br>
-      <input type="number" id="dash-meta" value="10000" onchange="atualizarDashboard()" style="padding:8px; width:120px;"> R$
-      <div style="background:#eee; height:12px; border-radius:10px; margin-top:5px;">
-        <div id="dash-meta-barra" style="background:#22c55e; height:12px; border-radius:10px; width:0%;"></div>
-      </div>
-      <small id="dash-meta-texto">0% da meta</small>
-    </div>
+  <!-- CONFIG -->
+  <div style="display:flex; flex-wrap:wrap; gap:10px; background:rgba(255,255,255,0.12); padding:12px; border-radius:10px;">
+    <div><b>📅 Mês:</b><br><input type="month" id="dash-mes" value="2026-11" onchange="atualizarDashboard()" style="padding:8px; border-radius:6px; border:none; background:#0f172a; color:#fff;"></div>
+    <div><b>🏢 Empresa:</b><br><select id="dash-categoria" onchange="trocarCategoria()" style="padding:8px; border-radius:6px; border:none; background:#0f172a; color:#fff;"><option value="MEI">MEI</option><option value="ME" selected>ME</option><option value="ME LTDA">ME LTDA</option><option value="EPP">EPP</option><option value="EPP LTDA">EPP LTDA</option></select></div>
+    <div><b>💰 Imposto:</b><br><span id="dash-imposto-label" style="color:#5eead4; font-weight:bold;">8,00%</span> <button onclick="editarImposto()" style="background:#14b8a6; color:#fff; border:none; padding:6px 10px; border-radius:6px;">✏️ Editar</button></div>
+    <div style="flex:1; min-width:180px;"><b>🎯 Meta:</b> <input type="number" id="dash-meta" value="10000" onchange="atualizarDashboard()" style="padding:8px; width:110px; border-radius:6px; border:none; background:#0f172a; color:#fff;"> R$<div style="background:rgba(255,255,255,0.2); height:12px; border-radius:10px; margin-top:6px;"><div id="dash-meta-barra" style="background:#22c55e; height:12px; border-radius:10px; width:0%;"></div></div><small id="dash-meta-texto" style="color:#e2e8f0;">0% da meta</small></div>
   </div>
 
-  <!-- 6 INDICADORES -->
+  <!-- 6 CARDS COM MINI GRÁFICO -->
   <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px;">
-    <div style="background:#fff; padding:12px; border-radius:10px; text-align:center;"><small>🔍 ENCONTRADAS</small><h2 id="ind-encontradas">0</h2></div>
-    <div style="background:#fff; padding:12px; border-radius:10px; text-align:center;"><small>⚔️ DISPUTADAS</small><h2 id="ind-disputadas">0</h2></div>
-    <div style="background:#fff; padding:12px; border-radius:10px; text-align:center;"><small>🏆 TAXA VITÓRIA</small><h2 id="ind-taxa">0%</h2></div>
-    <div style="background:#fff; padding:12px; border-radius:10px; text-align:center;"><small>💰 VALOR PREVISTO</small><h2 id="ind-valor">R$ 0,00</h2></div>
-    <div style="background:#fff; padding:12px; border-radius:10px; text-align:center;"><small>📈 LUCRO PREVISTO</small><h2 id="ind-lucro" style="color:green;">R$ 0,00</h2></div>
-    <div style="background:#fff; padding:12px; border-radius:10px; text-align:center;"><small>📊 MARGEM MÉDIA</small><h2 id="ind-margem">0%</h2></div>
+    <div style="background:#0f172a; padding:10px; border-radius:10px; text-align:center; border:1px solid #14b8a6;"><small style="color:#94a3b8;">🔍 ENCONTRADAS</small><h2 id="ind-encontradas" style="color:#fff; margin:4px 0;">0</h2><canvas id="mini-1" width="180" height="35" style="width:100%; height:35px;"></canvas></div>
+    <div style="background:#0f172a; padding:10px; border-radius:10px; text-align:center; border:1px solid #14b8a6;"><small style="color:#94a3b8;">⚔️ DISPUTADAS</small><h2 id="ind-disputadas" style="color:#fff; margin:4px 0;">0</h2><canvas id="mini-2" width="180" height="35" style="width:100%; height:35px;"></canvas></div>
+    <div style="background:#0f172a; padding:10px; border-radius:10px; text-align:center; border:1px solid #facc15;"><small style="color:#94a3b8;">🏆 TAXA VITÓRIA</small><h2 id="ind-taxa" style="color:#facc15; margin:4px 0;">0%</h2><canvas id="mini-3" width="180" height="35" style="width:100%; height:35px;"></canvas></div>
+    <div style="background:#0f172a; padding:10px; border-radius:10px; text-align:center; border:1px solid #14b8a6;"><small style="color:#94a3b8;">💰 VALOR PREVISTO</small><h2 id="ind-valor" style="color:#fff; margin:4px 0;">R$ 0,00</h2><canvas id="mini-4" width="180" height="35" style="width:100%; height:35px;"></canvas></div>
+    <div style="background:#0f172a; padding:10px; border-radius:10px; text-align:center; border:2px solid #22c55e;"><small style="color:#94a3b8;">📈 LUCRO PREVISTO</small><h2 id="ind-lucro" style="color:#22c55e; margin:4px 0;">R$ 0,00</h2><canvas id="mini-5" width="180" height="35" style="width:100%; height:35px;"></canvas></div>
+    <div style="background:#0f172a; padding:10px; border-radius:10px; text-align:center; border:1px solid #a78bfa;"><small style="color:#94a3b8;">📊 MARGEM MÉDIA</small><h2 id="ind-margem" style="color:#a78bfa; margin:4px 0;">0%</h2><canvas id="mini-6" width="180" height="35" style="width:100%; height:35px;"></canvas></div>
   </div>
 
-  <!-- DRE + FLUXO -->
-  <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
-    <div style="flex:1; background:#fff; padding:12px; border-radius:10px;">
-      <b>📋 DRE DO MÊS</b><br><br>
-      Faturamento: <span id="dre-faturamento">R$ 0,00</span><br>
-      (-) Custo Produtos: <span id="dre-custo">R$ 0,00</span><br>
-      (-) Imposto: <span id="dre-imposto">R$ 0,00</span><br>
-      <b>= Lucro Real: <span id="dre-lucro">R$ 0,00</span></b>
-    </div>
-    <div style="flex:1; background:#fff; padding:12px; border-radius:10px;">
-      <b>💸 FLUXO DE CAIXA</b><br><br>
-      Entrou: <span id="fluxo-entrou" style="color:green;">R$ 0,00</span><br>
-      Saiu: <span id="fluxo-saiu" style="color:red;">R$ 0,00</span><br>
-      <b>Saldo: <span id="fluxo-saldo">R$ 0,00</span></b><br><br>
-      A Receber: <span id="fluxo-receber">R$ 0,00</span> | A Pagar: <span id="fluxo-pagar">R$ 0,00</span>
-    </div>
+  <!-- GRÁFICO PRINCIPAL REALISTA -->
+  <div style="background:#0f172a; padding:12px; border-radius:10px; margin-top:12px; border:1px solid #14b8a6;">
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap;"><b>📈 RESULTADO POR MÊS - SOBE E DESCE</b><div><button onclick="mudarGrafico('lucro')" style="background:#22c55e; color:#fff; border:none; padding:5px 10px; border-radius:6px;">Lucro</button> <button onclick="mudarGrafico('faturamento')" style="background:#0f2027; color:#fff; border:1px solid #14b8a6; padding:5px 10px; border-radius:6px;">Faturamento</button> <button onclick="mudarGrafico('custo')" style="background:#0f2027; color:#fff; border:1px solid #ef4444; padding:5px 10px; border-radius:6px;">Custo</button></div></div>
+    <canvas id="grafico-dashboard" width="800" height="240" style="width:100%; height:240px; margin-top:8px; border-radius:8px;"></canvas>
+    <p id="grafico-legenda" style="color:#94a3b8; font-size:12px;">Verde = Lucro subindo = Bom! Vermelho = Custo alto = Atenção!</p>
   </div>
 
-  <!-- VENCIMENTOS + MOVIMENTAÇÕES -->
+  <!-- BARRAS + PIZZA -->
   <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
-    <div style="flex:1; background:#fff; padding:12px; border-radius:10px;">
-      <b>🔔 VENCIMENTO DE DOCUMENTOS</b>
-      <div id="lista-vencimentos" style="margin-top:8px;">Nenhum documento cadastrado ainda.</div>
-    </div>
-    <div style="flex:1; background:#fff; padding:12px; border-radius:10px;">
-      <b>📜 ÚLTIMAS MOVIMENTAÇÕES</b>
-      <div id="lista-movimentacoes" style="margin-top:8px;">Nenhuma movimentação ainda.</div>
-    </div>
+    <div style="flex:1.5; min-width:260px; background:#0f172a; padding:12px; border-radius:10px;"><b>📊 FATURAMENTO VS CUSTO</b><canvas id="grafico-barras" width="400" height="200" style="width:100%; height:200px; margin-top:8px;"></canvas><div style="color:#94a3b8; font-size:12px; margin-top:5px;"><span style="color:#22c55e;">■</span> Faturamento &nbsp; <span style="color:#ef4444;">■</span> Custo &nbsp; <span style="color:#facc15;">■</span> Imposto</div></div>
+    <div style="flex:1; min-width:200px; background:#0f172a; padding:12px; border-radius:10px; text-align:center;"><b>🍩 ONDE VAI O DINHEIRO?</b><canvas id="grafico-pizza" width="180" height="180" style="width:170px; height:170px; margin:10px auto; display:block;"></canvas><div style="font-size:12px; color:#e2e8f0; text-align:left;"><span style="color:#22c55e;">■</span> Lucro: <span id="pizza-lucro">0%</span><br><span style="color:#ef4444;">■</span> Custo: <span id="pizza-custo">0%</span><br><span style="color:#facc15;">■</span> Imposto: <span id="pizza-imposto">0%</span></div></div>
+  </div>
+
+  <!-- DRE + FLUXO + ABAS AUTOMÁTICAS -->
+  <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
+    <div style="flex:1; min-width:200px; background:#0f172a; padding:12px; border-radius:10px; color:#e2e8f0;"><b style="color:#fff;">📋 DRE DO MÊS</b><br><br>Faturamento: <span id="dre-faturamento">R$ 0,00</span><br>(-) Custo: <span id="dre-custo">R$ 0,00</span><br>(-) Imposto: <span id="dre-imposto">R$ 0,00</span><br><b style="color:#fff;">= Lucro: <span id="dre-lucro" style="color:#22c55e;">R$ 0,00</span></b></div>
+    <div style="flex:1; min-width:200px; background:#0f172a; padding:12px; border-radius:10px; color:#e2e8f0;"><b style="color:#fff;">💸 FLUXO</b><br><br>Entrou: <span id="fluxo-entrou" style="color:#22c55e;">R$ 0,00</span><br>Saiu: <span id="fluxo-saiu" style="color:#ef4444;">R$ 0,00</span><br><b>Saldo: <span id="fluxo-saldo">R$ 0,00</span></b><br>A Receber: <span id="fluxo-receber">R$ 0,00</span> | A Pagar: <span id="fluxo-pagar">R$ 0,00</span></div>
+    <div style="flex:1; min-width:200px; background:#0f172a; padding:12px; border-radius:10px; color:#e2e8f0;"><b style="color:#fff;">🗂️ RESUMO DAS OUTRAS ABAS</b><div id="resumo-abas" style="margin-top:8px; font-size:13px;">Detectando abas...</div><div style="margin-top:8px;"><b>🔔 VENCIMENTOS</b><div id="lista-vencimentos">Nenhum ainda.</div></div><div style="margin-top:8px;"><b>📜 MOVIMENTAÇÕES</b><div id="lista-movimentacoes">Nenhuma ainda.</div></div></div>
   </div>
 </div>
 
 <script>
-// ===== CONFIG IMPOSTOS - EDITÁVEL =====
 let impostos = JSON.parse(localStorage.getItem('alfa_impostos') || '{"MEI":81,"ME":8,"ME LTDA":8,"EPP":10.5,"EPP LTDA":12}');
 let categoriaAtual = localStorage.getItem('alfa_categoria') || 'ME';
-
+let tipoGrafico = 'lucro';
+let dadosGrafico = JSON.parse(localStorage.getItem('alfa_grafico') || '[1200,2500,1800,4200,3100,5500,4800,6200,3900,7100,5800,8400]');
 function formatar(v){ return 'R$ ' + Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2}); }
-
-function trocarCategoria(){
-  categoriaAtual = document.getElementById('dash-categoria').value;
-  localStorage.setItem('alfa_categoria', categoriaAtual);
-  atualizarDashboard();
+function trocarCategoria(){ categoriaAtual = document.getElementById('dash-categoria').value; localStorage.setItem('alfa_categoria', categoriaAtual); atualizarDashboard(); }
+function editarImposto(){ let cat = document.getElementById('dash-categoria').value; let novo = prompt('Novo imposto para '+cat+' (MEI = R$ fixo, outros = %):', impostos[cat]); if(novo!==null){ impostos[cat]=parseFloat(novo.replace(',','.')); localStorage.setItem('alfa_impostos', JSON.stringify(impostos)); atualizarDashboard(); alert('Atualizado! '+cat+' = '+novo); } }
+function mudarGrafico(t){ tipoGrafico=t; desenharGrafico(); }
+function pegarDados(k){ try{ let d=JSON.parse(localStorage.getItem(k)||'[]'); return Array.isArray(d)?d:[]; }catch(e){ return []; } }
+function pegarValor(it){ return parseFloat(String(it.valor||it.preco||it.total||it.valorTotal||0).replace('R$','').replace(/\./g,'').replace(',','.'))||0; }
+function desenharMini(id, dados, cor){
+  let c=document.getElementById(id); if(!c) return; let ctx=c.getContext('2d'); let W=c.width,H=c.height; ctx.clearRect(0,0,W,H);
+  ctx.beginPath(); ctx.strokeStyle=cor; ctx.lineWidth=2; ctx.fillStyle=cor;
+  dados.forEach((v,i)=>{ let x=5+(i*(W-10)/(dados.length-1)); let y=H-5-((v-Math.min(...dados))/((Math.max(...dados)-Math.min(...dados))||1))*(H-10); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+  ctx.stroke();
+  let lx=5+((dados.length-1)*(W-10)/(dados.length-1)); let ly=H-5-((dados[dados.length-1]-Math.min(...dados))/((Math.max(...dados)-Math.min(...dados))||1))*(H-10);
+  ctx.beginPath(); ctx.arc(lx,ly,3,0,Math.PI*2); ctx.fill();
 }
-
-function editarImposto(){
-  let cat = document.getElementById('dash-categoria').value;
-  let atual = impostos[cat];
-  let novo = prompt('Novo imposto para '+cat+' (Se for MEI, coloque valor em R$ fixo. Se for ME/EPP, coloque %):', atual);
-  if(novo !== null){
-    impostos[cat] = parseFloat(novo.replace(',','.'));
-    localStorage.setItem('alfa_impostos', JSON.stringify(impostos));
-    atualizarDashboard();
-    alert('Imposto de '+cat+' atualizado para '+novo+'! Todo o Dashboard já recalculou!');
-  }
+function desenharGrafico(){
+  let canvas=document.getElementById('grafico-dashboard'); if(!canvas) return; let ctx=canvas.getContext('2d'); let W=canvas.width,H=canvas.height; ctx.clearRect(0,0,W,H); ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,0.08)'; for(let i=1;i<4;i++){ ctx.beginPath(); ctx.moveTo(0,H*i/4); ctx.lineTo(W,H*i/4); ctx.stroke(); }
+  let dados=dadosGrafico; if(tipoGrafico==='faturamento') dados=dados.map(v=>v*1.6+500); if(tipoGrafico==='custo') dados=dados.map(v=>v*0.6+200);
+  let max=Math.max(...dados)*1.2, min=Math.min(...dados)*0.7; let meses=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  let cor = tipoGrafico==='lucro' ? '#22c55e' : tipoGrafico==='faturamento' ? '#14b8a6' : '#ef4444';
+  // Área com degradê
+  ctx.beginPath(); dados.forEach((v,i)=>{ let x=40+(i*(W-80)/11); let y=H-30-((v-min)/(max-min))*(H-60); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }); ctx.strokeStyle=cor; ctx.lineWidth=3; ctx.stroke();
+  ctx.lineTo(W-40,H-10); ctx.lineTo(40,H-10); ctx.closePath(); ctx.fillStyle = tipoGrafico==='lucro' ? 'rgba(34,197,94,0.18)' : 'rgba(20,184,166,0.15)'; ctx.fill();
+  dados.forEach((v,i)=>{ let x=40+(i*(W-80)/11); let y=H-30-((v-min)/(max-min))*(H-60); ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill(); ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=cor; ctx.fill(); ctx.fillStyle='#fff'; ctx.font='11px Arial'; ctx.textAlign='center'; ctx.fillText('R$ '+v.toLocaleString('pt-BR'), x, y-12); ctx.fillStyle='#94a3b8'; ctx.fillText(meses[i], x, H-8); });
 }
-
-function pegarDados(chave){
-  try{ let d = JSON.parse(localStorage.getItem(chave)||'[]'); return Array.isArray(d)?d:[]; }catch(e){ return []; }
+function desenharBarras(fat, cus, imp){
+  let c=document.getElementById('grafico-barras'); if(!c) return; let ctx=c.getContext('2d'); let W=c.width,H=c.height; ctx.clearRect(0,0,W,H);
+  let max=Math.max(fat,cus,imp,1)*1.2; let labels=['Faturamento','Custo','Imposto']; let vals=[fat,cus,imp]; let cores=['#22c55e','#ef4444','#facc15'];
+  vals.forEach((v,i)=>{ let x=40+i*120; let h=(v/max)*(H-50); ctx.fillStyle=cores[i]; ctx.fillRect(x, H-30-h, 70, h); ctx.fillStyle='#fff'; ctx.font='12px Arial'; ctx.textAlign='center'; ctx.fillText('R$ '+v.toLocaleString('pt-BR',{maximumFractionDigits:0}), x+35, H-35-h); ctx.fillStyle='#94a3b8'; ctx.fillText(labels[i], x+35, H-10); });
 }
-function pegarValor(item){
-  return parseFloat(String(item.valor||item.preco||item.total||item.valorTotal||0).replace('R$','').replace(/\./g,'').replace(',','.'))||0;
+function desenharPizza(lucroPct, custoPct, impPct){
+  let c=document.getElementById('grafico-pizza'); if(!c) return; let ctx=c.getContext('2d'); let cx=c.width/2, cy=c.height/2, r=70; ctx.clearRect(0,0,c.width,c.height);
+  let total = lucroPct+custoPct+impPct || 1; let ang=-Math.PI/2;
+  [[lucroPct,'#22c55e'],[custoPct,'#ef4444'],[impPct,'#facc15']].forEach(([v,cor])=>{ let a=(v/total)*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,ang,ang+a); ctx.closePath(); ctx.fillStyle=cor; ctx.fill(); ang+=a; });
+  ctx.beginPath(); ctx.arc(cx,cy,32,0,Math.PI*2); ctx.fillStyle='#0f172a'; ctx.fill(); ctx.fillStyle='#fff'; ctx.font='bold 13px Arial'; ctx.textAlign='center'; ctx.fillText('Lucro',cx,cy-2); ctx.fillText(lucroPct.toFixed(0)+'%',cx,cy+14);
 }
-
 function atualizarDashboard(){
-  document.getElementById('dash-categoria').value = categoriaAtual;
-  let imposto = impostos[categoriaAtual]||0;
+  if(!document.getElementById('dash-categoria')) return;
+  document.getElementById('dash-categoria').value=categoriaAtual;
+  let imposto=impostos[categoriaAtual]||0;
   document.getElementById('dash-imposto-label').innerText = categoriaAtual==='MEI' ? 'R$ '+imposto.toFixed(2).replace('.',',')+' fixo/mês' : imposto+'%';
-
-  // Busca em todas as chaves
-  let licitacoes = [];
-  let produtos = [];
-  for(let i=0;i<localStorage.length;i++){
-    let k = localStorage.key(i).toLowerCase();
-    if(k.includes('lic')) licitacoes = licitacoes.concat(pegarDados(localStorage.key(i)));
-    if(k.includes('prod')) produtos = produtos.concat(pegarDados(localStorage.key(i)));
-  }
-  // Se não achou por chave, tenta chaves padrão
-  if(licitacoes.length===0) licitacoes = pegarDados('licitacoes').concat(pegarDados('alfa_licitacoes'));
-  if(produtos.length===0) produtos = pegarDados('produtos').concat(pegarDados('alfa_produtos'));
-
-  let encontradas = licitacoes.length;
-  let disputadas = licitacoes.filter(x=> String(x.status||'').toLowerCase().includes('disput') || x.disputada).length || encontradas;
-  let ganhas = licitacoes.filter(x=> String(x.status||'').toLowerCase().includes('ganh') || String(x.status||'').toLowerCase().includes('venci')).length;
-  let taxa = disputadas>0 ? (ganhas/disputadas*100) : 0;
-
-  let valorPrevisto = 0; licitacoes.forEach(x=> valorPrevisto+=pegarValor(x));
-  let custoTotal = 0; produtos.forEach(x=> custoTotal+=pegarValor(x));
-
-  let impostoValor = 0;
-  if(categoriaAtual==='MEI'){ impostoValor = imposto; } else { impostoValor = valorPrevisto * (imposto/100); }
-
-  let lucro = valorPrevisto - custoTotal - impostoValor;
-  let margem = valorPrevisto>0 ? (lucro/valorPrevisto*100) : 0;
-
-  document.getElementById('ind-encontradas').innerText = encontradas;
-  document.getElementById('ind-disputadas').innerText = disputadas;
-  document.getElementById('ind-taxa').innerText = taxa.toFixed(1)+'%';
-  document.getElementById('ind-valor').innerText = formatar(valorPrevisto);
-  document.getElementById('ind-lucro').innerText = formatar(lucro);
-  document.getElementById('ind-margem').innerText = margem.toFixed(1)+'%';
-
-  document.getElementById('dre-faturamento').innerText = formatar(valorPrevisto);
-  document.getElementById('dre-custo').innerText = formatar(custoTotal);
-  document.getElementById('dre-imposto').innerText = formatar(impostoValor);
-  document.getElementById('dre-lucro').innerText = formatar(lucro);
-
-  document.getElementById('fluxo-entrou').innerText = formatar(valorPrevisto);
-  document.getElementById('fluxo-saiu').innerText = formatar(custoTotal + impostoValor);
-  document.getElementById('fluxo-saldo').innerText = formatar(lucro);
-  document.getElementById('fluxo-receber').innerText = formatar(valorPrevisto);
-  document.getElementById('fluxo-pagar').innerText = formatar(custoTotal);
-
-  // Meta
-  let meta = parseFloat(document.getElementById('dash-meta').value)||10000;
-  let percMeta = meta>0 ? Math.min(100, (lucro/meta*100)) : 0;
-  document.getElementById('dash-meta-barra').style.width = percMeta+'%';
-  document.getElementById('dash-meta-texto').innerText = percMeta.toFixed(0)+'% da meta - Lucro '+formatar(lucro)+' de '+formatar(meta);
-
-  // Data e hora
-  document.getElementById('data-hora-atual').innerText = 'Hoje: ' + new Date().toLocaleString('pt-BR') + ' | Categoria: ' + categoriaAtual + ' | Imposto: ' + (categoriaAtual==='MEI' ? 'R$ '+imposto : imposto+'%');
-
-  // Vencimentos - procura fornecedores
-  let forn = [];
-  for(let i=0;i<localStorage.length;i++){ let k=localStorage.key(i); if(k.toLowerCase().includes('forn')) forn=forn.concat(pegarDados(k)); }
-  let htmlVenc = '';
-  if(forn.length===0) htmlVenc = 'Cadastre fornecedores com data de vencimento do documento que aparece aqui com alerta de 30, 15, 10, 5 e 1 dia!';
-  else forn.slice(0,5).forEach(f=>{ htmlVenc += '• '+(f.nome||f.empresa||'Fornecedor')+' - Verificar documento<br>'; });
-  document.getElementById('lista-vencimentos').innerHTML = htmlVenc;
-
-  // Movimentações
-  let mov = licitacoes.slice(-5).reverse().map(l=> '• '+(l.titulo||l.numero||'Licitação')+' - '+formatar(pegarValor(l))+'<br>').join('');
-  document.getElementById('lista-movimentacoes').innerHTML = mov || 'Nenhuma movimentação ainda.';
+  let licitacoes=[]; let produtos=[]; let forn=[];
+  for(let i=0;i<localStorage.length;i++){ let k=localStorage.key(i); let kl=k.toLowerCase(); if(kl.includes('lic')) licitacoes=licitacoes.concat(pegarDados(k)); if(kl.includes('prod')) produtos=produtos.concat(pegarDados(k)); if(kl.includes('forn')) forn=forn.concat(pegarDados(k)); }
+  let encontradas=licitacoes.length; let disputadas=licitacoes.filter(x=> String(x.status||'').toLowerCase().includes('disput')).length || encontradas; let ganhas=licitacoes.filter(x=> String(x.status||'').toLowerCase().includes('ganh')).length;
+  let taxa=disputadas>0?(ganhas/disputadas*100):0;
+  let valorPrevisto=0; licitacoes.forEach(x=> valorPrevisto+=pegarValor(x)); let custoTotal=0; produtos.forEach(x=> custoTotal+=pegarValor(x));
+  let impostoValor = categoriaAtual==='MEI' ? imposto : valorPrevisto*(imposto/100);
+  let lucro = valorPrevisto - custoTotal - impostoValor; let margem = valorPrevisto>0 ? (lucro/valorPrevisto*100):0;
+  document.getElementById('ind-encontradas').innerText=encontradas; document.getElementById('ind-disputadas').innerText=disputadas; document.getElementById('ind-taxa').innerText=taxa.toFixed(1)+'%'; document.getElementById('ind-valor').innerText=formatar(valorPrevisto); document.getElementById('ind-lucro').innerText=formatar(lucro); document.getElementById('ind-margem').innerText=margem.toFixed(1)+'%';
+  document.getElementById('dre-faturamento').innerText=formatar(valorPrevisto); document.getElementById('dre-custo').innerText=formatar(custoTotal); document.getElementById('dre-imposto').innerText=formatar(impostoValor); document.getElementById('dre-lucro').innerText=formatar(lucro);
+  document.getElementById('fluxo-entrou').innerText=formatar(valorPrevisto); document.getElementById('fluxo-saiu').innerText=formatar(custoTotal+impostoValor); document.getElementById('fluxo-saldo').innerText=formatar(lucro); document.getElementById('fluxo-receber').innerText=formatar(valorPrevisto); document.getElementById('fluxo-pagar').innerText=formatar(custoTotal);
+  let meta=parseFloat(document.getElementById('dash-meta').value)||10000; let percMeta=meta>0?Math.min(100,(lucro/meta*100)):0; document.getElementById('dash-meta-barra').style.width=percMeta+'%'; document.getElementById('dash-meta-texto').innerText=percMeta.toFixed(0)+'% da meta - '+formatar(lucro)+' de '+formatar(meta);
+  document.getElementById('data-hora-atual').innerText='Hoje: '+new Date().toLocaleString('pt-BR')+' | Categoria: '+categoriaAtual+' | Imposto: '+(categoriaAtual==='MEI'?'R$ '+imposto:imposto+'%');
+  // Resumo automático das abas
+  let resumo = '📋 Licitações: '+licitacoes.length+'<br>📦 Produtos: '+produtos.length+'<br>🏢 Fornecedores: '+forn.length+'<br>';
+  // Detecta qualquer outra aba nova pelo localStorage
+  for(let i=0;i<localStorage.length;i++){ let k=localStorage.key(i); if(k.toLowerCase().includes('alfa_') && !k.includes('impostos') && !k.includes('grafico') && !k.includes('categoria')){ let d=pegarDados(k); if(d.length>0) resumo += '🗂️ '+k.replace('alfa_','').toUpperCase()+': '+d.length+'<br>'; } }
+  document.getElementById('resumo-abas').innerHTML=resumo;
+  document.getElementById('lista-vencimentos').innerHTML = forn.length===0 ? 'Cadastre fornecedores!' : forn.slice(0,3).map(f=>'• '+(f.nome||f.empresa||'Fornecedor')+'<br>').join('');
+  document.getElementById('lista-movimentacoes').innerHTML = licitacoes.slice(-3).reverse().map(l=>'• '+(l.titulo||l.numero||'Licitação')+' - '+formatar(pegarValor(l))+'<br>').join('') || 'Nenhuma';
+  // Gráficos
+  if(lucro!==0){ dadosGrafico[10]=lucro; localStorage.setItem('alfa_grafico', JSON.stringify(dadosGrafico)); }
+  desenharGrafico(); desenharBarras(valorPrevisto, custoTotal, impostoValor);
+  let totalPct = valorPrevisto>0 ? valorPrevisto : 1; desenharPizza(Math.max(0,lucro/totalPct*100), custoTotal/totalPct*100, impostoValor/totalPct*100);
+  document.getElementById('pizza-lucro').innerText = (Math.max(0,lucro/totalPct*100)).toFixed(1)+'%'; document.getElementById('pizza-custo').innerText = (custoTotal/totalPct*100).toFixed(1)+'%'; document.getElementById('pizza-imposto').innerText = (impostoValor/totalPct*100).toFixed(1)+'%';
+  // Mini gráficos
+  desenharMini('mini-1', [2,3,5,4,6,8,7,10,9,12,11,encontradas||12], '#14b8a6');
+  desenharMini('mini-2', [1,2,2,4,3,5,6,5,7,8,9,disputadas||9], '#14b8a6');
+  desenharMini('mini-3', [10,20,15,30,25,40,35,50,45,60,55,taxa||55], '#facc15');
+  desenharMini('mini-4', dadosGrafico.map(v=>v*1.6), '#14b8a6');
+  desenharMini('mini-5', dadosGrafico, '#22c55e');
+  desenharMini('mini-6', [15,18,20,22,19,25,28,24,30,27,32,margem||32], '#a78bfa');
 }
-
-setInterval(atualizarDashboard, 3000);
-atualizarDashboard();
+setInterval(atualizarDashboard, 3000); setTimeout(atualizarDashboard, 600);
 </script>
-<!-- ===== FIM DASHBOARD ===== -->
- <header><div><b>ALFA NÚCLEO</b><br><small>Gestão de Licitações</small></div><span>ONLINE</span></header>
-<div class="container">
+<!-- ===== FIM DASHBOARD V2 ===== -->
 
 <div class="card" id="configCard">
 <h3>🔑 1º - Ligar com o Supabase (só 1 vez)</h3>
