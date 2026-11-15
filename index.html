@@ -232,7 +232,12 @@ function calcularCarb(){
 <div class="card"><h3>Produtos</h3><div id="lista-produtos"></div></div>
 </div>
 
-<button class="sec" onclick="localStorage.clear();location.reload()">Sair / Trocar chaves</button>
+<div style="display:flex; gap:10px; margin:10px 0;">
+  <button onclick="exportarBackup()" style="flex:1; background:#1e90ff; color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; cursor:pointer;">📥 EXPORTAR BACKUP</button>
+  <button onclick="document.getElementById('inputBackup').click()" style="flex:1; background:#ff9800; color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; cursor:pointer;">📤 IMPORTAR BACKUP</button>
+  <input type="file" id="inputBackup" accept=".json" hidden onchange="importarBackup(event)">
+</div>
+ <button class="sec" onclick="localStorage.clear();location.reload()">Sair / Trocar chaves</button>
 </div>
 </div>
 
@@ -298,6 +303,40 @@ let {error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}])
 if(error) alert('Erro: '+error.message); else {alert('Produto salvo!');carregarTudo();}
 }
 conectar();
+</script>
+<script>
+function exportarBackup(){
+  let dados = {};
+  for(let i=0; i<localStorage.length; i++){
+    let chave = localStorage.key(i);
+    dados[chave] = localStorage.getItem(chave);
+  }
+  let blob = new Blob([JSON.stringify(dados, null, 2)], {type:'application/json'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'backup-alfa-nucleo-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  alert('Backup baixado! Guarda esse arquivo no seu Drive / Pen-drive!');
+}
+
+function importarBackup(event){
+  let arquivo = event.target.files[0];
+  if(!arquivo) return;
+  let leitor = new FileReader();
+  leitor.onload = function(e){
+    try{
+      let dados = JSON.parse(e.target.result);
+      for(let chave in dados){
+        localStorage.setItem(chave, dados[chave]);
+      }
+      alert('Backup restaurado com sucesso! A página vai recarregar.');
+      location.reload();
+    }catch(err){
+      alert('Esse arquivo não é um backup válido!');
+    }
+  };
+  leitor.readAsText(arquivo);
+}
 </script>
 </body>
 </html>
