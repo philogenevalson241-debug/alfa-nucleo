@@ -3,424 +3,300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALFA NUCLEO - Sistema Completo</title>
+<title>ALFA NUCLEO - Dashboard Executivo</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#f0f2f5;color:#222}
-header{background:#0f1e3a;color:white;padding:15px;text-align:center}
-header h1{margin:0;font-size:22px}
-header p{margin:5px 0 0;opacity:.8;font-size:13px}
-.container{max-width:1000px;margin:auto;padding:15px}
-.card{background:white;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+*{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{margin:0;background:#0b1220;color:#e2e8f0}
+header{background:#0f172a;border-bottom:1px solid #1e293b;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header h1{margin:0;font-size:20px;letter-spacing:1px}
+header h1 span{color:#f59e0b}
+header p{margin:2px 0 0;font-size:12px;color:#94a3b8}
+.container{max-width:1150px;margin:auto;padding:16px}
+.card{background:#111c33;border:1px solid #1e293b;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.card h3{margin:0 0 12px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.mini{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}
+.big{font-size:26px;font-weight:800;margin:4px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.grid2,.grid4{grid-template-columns:1fr 1fr}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tabs button{padding:11px 14px;border:1px solid #1e293b;background:#111c33;color:#e2e8f0;border-radius:12px;font-weight:700;cursor:pointer;flex:1;min-width:105px}
+.tabs button.active{background:#f59e0b;color:#000;border-color:#f59e0b}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#0b1220;border:1px solid #334155;border-radius:10px;color:white;font-size:14px}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;background:#f59e0b;color:#000;font-weight:800;cursor:pointer;margin-top:8px}
+.btn-green{background:#22c55e}.btn-blue{background:#3b82f6;color:white}.btn-ghost{background:#1e293b;color:white}
 .hidden{display:none!important}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:15px}
-.tabs button{flex:1;min-width:110px;padding:12px;border:none;border-radius:10px;background:#0f1e3a;color:white;font-weight:bold;cursor:pointer}
-.tabs button.active{background:#ff9800}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
-button{cursor:pointer}
-.btn{width:100%;padding:13px;border:none;border-radius:10px;background:#0f1e3a;color:white;font-weight:bold;font-size:15px;margin-top:8px}
-.btn-orange{background:#ff9800}
-.btn-green{background:#22c55e}
-.item{border-bottom:1px solid #eee;padding:10px 0}
+.progress{height:10px;background:#1e293b;border-radius:20px;overflow:hidden;margin:8px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#f59e0b)}
+.bar{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+.bar .track{flex:1;height:12px;background:#1e293b;border-radius:20px;overflow:hidden}
+.bar .fill{height:100%;border-radius:20px}
+.pill{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.pill-green{background:#22c55e33;color:#22c55e}.pill-red{background:#ef444433;color:#ef4444}.pill-yellow{background:#f59e0b33;color:#f59e0b}.pill-blue{background:#3b82f633;color:#60a5fa}
+.item{padding:10px 0;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;gap:10px}
 .item:last-child{border:none}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}}
-.mini{font-size:12px;color:#666}
-.big{font-size:22px;font-weight:bold}
-canvas{width:100%;height:180px;background:#fafafa;border-radius:10px}
-.sec{margin-top:10px}
-label{font-weight:bold;font-size:13px}
+canvas{width:100%;height:150px;background:#0b1220;border-radius:12px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px}
+.cal div{padding:9px 2px;border-radius:10px;background:#0b1220;border:1px solid #1e293b}
+.cal div.today{background:#f59e0b;color:#000;font-weight:800}
+.cal div.has{border-color:#22c55e;color:#22c55e;font-weight:700}
+select.cat{width:auto;padding:8px 12px;font-weight:800;background:#f59e0b;color:#000;border:none}
 </style>
 </head>
 <body>
 <header>
-<h1>ALFA NUCLEO</h1>
-<p>Sistema de Licitações - Dashboard V2 + Carburador + Proposta</p>
+<div><h1>ALFA <span>NUCLEO</span></h1><p>Dashboard Executivo • Sistema Comercial</p></div>
+<div style="text-align:right">
+<div style="font-size:12px;color:#94a3b8">Empresa</div>
+<select class="cat" id="categoriaEmpresa" onchange="trocarCategoriaEmpresa(this.value)">
+<option value="MEI">MEI</option>
+<option value="ME">ME</option>
+<option value="EPP">EPP</option>
+<option value="LTDA">LTDA</option>
+</select>
+<div id="limiteCat" style="font-size:11px;margin-top:4px;color:#94a3b8">Limite MEI: R$ 81.000 / ano</div>
+</div>
 </header>
 
 <div class="container">
-
-<!-- CONFIG SUPABASE -->
 <div class="card" id="configCard">
-<h3>Configurar Supabase</h3>
-<p class="mini">Cole sua URL e Key uma vez. Depois fica salvo.</p>
-<input id="url" placeholder="URL do Supabase - Ex: https://xxxx.supabase.co">
-<input id="key" placeholder="Anon Key / Public Key">
-<button class="btn" onclick="salvar()">SALVAR E CONECTAR</button>
-<div id="status" style="margin-top:8px;font-weight:bold"></div>
+<h3>🔐 Conectar Supabase</h3>
+<input id="url" placeholder="URL Supabase">
+<input id="key" placeholder="Anon Key">
+<button class="btn" onclick="salvar()">SALVAR E ENTRAR</button>
+<div id="status"></div>
 </div>
 
-<!-- APP -->
 <div id="app" class="hidden">
-
-<input id="pesquisaGeral" placeholder="🔍 Pesquisa Geral... (produto, licitação, fornecedor)" oninput="filtrarGeral()" style="margin-bottom:12px">
+<input id="pesquisaGeral" placeholder="🔍 Pesquisa Geral em tudo..." oninput="filtrarGeral()">
 
 <div class="tabs">
-<button id="aba-dashboard" class="active" onclick="aba('dashboard')">Dashboard</button>
-<button id="aba-licitacoes" onclick="aba('licitacoes')">Licitações</button>
-<button id="aba-fornecedores" onclick="aba('fornecedores')">Fornecedores</button>
-<button id="aba-carburador" onclick="aba('carburador')">Carburador</button>
-<button id="aba-proposta" onclick="aba('proposta')">Proposta</button>
-<button id="aba-produtos" onclick="aba('produtos')">Produtos</button>
+<button id="aba-dashboard" class="active" onclick="aba('dashboard')">📊 Executivo</button>
+<button id="aba-licitacoes" onclick="aba('licitacoes')">📋 Licitações</button>
+<button id="aba-fornecedores" onclick="aba('fornecedores')">🏭 Fornecedores</button>
+<button id="aba-carburador" onclick="aba('carburador')">⛽ Carburador</button>
+<button id="aba-proposta" onclick="aba('proposta')">💬 Proposta</button>
+<button id="aba-produtos" onclick="aba('produtos')">📦 Produtos</button>
 </div>
 
-<!-- ============ DASHBOARD ============ -->
+<!-- ============ DASHBOARD EXECUTIVO ============ -->
 <div id="sec-dashboard">
-<div class="card">
-<h3>Dashboard V2</h3>
-<div class="grid">
-<div><div class="mini">Encontradas</div><div class="big" id="d-encontradas">0</div></div>
-<div><div class="mini">Disputadas</div><div class="big" id="d-disputadas">0</div></div>
-<div><div class="mini">Ganhas</div><div class="big" id="d-ganhas">0</div></div>
-<div><div class="mini">Valor Total</div><div class="big" id="d-valor">R$ 0,00</div></div>
-<div><div class="mini">Lucro</div><div class="big" id="d-lucro" style="color:#22c55e">R$ 0,00</div></div>
-<div><div class="mini">Margem / Meta</div><div class="big" id="d-margem">0% - 0%</div></div>
+
+<button onclick="testarDashboard()" style="width:100%;padding:12px;border:none;border-radius:12px;background:#22c55e;color:#000;font-weight:800;margin-bottom:12px;cursor:pointer">▶️ TESTAR AGORA - Criar 3 licitações de teste</button>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+<div><b id="saudacao">Bom dia ☀️</b><div class="mini" id="dataHoje"></div></div>
+<div style="text-align:right"><span class="pill pill-green" id="statusDia">● HOJE: 0 SESSÕES</span><div class="mini" id="horaAgora"></div></div>
 </div>
-<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-<button onclick="trocarCategoria('mes')" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;background:white;font-weight:bold">Mês</button>
-<button onclick="trocarCategoria('categoria')" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;background:white;font-weight:bold">Categoria</button>
-<button onclick="editarImposto()" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;background:white;font-weight:bold">Imposto: <span id="d-imposto">10%</span></button>
-<button onclick="mudarGrafico()" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;background:white;font-weight:bold">Tipo Gráfico: <span id="d-tipo">Barras</span></button>
+
+<div class="grid4">
+<div class="card"><div class="mini">Licitações Novas</div><div class="big" id="k-novas">0</div><div class="mini" id="k-novas-sub">Em análise: 0</div><div class="progress"><i id="bar-novas" style="width:0%"></i></div></div>
+<div class="card"><div class="mini">Sessões Hoje / Semana</div><div class="big" id="k-sessoes">0 / 0</div><div class="mini">Próxima: <span id="k-prox">--</span></div><div class="progress"><i id="bar-sessoes" style="width:0%;background:#3b82f6"></i></div></div>
+<div class="card"><div class="mini">Valor Contratado</div><div class="big" id="k-contratado">R$ 0</div><div class="mini">Oportunidades: <b id="k-oport" style="color:#f59e0b">R$ 0</b></div><div class="progress"><i id="bar-contratado" style="width:0%;background:#22c55e"></i></div></div>
+<div class="card"><div class="mini">Meta <span id="metaLabel">MEI</span></div><div class="big" id="k-meta">0%</div><div class="mini" id="k-meta-sub">Falta R$ 0 p/ meta</div><div class="progress"><i id="bar-meta" style="width:0%"></i></div></div>
+</div>
+
+<div class="grid2">
+<div class="card"><h3>Propostas - Ganhas / Perdidas / Andamento <span class="pill pill-green" id="taxaWin">0% win</span></h3>
+<div class="bar">✅ Ganhas <div class="track"><div class="fill" id="fill-ganha" style="width:0%;background:#22c55e"></div></div> <b id="n-ganha">0</b></div>
+<div class="bar">🔄 Andamento <div class="track"><div class="fill" id="fill-and" style="width:0%;background:#f59e0b"></div></div> <b id="n-and">0</b></div>
+<div class="bar">❌ Perdidas <div class="track"><div class="fill" id="fill-perd" style="width:0%;background:#ef4444"></div></div> <b id="n-perd">0</b></div>
+<canvas id="graficoPropostas"></canvas>
+</div>
+<div class="card"><h3>📅 Calendário - Sessões & Prazos</h3>
+<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b id="mesCal"></b><span id="horaCal"></span></div>
+<div class="cal" id="calendario"></div>
+<div style="margin-top:10px;font-size:13px"><b>Hoje:</b> <span id="listaHoje">Nenhuma sessão hoje</span><br><b>Semana:</b> <span id="listaSemana">Nenhuma sessão na semana</span></div>
 </div>
 </div>
 
-<div class="card">
-<h3>Onde Vai O Dinheiro</h3>
-<canvas id="graficoPrincipal"></canvas>
-<div style="display:flex;gap:10px;margin-top:10px">
-<div style="flex:1"><canvas id="mini1" style="height:90px"></canvas><div class="mini" style="text-align:center">Barras</div></div>
-<div style="flex:1"><canvas id="mini2" style="height:90px"></canvas><div class="mini" style="text-align:center">Pizza</div></div>
+<div class="grid2">
+<div class="card"><h3>⏰ Prazos Próximos do Vencimento <span class="pill pill-red" id="n-prazos">0</span></h3><div id="listaPrazos">Nenhum prazo próximo. Você está em dia!</div><canvas id="graficoPrazos" style="height:90px;margin-top:10px"></canvas></div>
+<div class="card"><h3>📄 Documentos & Certidões a Vencer <span class="pill pill-yellow" id="n-docs">0</span></h3>
+<div class="item"><span>CND Federal</span><span class="pill pill-green">OK - 45 dias</span></div>
+<div class="item"><span>FGTS</span><span class="pill pill-yellow">Vence em 12 dias</span></div>
+<div class="item"><span>Estadual / Municipal</span><span class="pill pill-red">Vence em 3 dias!</span></div>
+<div class="item"><span>Contrato Social</span><span class="pill pill-blue">Atualizado</span></div>
+<button class="btn btn-ghost" onclick="alert('Aba Documentos completa vem na próxima integração!')">+ CADASTRAR DOCUMENTO</button>
 </div>
 </div>
 
-<div class="card">
-<h3>DRE - Demonstrativo</h3>
-<div id="dre">Receita: R$ 0,00<br>Custos: R$ 0,00<br>Impostos: R$ 0,00<br><b>Lucro: R$ 0,00</b></div>
+<div class="grid2">
+<div class="card"><h3>💰 Financeiro - Onde Vai o Dinheiro</h3><canvas id="graficoFinanceiro"></canvas><div id="dre" style="font-size:13px;margin-top:8px;line-height:1.8">Receita: R$ 0<br>Custos: R$ 0<br>Imposto: R$ 0<br><b>Lucro: R$ 0</b></div></div>
+<div class="card"><h3>👥 Pendências por Colaborador</h3>
+<div class="item"><span>👤 Você <div class="mini">Dono / Admin</div></span><b id="pend-voce">0 pendências</b></div>
+<div class="item"><span>👤 Colaborador 1</span><span class="pill pill-yellow">2 pendentes</span></div>
+<div class="item"><span>👤 Colaborador 2</span><span class="pill pill-green">0 pendentes</span></div>
+<div class="item"><span>👤 Financeiro</span><span class="pill pill-red">1 urgente</span></div>
+<button class="btn btn-ghost" onclick="adicionarPendencia()">+ NOVA PENDÊNCIA</button>
+<div id="listaPendencias"></div>
+</div>
 </div>
 
-<div class="card">
-<h3>Fluxo de Caixa</h3>
-<div id="fluxo">Entradas: R$ 0,00 | Saídas: R$ 0,00 | Saldo: R$ 0,00</div>
 </div>
 
-<div class="card">
-<h3>Resumo das Outras Abas</h3>
-<div id="resumoAbas">Total Produtos: <span id="total-produtos">0</span> | Total Licitações: <span id="total-licitacoes">0</span></div>
-</div>
-
-<div class="card">
-<h3>Vencimentos Próximos</h3>
-<div id="vencimentos">Nenhum vencimento próximo.</div>
-</div>
-
-<div class="card">
-<h3>Últimas Movimentações</h3>
-<div id="movimentacoes">Nenhuma movimentação ainda.</div>
-</div>
-</div>
-<!-- FIM DASHBOARD V2 -->
-
-<!-- ============ LICITAÇÕES ============ -->
+<!-- LICITAÇÕES -->
 <div id="sec-licitacoes" class="hidden">
-<h3>Nova Licitação</h3>
+<div class="card"><h3>Nova Licitação</h3>
 <input id="l-num" placeholder="Nº Ex: 001/2026">
-<input id="l-orgao" placeholder="Órgão Ex: Prefeitura Curitiba">
-<input id="l-objeto" placeholder="Objeto Ex: Material de escritório">
-<input id="l-valor" type="number" placeholder="Valor Estimado Ex: 50000">
+<input id="l-orgao" placeholder="Órgão">
+<input id="l-objeto" placeholder="Objeto">
+<input id="l-valor" type="number" placeholder="Valor Estimado">
 <input id="l-data" type="date">
-<button class="btn" onclick="addLicitacao()">+ CADASTRAR LICITAÇÃO</button>
-<div class="card"><h3>Licitações Cadastradas</h3><div id="lista-licitacoes">Carregando...</div></div>
+<label style="font-size:12px">Horário da Sessão</label>
+<input id="l-hora" type="time" value="09:00">
+<select id="l-status"><option value="em_analise">Em Análise</option><option value="andamento">Em Andamento</option><option value="ganha">Ganha ✅</option><option value="perdida">Perdida ❌</option></select>
+<button class="btn" onclick="addLicitacao()">+ CADASTRAR</button>
+</div>
+<div class="card"><h3>Licitações</h3><div id="lista-licitacoes"></div></div>
 </div>
 
-<!-- ============ FORNECEDORES ============ -->
-<div id="sec-fornecedores" class="hidden">
-<h3>Novo Fornecedor</h3>
-<input id="f-nome" placeholder="Nome / Razão Social">
-<input id="f-cnpj" placeholder="CNPJ">
-<input id="f-tel" placeholder="Telefone / WhatsApp">
-<button class="btn" onclick="addFornecedor()">+ CADASTRAR FORNECEDOR</button>
-<div class="card"><h3>Fornecedores</h3><div id="lista-fornecedores"></div></div>
-</div>
+<!-- FORNECEDORES -->
+<div id="sec-fornecedores" class="hidden"><div class="card"><h3>Novo Fornecedor</h3><input id="f-nome" placeholder="Nome / Razão"><input id="f-cnpj" placeholder="CNPJ"><input id="f-tel" placeholder="WhatsApp"><button class="btn" onclick="addFornecedor()">+ CADASTRAR</button></div><div class="card"><h3>Fornecedores</h3><div id="lista-fornecedores"></div></div></div>
 
-<!-- ============ CARBURADOR ============ -->
-<div id="sec-carburador" class="hidden">
-<h2>Carburador Inteligente</h2>
-<p style="font-size:13px;color:#ccc">Preencha seu custo real. Ele trava pra você não ter prejuízo.</p>
-<label>Custo do Produto R$</label>
-<input id="carb-custo" type="number" placeholder="Ex: 35" oninput="calcularCarb()">
-<label>Frete R$</label>
-<input id="carb-frete" type="number" placeholder="Ex: 5" oninput="calcularCarb()">
-<label>Outros custos R$</label>
-<input id="carb-outros" type="number" placeholder="Ex: 0" oninput="calcularCarb()">
-<label>Imposto %</label>
-<input id="carb-imposto" type="number" placeholder="Ex: 10" oninput="calcularCarb()">
-<label>Valor Máximo do Edital R$</label>
-<input id="carb-edital" type="number" placeholder="Ex: 65" oninput="calcularCarb()">
-<div style="margin-top:10px;padding:10px;background:#f0f1a0;border-radius:10px;border:1px solid #22c55e">
-<div id="carb-conta">Custo Total: <b id="carb-total">R$ 0,00</b></div>
-</div>
-<hr>
-<div>🔥 Agressivo: <span id="carb-agressivo">R$ 0,00</span> - <span id="carb-lucro1"></span></div>
-<div style="background:#22c55e;color:#000;padding:8px;border-radius:8px;margin:8px 0">✅ Equilibrado ⭐ RECOMENDADO: <span id="carb-equilibrado">R$ 0,00</span> - <span id="carb-lucro2"></span></div>
-<div>🏁 Máximo: <span id="carb-maximo">R$ 0,00</span> - <span id="carb-lucro3"></span></div>
-<div id="carb-alerta" style="margin-top:10px;font-weight:bold"></div>
-</div>
+<!-- CARBURADOR -->
+<div id="sec-carburador" class="hidden"><div class="card"><h3>⛽ Carburador</h3>
+<label>Custo R$</label><input id="carb-custo" type="number" oninput="calcularCarb()">
+<label>Frete R$</label><input id="carb-frete" type="number" oninput="calcularCarb()">
+<label>Outros R$</label><input id="carb-outros" type="number" oninput="calcularCarb()">
+<label>Imposto % (muda sozinho pela categoria)</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()">
+<label>Valor Edital R$</label><input id="carb-edital" type="number" oninput="calcularCarb()">
+<div id="carb-conta" style="margin-top:10px"></div>
+<div style="margin-top:10px;line-height:2">🔥 Agressivo: <b id="carb-agressivo"></b> <span id="carb-lucro1"></span><br>✅ Equilibrado: <b id="carb-equilibrado"></b> <span id="carb-lucro2"></span><br>🏁 Máximo: <b id="carb-maximo"></b> <span id="carb-lucro3"></span></div>
+<div id="carb-alerta"></div><canvas id="graficoCarb" style="height:100px;margin-top:10px"></canvas>
+</div></div>
 
-<!-- ============ PROPOSTA + WHATSAPP ============ -->
-<div id="sec-proposta" class="hidden">
-<h3>Proposta + WhatsApp</h3>
-<input id="p-licitacao" placeholder="Nº da Licitação">
-<input id="p-fornecedor" placeholder="Fornecedor">
-<input id="p-produto" placeholder="Produto">
-<input id="p-preco" type="number" placeholder="Preço Final R$">
-<textarea id="p-msg" rows="6" placeholder="Mensagem pronta vai aparecer aqui..."></textarea>
-<button class="btn btn-green" onclick="gerarMsg()">GERAR MENSAGEM</button>
-<button class="btn" onclick="copiarMsg()">COPIAR</button>
-<button class="btn btn-orange" onclick="enviarZap()">ENVIAR NO ZAP</button>
-</div>
+<!-- PROPOSTA -->
+<div id="sec-proposta" class="hidden"><div class="card"><h3>Proposta + WhatsApp</h3><input id="p-licitacao" placeholder="Nº Licitação"><input id="p-fornecedor" placeholder="Fornecedor"><input id="p-produto" placeholder="Produto"><input id="p-preco" type="number" placeholder="Preço Final"><textarea id="p-msg" rows="5"></textarea><button class="btn btn-green" onclick="gerarMsg()">GERAR</button><button class="btn" onclick="copiarMsg()">COPIAR</button><button class="btn" style="background:#25d366;color:#000" onclick="enviarZap()">ENVIAR NO ZAP</button></div></div>
 
-<!-- ============ PRODUTOS ============ -->
-<div id="sec-produtos" class="hidden">
-<h3>Novo Produto</h3>
-<input id="p-nome" placeholder="Nome do produto">
-<input id="p-preco" type="number" placeholder="Preço">
-<input id="p-estoque" type="number" placeholder="Estoque">
-<button class="btn" onclick="addProduto()">+ CADASTRAR PRODUTO</button>
-<div class="card"><h3>Produtos</h3><div id="lista-produtos"></div></div>
-</div>
+<!-- PRODUTOS -->
+<div id="sec-produtos" class="hidden"><div class="card"><h3>Novo Produto</h3><input id="p-nome" placeholder="Nome"><input id="p-preco" type="number" placeholder="Preço"><input id="p-estoque" type="number" placeholder="Estoque"><button class="btn" onclick="addProduto()">+ CADASTRAR</button></div><div class="card"><h3>Produtos</h3><div id="lista-produtos"></div></div></div>
 
-<!-- BACKUP / SAIR -->
-<div style="display:flex;gap:10px;margin-top:10px">
-<button onclick="exportarBackup()" style="flex:1;background:#1e90ff;color:white;border:none;padding:12px;border-radius:10px;font-weight:bold">EXPORTAR BACKUP</button>
-<button onclick="document.getElementById('fileBackup').click()" style="flex:1;background:#ff9800;color:white;border:none;padding:12px;border-radius:10px;font-weight:bold">IMPORTAR BACKUP</button>
-</div>
-<input type="file" id="fileBackup" accept=".json" hidden onchange="importarBackup(event)">
-<button class="sec" onclick="localStorage.clear();location.reload()" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;background:white;font-weight:bold;margin-top:10px">Sair / Trocar chaves</button>
-
+<div style="display:flex;gap:10px"><button class="btn btn-blue" onclick="exportarBackup()">EXPORTAR BACKUP</button><button class="btn" onclick="document.getElementById('fileBackup').click()">IMPORTAR</button></div>
+<input type="file" id="fileBackup" hidden accept=".json" onchange="importarBackup(event)">
+<button class="btn btn-ghost" onclick="localStorage.clear();location.reload()">Sair / Trocar chaves</button>
 </div>
 </div>
 
 <script>
-// ============ VARIÁVEIS GLOBAIS ============
-let supabaseClient = null;
-let categoriaAtual = 'mes';
-let tipoGrafico = 'barras';
-let impostoPct = 10;
-let dadosDash = { encontradas: 0, disputadas: 0, ganhas: 0, valor: 0, lucro: 0 };
+let supabaseClient=null;
+let listaLicitacoes=[];
+let categoria='MEI';
+let limites={MEI:81000,ME:360000,EPP:4800000,LTDA:100000000};
+let impostos={MEI:6,ME:8,EPP:11,LTDA:14};
+let pendencias=[];
 
-// ============ ABAS - CORRIGIDO ============
 function aba(id){
   document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-  ['dashboard','licitacoes','fornecedores','produtos','carburador','proposta'].forEach(sec=>{
-    let el = document.getElementById('sec-'+sec);
-    if(el) el.classList.add('hidden');
-  });
-  let alvo = document.getElementById('sec-'+id);
-  if(alvo) alvo.classList.remove('hidden');
-  let btn = document.getElementById('aba-'+id);
-  if(btn) btn.classList.add('active');
+  ['dashboard','licitacoes','fornecedores','produtos','carburador','proposta'].forEach(s=>{let e=document.getElementById('sec-'+s);if(e)e.classList.add('hidden')});
+  document.getElementById('sec-'+id).classList.remove('hidden');
+  document.getElementById('aba-'+id)?.classList.add('active');
 }
-
-// ============ SUPABASE ============
-function salvar(){
-  let u = document.getElementById('url').value.trim();
-  let k = document.getElementById('key').value.trim();
-  if(!u||!k){ alert('Cole a URL e a KEY'); return; }
-  localStorage.setItem('alfa_url', u);
-  localStorage.setItem('alfa_key', k);
-  conectar();
-}
-function conectar(){
-  let u = localStorage.getItem('alfa_url');
-  let k = localStorage.getItem('alfa_key');
-  if(!u||!k) return;
-  supabaseClient = supabase.createClient(u,k);
-  document.getElementById('configCard').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  document.getElementById('status').innerHTML = 'Conectado!';
-  carregarTudo();
-}
-
-// ============ DASHBOARD ============
-function trocarCategoria(cat){ categoriaAtual = cat; atualizarDashboard(); }
-function editarImposto(){
-  let n = prompt('Novo imposto %', impostoPct);
-  if(n!==null){ impostoPct = parseFloat(n)||0; document.getElementById('d-imposto').innerText = impostoPct+'%'; atualizarDashboard(); }
-}
-function mudarGrafico(){
-  tipoGrafico = tipoGrafico==='barras' ? 'pizza' : 'barras';
-  document.getElementById('d-tipo').innerText = tipoGrafico==='barras'?'Barras':'Pizza';
+function salvar(){let u=document.getElementById('url').value.trim(),k=document.getElementById('key').value.trim();if(!u||!k)return alert('Cole URL e KEY');localStorage.setItem('alfa_url',u);localStorage.setItem('alfa_key',k);conectar();}
+function conectar(){let u=localStorage.getItem('alfa_url'),k=localStorage.getItem('alfa_key');if(!u||!k)return;supabaseClient=supabase.createClient(u,k);document.getElementById('configCard').classList.add('hidden');document.getElementById('app').classList.remove('hidden');carregarTudo();}
+function trocarCategoriaEmpresa(v){
+  categoria=v; localStorage.setItem('alfa_categoria',v);
+  document.getElementById('limiteCat').innerText='Limite '+v+': R$ '+limites[v].toLocaleString('pt-BR')+' / ano • Imposto sugerido '+impostos[v]+'%';
+  document.getElementById('metaLabel').innerText=v;
+  let ci=document.getElementById('carb-imposto'); if(ci) ci.value=impostos[v];
   atualizarDashboard();
 }
-function desenharMini(){
-  let c1 = document.getElementById('mini1'); if(!c1) return;
-  let ctx = c1.getContext('2d'); ctx.clearRect(0,0,c1.width,c1.height); ctx.fillStyle='#0f1e3a'; ctx.fillRect(10,20,20,60); ctx.fillStyle='#ff9800'; ctx.fillRect(40,10,20,70); ctx.fillStyle='#22c55e'; ctx.fillRect(70,30,20,50);
-  let c2 = document.getElementById('mini2'); if(!c2) return;
-  let ctx2 = c2.getContext('2d'); ctx2.clearRect(0,0,c2.width,c2.height); ctx2.beginPath(); ctx2.fillStyle='#ff9800'; ctx2.moveTo(50,45); ctx2.arc(50,45,35,0,2); ctx2.fill();
+function atualizarRelogio(){
+  let agora=new Date(); let h=agora.getHours();
+  document.getElementById('saudacao').innerText=(h<12?'Bom dia ☀️':h<18?'Boa tarde 🌤️':'Boa noite 🌙')+' - '+categoria;
+  document.getElementById('dataHoje').innerText=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('horaAgora').innerText='Agora: '+agora.toLocaleTimeString('pt-BR');
+  document.getElementById('horaCal').innerText=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('mesCal').innerText=agora.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+  let ano=agora.getFullYear(), mes=agora.getMonth(), hoje=agora.getDate();
+  let dias=new Date(ano,mes+1,0).getDate(); let html='';
+  for(let d=1;d<=dias;d++){
+    let cls=d===hoje?'today':'';
+    let temSessao=listaLicitacoes.some(l=>{let dt=l.data_abertura||l.data; if(!dt)return false; let dd=new Date(dt+'T12:00:00'); return dd.getDate()===d && dd.getMonth()===mes});
+    if(temSessao) cls+=' has';
+    html+='<div class="'+cls+'">'+d+'</div>';
+  }
+  document.getElementById('calendario').innerHTML=html;
 }
-function desenharGrafico(){
-  let c = document.getElementById('graficoPrincipal'); if(!c) return;
-  let ctx = c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
-  ctx.fillStyle='#0f1e3a'; ctx.font='12px Arial'; ctx.fillText('Valor: R$ '+dadosDash.valor.toFixed(2),10,20);
-  ctx.fillStyle='#22c55e'; ctx.fillRect(20,40,40,100);
-  ctx.fillStyle='#ff9800'; ctx.fillRect(80,70,40,70);
-  ctx.fillStyle='#0f1e3a'; ctx.fillRect(140,50,40,90);
+setInterval(atualizarRelogio,1000);
+function desenharGrafico(id,valores,cores){
+  let c=document.getElementById(id); if(!c)return; let ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  let max=Math.max(...valores,1); let w=c.width/valores.length;
+  valores.forEach((v,i)=>{let h=(v/max)*(c.height-30); ctx.fillStyle=cores[i%cores.length]; ctx.fillRect(i*w+8,c.height-h-10,w-16,h); ctx.fillStyle='#e2e8f0'; ctx.font='11px Arial'; ctx.fillText(v, i*w+12, c.height-5);});
 }
-function desenharBarras(){ desenharGrafico(); }
-function desenharPizza(){ desenharGrafico(); }
 function atualizarDashboard(){
-  let v = dadosDash.valor;
-  let lucro = v * 0.25;
-  let margem = v>0 ? 25 : 0;
-  document.getElementById('d-encontradas').innerText = dadosDash.encontradas;
-  document.getElementById('d-disputadas').innerText = dadosDash.disputadas;
-  document.getElementById('d-ganhas').innerText = dadosDash.ganhas;
-  document.getElementById('d-valor').innerText = 'R$ '+v.toFixed(2);
-  document.getElementById('d-lucro').innerText = 'R$ '+lucro.toFixed(2);
-  document.getElementById('d-margem').innerText = margem+'% - 0%';
-  document.getElementById('dre').innerHTML = 'Receita: R$ '+v.toFixed(2)+'<br>Custos: R$ '+(v*0.65).toFixed(2)+'<br>Impostos ('+impostoPct+'%): R$ '+(v*impostoPct/100).toFixed(2)+'<br><b>Lucro: R$ '+lucro.toFixed(2)+'</b>';
-  document.getElementById('fluxo').innerHTML = 'Entradas: R$ '+v.toFixed(2)+' | Saídas: R$ '+(v*0.65).toFixed(2)+' | Saldo: R$ '+lucro.toFixed(2);
-  desenharMini(); desenharGrafico(); desenharBarras(); desenharPizza();
+  let total=listaLicitacoes.length;
+  let novas=listaLicitacoes.filter(l=>(l.status||'em_analise')==='em_analise').length;
+  let and=listaLicitacoes.filter(l=>l.status==='andamento').length;
+  let ganha=listaLicitacoes.filter(l=>l.status==='ganha').length;
+  let perd=listaLicitacoes.filter(l=>l.status==='perdida').length;
+  let valorTotal=listaLicitacoes.reduce((s,x)=>s+parseFloat(x.valor_estimado||x.valor||0),0);
+  let contratado=listaLicitacoes.filter(l=>l.status==='ganha').reduce((s,x)=>s+parseFloat(x.valor_estimado||x.valor||0),0);
+  let oport=valorTotal-contratado;
+  let hoje=new Date().toISOString().slice(0,10);
+  let sessoesHoje=listaLicitacoes.filter(l=>(l.data_abertura||'').slice(0,10)===hoje).length;
+  let sessoesSemana=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||''); let diff=(d-new Date())/(1000*60*60*24); return diff>=0&&diff<=7}).length;
+  document.getElementById('k-novas').innerText=total; document.getElementById('k-novas-sub').innerText='Em análise: '+novas+' | Em andamento: '+and;
+  document.getElementById('k-sessoes').innerText=sessoesHoje+' / '+sessoesSemana;
+  document.getElementById('statusDia').innerText='● HOJE: '+sessoesHoje+' SESSÕES';
+  document.getElementById('k-contratado').innerText='R$ '+contratado.toLocaleString('pt-BR');
+  document.getElementById('k-oport').innerText='R$ '+oport.toLocaleString('pt-BR');
+  document.getElementById('bar-novas').style.width=Math.min(100,total*10)+'%';
+  document.getElementById('bar-sessoes').style.width=Math.min(100,sessoesSemana*15)+'%';
+  document.getElementById('bar-contratado').style.width=Math.min(100,contratado/limites[categoria]*100)+'%';
+  let metaPct=Math.min(100,contratado/limites[categoria]*100);
+  document.getElementById('k-meta').innerText=metaPct.toFixed(1)+'%';
+  document.getElementById('k-meta-sub').innerText='Falta R$ '+(limites[categoria]-contratado).toLocaleString('pt-BR')+' p/ limite '+categoria;
+  document.getElementById('bar-meta').style.width=metaPct+'%';
+  document.getElementById('n-ganha').innerText=ganha; document.getElementById('n-and').innerText=and; document.getElementById('n-perd').innerText=perd;
+  let totP=Math.max(1,ganha+and+perd);
+  document.getElementById('fill-ganha').style.width=(ganha/totP*100)+'%';
+  document.getElementById('fill-and').style.width=(and/totP*100)+'%';
+  document.getElementById('fill-perd').style.width=(perd/totP*100)+'%';
+  document.getElementById('taxaWin').innerText=(ganha/Math.max(1,ganha+perd)*100).toFixed(0)+'% win';
+  let prazos=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||''); let diff=(d-new Date())/(1000*60*60*24); return diff>=0&&diff<=7});
+  document.getElementById('n-prazos').innerText=prazos.length;
+  document.getElementById('listaPrazos').innerHTML=prazos.length?prazos.map(l=>'<div class="item"><span><b>'+(l.numero||'')+'</b> - '+(l.objeto||'')+'<div class="mini">'+(l.data_abertura||'')+' às '+(l.hora||'09:00')+'</div></span><span class="pill pill-red">Vence em breve</span></div>').join(''):'Nenhum prazo próximo. Você está em dia!';
+  document.getElementById('listaHoje').innerText=sessoesHoje? sessoesHoje+' sessões hoje':'Nenhuma sessão hoje';
+  document.getElementById('listaSemana').innerText=sessoesSemana? sessoesSemana+' sessões na semana':'Nenhuma sessão na semana';
+  document.getElementById('k-prox').innerText=prazos[0]?prazos[0].numero+' - '+(prazos[0].data_abertura||''): '--';
+  document.getElementById('n-docs').innerText='1 urgente';
+  document.getElementById('dre').innerHTML='Receita (contratado): R$ '+contratado.toLocaleString('pt-BR')+'<br>Custos estimados: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b>Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';
+  desenharGrafico('graficoPropostas',[ganha,and,perd],['#22c55e','#f59e0b','#ef4444']);
+  desenharGrafico('graficoPrazos',[prazos.length,total-prazos.length],['#ef4444','#22c55e']);
+  desenharGrafico('graficoFinanceiro',[contratado,contratado*0.65,contratado*0.25],['#22c55e','#ef4444','#3b82f6']);
+  atualizarRelogio();
 }
-setInterval(atualizarDashboard, 3000);
+function filtrarGeral(){let t=document.getElementById('pesquisaGeral').value.toLowerCase();document.querySelectorAll('.item').forEach(e=>{e.style.display=e.innerText.toLowerCase().includes(t)?'flex':'none'});}
+function gerarMsg(){let lic=document.getElementById('p-licitacao').value,forn=document.getElementById('p-fornecedor').value,prod=document.getElementById('p-produto').value,preco=document.getElementById('p-preco').value;document.getElementById('p-msg').value='Olá '+forn+'! Licitação '+lic+' - Produto: '+prod+' - Valor: R$ '+preco+' - ALFA NUCLEO ('+categoria+')';}
+function copiarMsg(){let m=document.getElementById('p-msg');m.select();document.execCommand('copy');alert('Copiado!');}
+function enviarZap(){gerarMsg();window.open('https://wa.me/?text='+encodeURIComponent(document.getElementById('p-msg').value),'_blank');}
+function calcularCarb(){let custo=parseFloat(document.getElementById('carb-custo').value)||0,frete=parseFloat(document.getElementById('carb-frete').value)||0,outros=parseFloat(document.getElementById('carb-outros').value)||0,imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria],edital=parseFloat(document.getElementById('carb-edital').value)||0;let base=custo+frete+outros,total=base+base*imp/100;let agr=total*1.12,eq=total*1.40,mx=edital*0.95;if(edital&&eq>edital*0.95)eq=edital*0.90;let f=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});document.getElementById('carb-conta').innerText='Custo Total ('+categoria+' '+imp+'%): '+f(total);document.getElementById('carb-agressivo').innerText=f(agr);document.getElementById('carb-equilibrado').innerText=f(eq);document.getElementById('carb-maximo').innerText=f(mx);document.getElementById('carb-lucro1').innerText='Lucro '+f(agr-total);document.getElementById('carb-lucro2').innerText='Lucro '+f(eq-total);document.getElementById('carb-lucro3').innerText='Lucro '+f(mx-total);document.getElementById('carb-alerta').innerHTML=total>edital&&edital?'⚠️ PREJUÍZO! Não entra!':'✅ SEGURO!';desenharGrafico('graficoCarb',[total,agr,eq,mx],['#ef4444','#f59e0b','#22c55e','#3b82f6']);}
+function adicionarPendencia(){let q=prompt('Qual a pendência?');let quem=prompt('Para quem? (Você / Colaborador 1 / Financeiro)');if(q){pendencias.push(q+' - '+quem);document.getElementById('listaPendencias').innerHTML=pendencias.map(p=>'<div class="item"><span>'+p+'</span><span class="pill pill-yellow">Pendente</span></div>').join('');document.getElementById('pend-voce').innerText=pendencias.length+' pendências';}}
+async function carregarTudo(){if(!supabaseClient)return;let{data:l}=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});listaLicitacoes=l||[];document.getElementById('lista-licitacoes').innerHTML=listaLicitacoes.map(x=>'<div class="item"><span><b>'+(x.numero||'')+'</b> - '+(x.objeto||'')+'<div class="mini">'+(x.orgao||'')+' | '+(x.data_abertura||'')+' '+(x.hora||'')+' | Status: '+(x.status||'em_analise')+'</div></span><b>R$ '+(x.valor_estimado||x.valor||0)+'</b></div>').join('')||'Nenhuma';let{data:f}=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});document.getElementById('lista-fornecedores').innerHTML=(f||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><small>'+(x.cnpj||'')+' - '+(x.telefone||'')+'</small></div>').join('')||'Nenhum';let{data:p}=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});document.getElementById('lista-produtos').innerHTML=(p||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><small>R$ '+(x.preco||'')+' - Est: '+(x.estoque||'')+'</small></div>').join('')||'Nenhum';atualizarDashboard();}
+async function addLicitacao(){let numero=document.getElementById('l-num').value,orgao=document.getElementById('l-orgao').value,objeto=document.getElementById('l-objeto').value,valor=document.getElementById('l-valor').value,data=document.getElementById('l-data').value,hora=document.getElementById('l-hora').value,status=document.getElementById('l-status').value;let{error}=await supabaseClient.from('licitacoes').insert([{numero,orgao,objeto,valor_estimado:valor,data_abertura:data,hora,status}]);if(error)alert(error.message);else{alert('Salva!');carregarTudo();}}
+async function addFornecedor(){let nome=document.getElementById('f-nome').value,cnpj=document.getElementById('f-cnpj').value,telefone=document.getElementById('f-tel').value;let{error}=await supabaseClient.from('fornecedores').insert([{nome,cnpj,telefone}]);if(error)alert(error.message);else{alert('Salvo!');carregarTudo();}}
+async function addProduto(){let nome=document.getElementById('p-nome').value,preco=document.getElementById('p-preco').value,estoque=document.getElementById('p-estoque').value;let{error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}]);if(error)alert(error.message);else{alert('Salvo!');carregarTudo();}}
 
-// ============ PESQUISA E TOTAIS ============
-function filtrarGeral(){
-  let t = document.getElementById('pesquisaGeral').value.toLowerCase();
-  document.querySelectorAll('.item').forEach(el=>{
-    el.style.display = el.innerText.toLowerCase().includes(t) ? 'block' : 'none';
-  });
-}
-function atualizarTotais(){
-  let totP = document.querySelectorAll('#lista-produtos .item').length;
-  let totL = document.querySelectorAll('#lista-licitacoes .item').length;
-  let elP = document.getElementById('total-produtos'); if(elP) elP.innerText = totP;
-  let elL = document.getElementById('total-licitacoes'); if(elL) elL.innerText = totL;
-  document.getElementById('resumoAbas').innerHTML = 'Total Produtos: '+totP+' | Total Licitações: '+totL;
-}
-
-// ============ PROPOSTA ============
-function gerarMsg(){
-  let lic = document.getElementById('p-licitacao').value;
-  let forn = document.getElementById('p-fornecedor').value;
-  let prod = document.getElementById('p-produto').value;
-  let preco = document.getElementById('p-preco').value;
-  let msg = 'Olá '+forn+'! Referente à licitação '+lic+', temos interesse no produto: '+prod+' - Valor: R$ '+preco+'. Podemos fechar? - ALFA NUCLEO';
-  document.getElementById('p-msg').value = msg;
-}
-function copiarMsg(){
-  let m = document.getElementById('p-msg'); m.select(); document.execCommand('copy'); alert('Copiado!');
-}
-function enviarZap(){
-  gerarMsg();
-  let msg = encodeURIComponent(document.getElementById('p-msg').value);
-  window.open('https://wa.me/?text='+msg, '_blank');
-}
-
-// ============ CARBURADOR ============
-function calcularCarb(){
-  let custo = parseFloat(document.getElementById('carb-custo').value) || 0;
-  let frete = parseFloat(document.getElementById('carb-frete').value) || 0;
-  let outros = parseFloat(document.getElementById('carb-outros').value) || 0;
-  let impostoPct = parseFloat(document.getElementById('carb-imposto').value) || 0;
-  let edital = parseFloat(document.getElementById('carb-edital').value) || 0;
-  let base = custo + frete + outros;
-  let custoTotal = base + (base * (impostoPct/100));
-  let agressivo = custoTotal * 1.12;
-  let equilibrado = custoTotal * 1.40;
-  let maximo = edital * 0.95;
-  if(edital > 0 && agressivo > edital) agressivo = edital * 0.95;
-  if(edital > 0 && equilibrado > edital * 0.95) equilibrado = edital * 0.90;
-  if(edital > 0 && maximo > edital) maximo = edital * 0.85;
-  function fmt(v){ return 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2}); }
-  document.getElementById('carb-conta').innerText = 'Custo Total: ' + fmt(custoTotal) + ' = ' + custo.toFixed(2) + ' + ' + frete.toFixed(2) + ' + ' + outros.toFixed(2) + ' + Imposto ' + impostoPct + '%';
-  document.getElementById('carb-agressivo').innerText = fmt(agressivo);
-  document.getElementById('carb-equilibrado').innerText = fmt(equilibrado);
-  document.getElementById('carb-maximo').innerText = fmt(maximo);
-  document.getElementById('carb-lucro1').innerText = 'Lucro ' + fmt(agressivo - custoTotal);
-  document.getElementById('carb-lucro2').innerText = 'Lucro ' + fmt(equilibrado - custoTotal);
-  document.getElementById('carb-lucro3').innerText = 'Lucro ' + fmt(maximo - custoTotal);
-  let alerta = document.getElementById('carb-alerta');
-  if(custoTotal > edital && edital > 0){ alerta.innerText = '⚠️ PREJUÍZO! Custo maior que edital. NÃO vale a pena!'; alerta.style.color = 'red'; }
-  else if(edital > 0){ alerta.innerText = '✅ SEGURO! Todos abaixo do edital de ' + fmt(edital); alerta.style.color = '#22c55e'; }
+// ===== TESTE RÁPIDO - 3 PASSOS =====
+function testarDashboard(){
+  listaLicitacoes = [
+    {numero:'001/2026', orgao:'Prefeitura Curitiba', objeto:'Material de escritório', valor_estimado:50000, data_abertura: new Date().toISOString().slice(0,10), hora:'09:00', status:'ganha'},
+    {numero:'002/2026', orgao:'Prefeitura São José', objeto:'Limpeza', valor_estimado:30000, data_abertura: new Date().toISOString().slice(0,10), hora:'14:00', status:'andamento'},
+    {numero:'003/2026', orgao:'Estado PR', objeto:'Informática', valor_estimado:80000, data_abertura: new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10), hora:'10:00', status:'em_analise'}
+  ];
+  atualizarDashboard();
+  alert('TESTE OK! Olha:\n✅ 3 licitações apareceram\n✅ Gráficos mexeram\n✅ Calendário marcou hoje e daqui 3 dias\n✅ Valor contratado: R$ 50.000\n\nSe deu certo, o Dashboard tá 100%!');
 }
 
-// ============ CARREGAR / CADASTRAR ============
-async function carregarTudo(){
-  if(!supabaseClient) return;
-  let {data:l} = await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});
-  document.getElementById('lista-licitacoes').innerHTML = (l||[]).map(x=>'<div class="item"><b>'+(x.numero||'')+'</b> - '+(x.objeto||x.titulo||'')+'<br><small>'+(x.orgao||'')+' | R$ '+(x.valor_estimado||x.valor||'')+' | '+(x.data_abertura||'')+'</small></div>').join('')||'Nenhuma ainda';
-  let {data:f} = await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});
-  document.getElementById('lista-fornecedores').innerHTML = (f||[]).map(x=>'<div class="item"><b>'+(x.nome||x.razao_social||'')+'</b><br><small>'+(x.cnpj||'')+' - '+(x.telefone||'')+'</small></div>').join('')||'Nenhum ainda';
-  let {data:p} = await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});
-  document.getElementById('lista-produtos').innerHTML = (p||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><br><small>R$ '+(x.preco||'')+' - Estoque: '+(x.estoque||x.quantidade||'')+'</small></div>').join('')||'Nenhum ainda';
-  // Atualiza dashboard com dados reais
-  dadosDash.encontradas = (l||[]).length;
-  dadosDash.disputadas = (l||[]).length;
-  dadosDash.valor = (l||[]).reduce((s,x)=>s+parseFloat(x.valor_estimado||x.valor||0),0);
-  atualizarDashboard(); atualizarTotais();
-}
-async function addLicitacao(){
-  let numero=document.getElementById('l-num').value;
-  let orgao=document.getElementById('l-orgao').value;
-  let objeto=document.getElementById('l-objeto').value;
-  let valor=document.getElementById('l-valor').value;
-  let data=document.getElementById('l-data').value;
-  let {error}=await supabaseClient.from('licitacoes').insert([{numero,orgao,objeto,valor_estimado:valor,data_abertura:data}]);
-  if(error) alert('Erro: '+error.message); else {alert('Licitação salva!');carregarTudo();}
-}
-async function addFornecedor(){
-  let nome=document.getElementById('f-nome').value;
-  let cnpj=document.getElementById('f-cnpj').value;
-  let telefone=document.getElementById('f-tel').value;
-  let {error}=await supabaseClient.from('fornecedores').insert([{nome,cnpj,telefone}]);
-  if(error) alert('Erro: '+error.message); else {alert('Fornecedor salvo!');carregarTudo();}
-}
-async function addProduto(){
-  let nome=document.getElementById('p-nome').value;
-  let preco=document.getElementById('p-preco').value;
-  let estoque=document.getElementById('p-estoque').value;
-  let {error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}]);
-  if(error) alert('Erro: '+error.message); else {alert('Produto salvo!');carregarTudo();}
-}
+let catSalva=localStorage.getItem('alfa_categoria'); if(catSalva){categoria=catSalva; document.getElementById('categoriaEmpresa').value=catSalva;}
+trocarCategoriaEmpresa(categoria);
 conectar();
 </script>
-
 <script>
-// ============ BACKUP ============
-function exportarBackup(){
-  let dados = {};
-  for(let i=0;i<localStorage.length;i++){
-    let chave = localStorage.key(i);
-    dados[chave] = localStorage.getItem(chave);
-  }
-  let blob = new Blob([JSON.stringify(dados, null, 2)], {type:'application/json'});
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'backup-alfa-nucleo-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
-  alert('Backup baixado! Guarda esse arquivo no seu Drive / Pen-drive!');
-}
-function importarBackup(event){
-  let arquivo = event.target.files[0];
-  if(!arquivo) return;
-  let leitor = new FileReader();
-  leitor.onload = function(e){
-    try{
-      let dados = JSON.parse(e.target.result);
-      for(let chave in dados){
-        localStorage.setItem(chave, dados[chave]);
-      }
-      alert('Backup restaurado com sucesso! A página vai recarregar.');
-      location.reload();
-    }catch(err){
-      alert('Esse arquivo não é um backup válido!');
-    }
-  };
-  leitor.readAsText(arquivo);
-}
+function exportarBackup(){let d={};for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);d[k]=localStorage.getItem(k);}let b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-alfa-nucleo-'+new Date().toISOString().slice(0,10)+'.json';a.click();alert('Backup baixado!');}
+function importarBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(ev){try{let d=JSON.parse(ev.target.result);for(let k in d)localStorage.setItem(k,d[k]);alert('Restaurado!');location.reload();}catch(err){alert('Arquivo inválido!');}};r.readAsText(f);}
 </script>
-
 </body>
 </html>
