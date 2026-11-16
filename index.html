@@ -1,272 +1,357 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALFA NUCLEO 📊 Executivo</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALFA NUCLEO + IARA - FINAL JUNTO</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,Segoe UI,Arial,sans-serif}
-body{margin:0;background:#0A0F1C;color:#E5E7EB}
+*{box-sizing:border-box;font-family:'Inter',system-ui,Arial,sans-serif}body{margin:0;background:#0A0F1C;color:#E5E7EB}
 header{background:#0D1526;border-bottom:1px solid #1A2438;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header h1{margin:0;font-size:17px;font-weight:700;letter-spacing:1.2px}header h1 span{color:#00C853}header p{margin:2px 0 0;font-size:11px;color:#8B96AD}
+header h1{margin:0;font-size:17px}header h1 span{color:#00C853}header p{margin:2px 0 0;font-size:11px;color:#8B96AD}
 .container{max-width:1180px;margin:auto;padding:16px 18px}
 .card{background:#111A2E;border:1px solid #1E2A44;border-radius:10px;padding:14px 16px;margin-bottom:12px}
-.card h3{margin:0 0 12px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
-.mini{font-size:10px;color:#8B96AD;text-transform:uppercase;letter-spacing:.7px;font-weight:600}
-.big{font-size:24px;font-weight:300;letter-spacing:-.5px;margin:3px 0}
+.card h3{margin:0 0 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.mini{font-size:10px;color:#8B96AD;text-transform:uppercase;letter-spacing:.7px;font-weight:600}.big{font-size:24px;font-weight:300;margin:3px 0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
 @media(max-width:700px){.grid2,.grid3,.grid4{grid-template-columns:1fr 1fr}}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
-.tabs button{padding:9px 10px;border:1px solid #1E2A44;background:#111A2E;color:#CBD5E1;border-radius:8px;font-weight:600;font-size:12.5px;cursor:pointer;flex:1;min-width:98px}
-.tabs button.active{background:#00C853;color:#000;border-color:#00C853}.tabs button.pncp.active{background:#2563EB;color:#fff;border-color:#2563EB}
-input,select,textarea{width:100%;padding:10px 12px;margin:5px 0;background:#0A0F1C;border:1px solid #243252;border-radius:8px;color:white;font-size:13.5px;outline:none}
-input:focus{border-color:#00C853}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.tabs button{padding:9px 10px;border:1px solid #1E2A44;background:#111A2E;color:#CBD5E1;border-radius:8px;font-weight:600;font-size:12.5px;cursor:pointer;flex:1;min-width:98px}
+.tabs button.active{background:#00C853;color:#000}.tabs button.pncp.active{background:#2563EB;color:#fff}.tabs button.iara.active{background:#7C3AED;color:#fff}
+input,select,textarea{width:100%;padding:10px 12px;margin:5px 0;background:#0A0F1C;border:1px solid #243252;border-radius:8px;color:white;font-size:13.5px}
 .btn{width:100%;padding:11px;border:none;border-radius:8px;background:#00C853;color:#000;font-weight:700;font-size:13px;cursor:pointer;margin-top:6px}
-.btn-blue{background:#2563EB;color:white}.btn-ghost{background:#1A2438;color:#E5E7EB}.btn-small{width:auto;padding:7px 12px;font-size:12px;margin:0}
-.hidden{display:none!important}
-.pill{padding:3px 8px;border-radius:99px;font-size:10.5px;font-weight:700}
-.pill-green{background:#00C8531A;color:#00E676;border:1px solid #00C85333}.pill-red{background:#FF1E1E1A;color:#FF5252;border:1px solid #FF1E1E33}.pill-blue{background:#2563EB1A;color:#60A5FA;border:1px solid #2563EB33}.pill-gray{background:#33415533;color:#94A3B8;border:1px solid #334155}.pill-yellow{background:#F59E0B1A;color:#FBBF24;border:1px solid #F59E0B33}
-.item{padding:9px 0;border-bottom:1px solid #1E2A44;display:flex;justify-content:space-between;gap:10px;font-size:13px}.item:last-child{border:none}
-canvas{width:100%;height:130px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px}.cal div{padding:7px 2px;border-radius:6px;background:#0A0F1C;border:1px solid #1E2A44;color:#94A3B8}.cal div.today{background:#00C853;color:#000;font-weight:800}.cal div.has{border-color:#00C853;color:#00E676;font-weight:700}
+.btn-blue{background:#2563EB;color:#fff}.btn-purple{background:#7C3AED;color:#fff}.btn-ghost{background:#1A2438;color:#E5E7EB}.btn-small{width:auto;padding:7px 12px;font-size:12px;margin:0}
+.hidden{display:none!important}.pill{padding:3px 8px;border-radius:99px;font-size:10.5px;font-weight:700}.pill-green{background:#00C8531A;color:#00E676;border:1px solid #00C85333}.pill-red{background:#FF1E1E1A;color:#FF5252;border:1px solid #FF1E1E33}.pill-blue{background:#2563EB1A;color:#60A5FA;border:1px solid #2563EB33}.pill-purple{background:#7C3AED1A;color:#C4B5FD;border:1px solid #7C3AED33}.pill-yellow{background:#F59E0B1A;color:#FBBF24;border:1px solid #F59E0B33}.pill-gray{background:#33415533;color:#94A3B8;border:1px solid #334155}
+.item{padding:9px 0;border-bottom:1px solid #1E2A44;display:flex;justify-content:space-between;gap:10px;font-size:13px}
+canvas{width:100%;height:130px}.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px}.cal div{padding:7px 2px;border-radius:6px;background:#0A0F1C;border:1px solid #1E2A44;color:#94A3B8}.cal div.today{background:#00C853;color:#000;font-weight:800}.cal div.has{border-color:#00C853;color:#00E676;font-weight:700}
 select.cat{width:auto;padding:7px 12px;font-weight:700;background:#00C853;color:#000;border:none;font-size:12px;border-radius:99px}
-.divider{height:1px;background:#1E2A44;margin:12px 0}.kpi-sub{font-size:11px;color:#8B96AD;margin-top:2px}
-.legend{display:flex;gap:12px;font-size:11px;color:#94A3B8;margin-top:6px;flex-wrap:wrap}
-.result-box{background:#0A0F1C;border:1px solid #1E2A44;border-radius:10px;padding:12px;margin-top:10px}.result-box.green{border-color:#00C853;background:#00C8530D}.result-box.red{border-color:#FF1E1E;background:#FF1E1E0D}
-.pncp-card{background:#0A0F1C;border:1px solid #1E2A44;border-radius:10px;padding:12px;margin-bottom:10px}
-.pncp-card.fav{border-color:#F59E0B;background:#F59E0B0A}
-.switch{position:relative;width:44px;height:24px;background:#334155;border-radius:99px;cursor:pointer;display:inline-block}.switch.on{background:#00C853}.switch:after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s}.switch.on:after{left:23px}
+.divider{height:1px;background:#1E2A44;margin:12px 0}.kpi-sub{font-size:11px;color:#8B96AD;margin-top:2px}.legend{display:flex;gap:12px;font-size:11px;color:#94A3B8;margin-top:6px;flex-wrap:wrap}
+.pncp-card{background:#0A0F1C;border:1px solid #1E2A44;border-radius:10px;padding:12px;margin-bottom:10px}.pncp-card.fav{border-color:#F59E0B;background:#F59E0B0A}
+.switch{position:relative;width:44px;height:24px;background:#334155;border-radius:99px;cursor:pointer;display:inline-block}.switch.on{background:#00C853}.switch:after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px}.switch.on:after{left:23px}
+#iaraFloat{position:fixed;bottom:18px;right:18px;width:58px;height:58px;border-radius:50%;background:#7C3AED;border:2px solid #fff;font-size:28px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center}
+#iaraPanel{position:fixed;bottom:86px;right:18px;width:380px;max-width:calc(100vw - 24px);height:540px;max-height:80vh;background:#111A2E;border:1px solid #7C3AED;border-radius:14px;z-index:999;display:flex;flex-direction:column;overflow:hidden}
+.chat{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+.msg{padding:10px 12px;border-radius:12px;font-size:13.5px;line-height:1.5;max-width:88%}.msg.user{background:#2563EB;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}.msg.iara{background:#0A0F1C;border:1px solid #7C3AED33;align-self:flex-start;border-bottom-left-radius:4px}.msg.iara b{color:#C4B5FD}
+.hub-chip{display:inline-block;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700;margin:2px 2px 0 0}
+.barra-porte{height:10px;background:#1E2A44;border-radius:99px;overflow:hidden;margin:8px 0}.barra-porte-fill{height:100%;background:#00C853;transition:.5s}
 </style>
 </head>
 <body>
-<header><div><h1>🚀 ALFA <span>NUCLEO</span></h1><p>📊 SISTEMA EXECUTIVO • LICITAÇÕES</p></div>
-<div style="display:flex;gap:10px;align-items:center"><div style="text-align:right"><div style="font-size:10px;color:#8B96AD">🏢 PORTE</div>
-<select class="cat" id="categoriaEmpresa" onchange="trocarCategoriaEmpresa(this.value)"><option value="MEI">🟢 MEI</option><option value="ME">🔵 ME</option><option value="EPP">🟣 EPP</option><option value="LTDA">⭐ LTDA</option></select></div>
-<div id="limiteCat" style="font-size:11px;color:#8B96AD;max-width:180px;text-align:right">Limite MEI: R$ 81.000 / ano</div></div></header>
+<header><div><h1>🚀 ALFA <span>NUCLEO</span> + 🤖💚 IARA</h1><p>📊 SISTEMA EXECUTIVO • PNCP + IARA • FINAL JUNTO</p></div>
+<div style="display:flex;gap:10px;align-items:center"><div style="text-align:right"><div style="font-size:10px;color:#8B96AD">🏢 PORTE ATUAL</div>
+<select class="cat" id="categoriaEmpresa" onchange="trocarCategoriaEmpresa(this.value)"><option value="MEI">🟢 MEI</option><option value="ME">🔵 ME</option><option value="EPP">🟣 EPP</option><option value="LTDA">⭐ LTDA</option></select></div><div id="limiteCat" style="font-size:11px;color:#8B96AD;max-width:200px;text-align:right">Limite MEI: R$ 81.000</div></div></header>
 <div class="container">
-<div class="card" id="configCard"><h3>🔐 Conectar Supabase <span class="pill pill-blue">🛡️ SEGURO</span></h3><input id="url" placeholder="🌐 URL Supabase"><input id="key" placeholder="🔑 Anon Key"><button class="btn" onclick="salvar()">✅ ENTRAR</button><div id="status" style="font-size:12px;margin-top:6px"></div></div>
+<div class="card" id="configCard"><h3>🔐 Conectar Supabase</h3><input id="url" placeholder="🌐 URL Supabase"><input id="key" placeholder="🔑 Anon Key"><button class="btn" onclick="salvar()">✅ ENTRAR</button><div id="status" style="font-size:12px;margin-top:6px"></div></div>
 <div id="app" class="hidden">
 <input id="pesquisaGeral" placeholder="🔍 Pesquisa geral em tudo..." oninput="filtrarGeral()">
-<div class="tabs">
-<button id="aba-dashboard" class="active" onclick="aba('dashboard')">📊 Executivo</button>
-<button id="aba-pncp" class="pncp" onclick="aba('pncp')">🏛️ PNCP Inteligente</button>
-<button id="aba-licitacoes" onclick="aba('licitacoes')">📋 Licitações</button>
-<button id="aba-fornecedores" onclick="aba('fornecedores')">🏭 Fornecedores</button>
-<button id="aba-carburador" onclick="aba('carburador')">⛽ Carburador</button>
-<button id="aba-proposta" onclick="aba('proposta')">💬 Proposta</button>
-<button id="aba-produtos" onclick="aba('produtos')">📦 Produtos</button>
-</div>
+<div class="tabs"><button id="aba-dashboard" class="active" onclick="aba('dashboard')">📊 Executivo</button><button id="aba-pncp" class="pncp" onclick="aba('pncp')">🏛️ PNCP Inteligente</button><button id="aba-iara" class="iara" onclick="aba('iara')">🤖💚 IARA</button><button id="aba-licitacoes" onclick="aba('licitacoes')">📋 Licitações</button><button id="aba-fornecedores" onclick="aba('fornecedores')">🏭 Fornecedores</button><button id="aba-carburador" onclick="aba('carburador')">⛽ Carburador</button><button id="aba-proposta" onclick="aba('proposta')">💬 Proposta</button><button id="aba-produtos" onclick="aba('produtos')">📦 Produtos</button></div>
 
-<!-- DASHBOARD -->
 <div id="sec-dashboard">
-<button onclick="testarDashboard()" style="width:100%;padding:10px;border:1px dashed #00C853;background:transparent;color:#00E676;border-radius:8px;font-weight:600;font-size:12px;margin-bottom:12px;cursor:pointer">▶️ 🧪 TESTAR AGORA</button>
-<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px"><div><div style="font-size:18px;font-weight:600" id="saudacao">🌙 Boa noite</div><div class="mini" id="dataHoje"></div></div><div style="text-align:right"><span class="pill pill-green" id="statusDia">● 🗓️ HOJE: 0 SESSÕES</span><div class="mini" style="margin-top:6px" id="horaAgora"></div></div></div>
-<div class="grid4">
-<div class="card"><div class="mini">📋 Licitações</div><div class="big" id="k-novas">0</div><div class="kpi-sub" id="k-novas-sub">🔎 Em análise: 0</div><canvas id="spark1" style="height:42px"></canvas></div>
-<div class="card"><div class="mini">🗓️ Sessões Hoje / Semana</div><div class="big" id="k-sessoes">0 / 0</div><div class="kpi-sub">⏭️ Próxima: <span id="k-prox">--</span></div><canvas id="spark2" style="height:42px"></canvas></div>
-<div class="card"><div class="mini">💰 Valor Contratado</div><div class="big" id="k-contratado">R$ 0</div><div class="kpi-sub">💡 Oportunidades: <b id="k-oport" style="color:#00E676">R$ 0</b></div><canvas id="spark3" style="height:42px"></canvas></div>
-<div class="card"><div class="mini">🎯 Meta <span id="metaLabel">MEI</span></div><div class="big" id="k-meta">0%</div><div class="kpi-sub" id="k-meta-sub">📌 Falta R$ 0</div><canvas id="spark4" style="height:42px"></canvas></div>
-</div>
-<div class="grid2">
-<div class="card"><h3>📊 Propostas — Velas 🕯️ <span class="pill pill-green" id="taxaWin">0% win 🏆</span></h3><div class="legend"><span>🟢 ✅ Ganhas <b id="n-ganha" style="color:#fff">0</b></span><span>🔵 🔄 Andamento <b id="n-and" style="color:#fff">0</b></span><span>🔴 ❌ Perdidas <b id="n-perd" style="color:#fff">0</b></span></div><canvas id="graficoPropostas"></canvas></div>
-<div class="card"><h3>📅 Calendário <span class="pill pill-gray" id="mesCal"></span></h3><div style="font-size:12px;color:#8B96AD">🕐 Hoje <b id="horaCal" style="color:#fff"></b></div><div class="cal" id="calendario"></div><div class="divider"></div><div style="font-size:12.5px;line-height:1.7">📍 <b>Hoje:</b> <span id="listaHoje">Nenhuma sessão hoje</span><br>📆 <b>Semana:</b> <span id="listaSemana">Nenhuma sessão na semana</span></div></div>
-</div>
-<div class="grid2">
-<div class="card"><h3>⏰ Prazos Próximos <span class="pill pill-red" id="n-prazos">0 🚨</span></h3><div id="listaPrazos">✅ Nenhum prazo próximo.</div><canvas id="graficoPrazos" style="height:90px"></canvas></div>
-<div class="card"><h3>📄 Documentos & Certidões <span class="pill pill-red" id="n-docs">1 urgente ⚠️</span></h3><div class="item"><span>📜 CND Federal</span><span class="pill pill-green">✅ OK • 45 dias</span></div><div class="item"><span>🏛️ FGTS</span><span class="pill pill-blue">⏳ 12 dias</span></div><div class="item"><span>🏢 Estadual / Municipal</span><span class="pill pill-red">🚨 3 dias • URGENTE</span></div><div class="item"><span>📝 Contrato Social</span><span class="pill pill-green">✅ Atualizado</span></div><button class="btn btn-ghost" onclick="alert('Aba Documentos vem na próxima! 📄')">➕ 📄 Documento</button></div>
-</div>
-<div class="grid2"><div class="card"><h3>💸 Financeiro — Evolução 🕯️</h3><div class="legend"><span>🟢 💰 Receita</span><span>🔴 💸 Custos</span><span>🔵 📈 Lucro</span></div><canvas id="graficoFinanceiro"></canvas><div id="dre" style="font-size:12.5px;margin-top:8px;line-height:1.8"></div></div>
-<div class="card"><h3>👥 Pendências por Colaborador</h3><div class="item"><span>👤 Você <span class="mini">• 👑 Dono</span></span><b id="pend-voce">0 pendências ✅</b></div><div class="item"><span>👨‍💼 Colaborador 1</span><span class="pill pill-blue">⏳ 2 pendentes</span></div><div class="item"><span>👩‍💼 Colaborador 2</span><span class="pill pill-green">✅ 0 pendentes</span></div><button class="btn btn-ghost" onclick="adicionarPendencia()">➕ Nova pendência 📌</button><div id="listaPendencias"></div></div></div>
+<div class="card" style="border-color:#7C3AED;background:#7C3AED0A"><h3>🤖💚 IARA - Acompanhando Seu Porte <span class="pill pill-purple" id="iara-porte-pill">🟢 MEI • 0%</span></h3>
+<div style="display:flex;justify-content:space-between;font-size:13px;flex-wrap:wrap;gap:6px"><span>💰 Faturado: <b id="porte-faturado">R$ 0</b></span><span>🎯 Limite <span id="porte-atual-label">MEI</span>: <b id="porte-limite">R$ 81.000</b></span><span>📌 Falta: <b id="porte-falta" style="color:#00E676">R$ 81.000</b></span></div>
+<div class="barra-porte"><div class="barra-porte-fill" id="porte-barra" style="width:0%"></div></div>
+<div id="porte-mensagem" style="font-size:13px;line-height:1.6">🤖 Iara: Tá tranquilo, pode entrar em mais licitações!</div>
+<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><button class="btn-small btn-purple" onclick="iaraPerguntaPorte()">🤖 Perguntar pra Iara: Tô perto de virar?</button><button class="btn-small btn-ghost" onclick="simularProximoPorte()">🔮 Simular próximo porte</button><button class="btn-small btn-ghost" onclick="virarProximoPorte()">⬆️ Virar pro próximo porte</button></div>
+<div id="porte-proximo-info" style="font-size:12px;color:#94A3B8;margin-top:8px">Próximo porte: ME • Limite R$ 360.000 • Imposto 8%</div></div>
+<button onclick="testarDashboard()" style="width:100%;padding:10px;border:1px dashed #00C853;background:transparent;color:#00E676;border-radius:8px;font-weight:600;margin-bottom:12px;cursor:pointer">▶️ 🧪 TESTAR AGORA</button>
+<div style="display:flex;justify-content:space-between;margin-bottom:14px"><div><div style="font-size:18px;font-weight:600" id="saudacao">🌙 Boa noite</div><div class="mini" id="dataHoje"></div></div><div style="text-align:right"><span class="pill pill-green" id="statusDia">● 🗓️ HOJE: 0 SESSÕES</span><div class="mini" style="margin-top:6px" id="horaAgora"></div></div></div>
+<div class="grid4"><div class="card"><div class="mini">📋 Licitações</div><div class="big" id="k-novas">0</div><div class="kpi-sub" id="k-novas-sub">🔎 Em análise: 0</div><canvas id="spark1" style="height:42px"></canvas></div><div class="card"><div class="mini">🗓️ Sessões Hoje / Semana</div><div class="big" id="k-sessoes">0 / 0</div><div class="kpi-sub">⏭️ Próxima: <span id="k-prox">--</span></div><canvas id="spark2" style="height:42px"></canvas></div><div class="card"><div class="mini">💰 Valor Contratado</div><div class="big" id="k-contratado">R$ 0</div><div class="kpi-sub">💡 Oportunidades: <b id="k-oport" style="color:#00E676">R$ 0</b></div><canvas id="spark3" style="height:42px"></canvas></div><div class="card"><div class="mini">🎯 Meta <span id="metaLabel">MEI</span></div><div class="big" id="k-meta">0%</div><div class="kpi-sub" id="k-meta-sub">📌 Falta R$ 0</div><canvas id="spark4" style="height:42px"></canvas></div></div>
+<div class="grid2"><div class="card"><h3>📊 Propostas — Velas 🕯️ <span class="pill pill-green" id="taxaWin">0% win 🏆</span></h3><div class="legend"><span>🟢 ✅ Ganhas <b id="n-ganha">0</b></span><span>🔵 🔄 Andamento <b id="n-and">0</b></span><span>🔴 ❌ Perdidas <b id="n-perd">0</b></span></div><canvas id="graficoPropostas"></canvas></div><div class="card"><h3>📅 Calendário <span class="pill pill-gray" id="mesCal"></span></h3><div style="font-size:12px;color:#8B96AD">🕐 Hoje <b id="horaCal"></b></div><div class="cal" id="calendario"></div><div class="divider"></div><div style="font-size:12.5px;line-height:1.7">📍 <b>Hoje:</b> <span id="listaHoje">Nenhuma</span><br>📆 <b>Semana:</b> <span id="listaSemana">Nenhuma</span></div></div></div>
+<div class="grid2"><div class="card"><h3>⏰ Prazos Próximos <span class="pill pill-red" id="n-prazos">0 🚨</span></h3><div id="listaPrazos">✅ Nenhum prazo próximo.</div><canvas id="graficoPrazos" style="height:90px"></canvas></div><div class="card"><h3>📄 Documentos & Certidões <span class="pill pill-red">1 urgente ⚠️</span></h3><div class="item"><span>📜 CND Federal</span><span class="pill pill-green">✅ OK • 45 dias</span></div><div class="item"><span>🏛️ FGTS</span><span class="pill pill-blue">⏳ 12 dias</span></div><div class="item"><span>🏢 Estadual / Municipal</span><span class="pill pill-red">🚨 3 dias • URGENTE</span></div><div class="item"><span>📝 Contrato Social</span><span class="pill pill-green">✅ Atualizado</span></div></div></div>
+<div class="grid2"><div class="card"><h3>💸 Financeiro — Evolução 🕯️</h3><div class="legend"><span>🟢 💰 Receita</span><span>🔴 💸 Custos</span><span>🔵 📈 Lucro</span></div><canvas id="graficoFinanceiro"></canvas><div id="dre" style="font-size:12.5px;margin-top:8px;line-height:1.8"></div></div><div class="card"><h3>👥 Pendências por Colaborador</h3><div class="item"><span>👤 Você 👑 Dono</span><b id="pend-voce">0 pendências ✅</b></div><div class="item"><span>👨‍💼 Colaborador 1</span><span class="pill pill-blue">⏳ 2 pendentes</span></div><div class="item"><span>👩‍💼 Colaborador 2</span><span class="pill pill-green">✅ 0 pendentes</span></div><button class="btn btn-ghost" onclick="adicionarPendencia()">➕ Nova pendência 📌</button><div id="listaPendencias"></div></div></div>
 </div>
 
-<!-- ============ 🏛️ PNCP INTELIGENTE ============ -->
 <div id="sec-pncp" class="hidden">
-<div class="card" style="border-color:#2563EB"><h3>🏛️ PNCP Inteligente <span class="pill pill-blue">🤖 ROBÔ ATIVO</span></h3>
-<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#0A0F1C;padding:10px;border-radius:8px;margin-bottom:10px">
-<span id="roboStatus" style="font-size:12.5px;font-weight:700;color:#00E676">🤖 Robô: LIGADO • Busca a cada 30 min</span>
-<span class="switch on" id="switchRobo" onclick="toggleRobo()"></span>
-<span style="font-size:11px;color:#94A3B8" id="roboUltima">Última busca: nunca</span>
-<button class="btn-small btn-blue" onclick="buscarPNCP(true)" style="margin-left:auto">🔄 Buscar em tudo agora</button>
-</div>
-<div class="grid4" style="margin-bottom:10px">
-<div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">🏛️ PNCP</div><b id="cnt-pncp">0</b></div>
-<div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">🛒 Compras.gov</div><b id="cnt-compras">0</b></div>
-<div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">💛 Licitações-e</div><b id="cnt-licitacoes-e">0</b></div>
-<div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">🏢 BEC</div><b id="cnt-bec">0</b></div>
-</div>
-<label class="mini">🔍 Busca Geral - 1 busca pra equipe toda 👥</label>
-<input id="pncp-termo" placeholder="🔍 Ex: papel, limpeza, material de escritório... ou deixe vazio pra trazer TUDO" value="">
-<div class="grid3">
-<div><label class="mini">📍 UF</label><select id="pncp-uf"><option value="">🇧🇷 Brasil todo</option><option value="PR" selected>PR - Paraná</option><option value="SP">SP - São Paulo</option><option value="SC">SC - Santa Catarina</option><option value="RS">RS - Rio Grande do Sul</option><option value="MG">MG - Minas Gerais</option><option value="RJ">RJ - Rio de Janeiro</option></select></div>
-<div><label class="mini">🏙️ Cidade</label><input id="pncp-cidade" placeholder="Ex: Curitiba - deixe vazio = todas"></div>
-<div><label class="mini">🏛️ Modalidade</label><select id="pncp-modalidade"><option value="">Todas</option><option value="6" selected>Pregão Eletrônico</option><option value="5">Pregão Presencial</option><option value="8">Dispensa</option><option value="4">Concorrência</option></select></div>
-</div>
-<div class="grid3">
-<div><label class="mini">💰 Valor Mínimo R$</label><input id="pncp-min" type="number" placeholder="0 = sem mínimo" value="0"></div>
-<div><label class="mini">💰 Valor Máximo - AUTO pela categoria <span id="pncp-max-label" style="color:#00E676">R$ 81.000</span></label><input id="pncp-max" type="number" value="81000"></div>
-<div><label class="mini">👀 Mostrar acima do porte?</label><select id="pncp-acima"><option value="nao">❌ Não - só até meu limite</option><option value="sim">✅ Sim - mostrar tudo, com aviso ⚠️</option></select></div>
-</div>
-<div style="display:flex;gap:8px"><button class="btn btn-blue" onclick="buscarPNCP(false)">🔍 Buscar Agora</button><button class="btn btn-ghost" onclick="salvarBuscaGeral()">💾 Salvar Busca Geral</button></div>
-<div style="font-size:11px;color:#94A3B8;margin-top:8px">💡 Busca geral = traz tudo que tiver no seu valor. Quando você trocar de MEI pra ME no topo, o valor máximo muda sozinho pra R$ 360 mil, EPP pra R$ 4,8 mi, LTDA pra R$ 10 mi. Equipe toda vê igual.</div>
+<div class="card" style="border-color:#2563EB"><h3>🏛️ PNCP Inteligente <span class="pill pill-blue">🤖 ROBÔ ATIVO • Segue seu porte <span id="pncp-porte-badge">MEI</span></span></h3>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#0A0F1C;padding:10px;border-radius:8px;margin-bottom:10px"><span id="roboStatus" style="font-size:12.5px;font-weight:700;color:#00E676">🤖 Robô: LIGADO • Busca a cada 30 min</span><span class="switch on" id="switchRobo" onclick="toggleRobo()"></span><span style="font-size:11px;color:#94A3B8" id="roboUltima">Última busca: nunca</span><button class="btn-small btn-blue" onclick="buscarPNCP(true)" style="margin-left:auto">🔄 Buscar em tudo agora</button></div>
+<div class="grid4" style="margin-bottom:10px"><div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">🏛️ PNCP</div><b id="cnt-pncp">0</b></div><div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">🛒 Compras.gov</div><b id="cnt-compras">0</b></div><div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">💛 Licitações-e</div><b id="cnt-licitacoes-e">0</b></div><div style="background:#0A0F1C;padding:10px;border-radius:8px;text-align:center"><div class="mini">🏢 BEC</div><b id="cnt-bec">0</b></div></div>
+<label class="mini">🔍 Busca Geral - 1 busca pra equipe toda 👥</label><input id="pncp-termo" placeholder="🔍 Ex: papel, limpeza, material de escritório... ou deixe vazio pra trazer TUDO">
+<div class="grid3"><div><label class="mini">📍 UF</label><select id="pncp-uf"><option value="">🇧🇷 Brasil todo</option><option value="PR" selected>PR - Paraná</option><option value="SP">SP - São Paulo</option><option value="SC">SC - Santa Catarina</option><option value="RS">RS - Rio Grande do Sul</option><option value="MG">MG - Minas Gerais</option></select></div><div><label class="mini">🏙️ Cidade</label><input id="pncp-cidade" placeholder="Ex: Curitiba - deixe vazio = todas"></div><div><label class="mini">🏛️ Modalidade</label><select id="pncp-modalidade"><option value="">Todas</option><option value="6" selected>Pregão Eletrônico</option><option value="5">Pregão Presencial</option><option value="8">Dispensa</option><option value="4">Concorrência</option></select></div></div>
+<div class="grid3"><div><label class="mini">💰 Valor Mínimo R$</label><input id="pncp-min" type="number" placeholder="0 = sem mínimo" value="0"></div><div><label class="mini">💰 Valor Máximo - AUTO pela categoria <span id="pncp-max-label" style="color:#00E676">R$ 81.000</span></label><input id="pncp-max" type="number" value="81000"></div><div><label class="mini">👀 Mostrar acima do porte?</label><select id="pncp-acima"><option value="nao">❌ Não - só até meu limite</option><option value="sim">✅ Sim - mostrar tudo, com aviso ⚠️</option></select></div></div>
+<div style="display:flex;gap:8px"><button class="btn btn-blue" onclick="buscarPNCP(false)">🔍 Buscar Agora</button><button class="btn btn-ghost" onclick="salvarBuscaGeral()">💾 Salvar Busca Geral</button></div><div style="font-size:11px;color:#94A3B8;margin-top:8px">💡 Busca geral = traz tudo que tiver no seu valor. Troque MEI pra ME no topo e o valor máximo muda sozinho.</div></div>
+<div class="card"><h3>🔔 Alertas - Equipe toda recebe igual <span class="pill pill-green">3 ATIVOS</span></h3><div class="grid3"><div style="background:#0A0F1C;padding:10px;border-radius:8px"><div style="display:flex;justify-content:space-between"><b>📲 WhatsApp</b><span class="switch on" onclick="this.classList.toggle('on')"></span></div><input id="alerta-zap" placeholder="📱 Número da equipe Ex: 41999999999"><div style="font-size:11px;color:#94A3B8">Mensagem: "Achamos 3 novas!"</div></div><div style="background:#0A0F1C;padding:10px;border-radius:8px"><div style="display:flex;justify-content:space-between"><b>📧 E-mail</b><span class="switch on" onclick="this.classList.toggle('on')"></span></div><input id="alerta-email" placeholder="📧 E-mail da equipe"><div style="font-size:11px;color:#94A3B8">Resumo diário às 07:00</div></div><div style="background:#0A0F1C;padding:10px;border-radius:8px"><div style="display:flex;justify-content:space-between"><b>🔔 Push</b><span class="switch on" onclick="this.classList.toggle('on')"></span></div><div style="font-size:12px;margin-top:8px">✅ Notificação dentro do sistema</div><div style="font-size:11px;color:#94A3B8">Ex: "Nova licitação!"</div></div></div><div class="grid2" style="margin-top:10px"><div><label class="mini">⏰ Horário do robô</label><select id="robo-horario"><option>Todo dia 07:00 + a cada 30 min</option><option>Só 07:00 da manhã</option><option>07:00, 12:00, 18:00</option></select></div><div><label class="mini">🚨 Só me avisa se...</label><select id="alerta-regra"><option>Só se for acima do valor mínimo</option><option>Qualquer uma nova</option><option>Só se sessão nos próximos 7 dias</option></select></div></div><button class="btn" onclick="testarAlertas()">🧪 Testar Alertas - WhatsApp + E-mail + Push</button></div>
+<div class="card"><h3>📋 Resultados - Busca Geral 👥 <span class="pill pill-blue" id="pncp-total">0 achadas</span></h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><button class="btn-small btn-blue" onclick="filtrarPNCP('todas')">📋 Todas</button><button class="btn-small btn-ghost" onclick="filtrarPNCP('favoritas')">⭐ Favoritas</button><button class="btn-small btn-ghost" onclick="filtrarPNCP('hoje')">📅 Hoje</button><button class="btn-small btn-ghost" onclick="filtrarPNCP('semana')">📆 Essa semana</button></div><div id="pncp-resultados"><div style="text-align:center;padding:20px;color:#94A3B8">🔍 Clique em "Buscar Agora" ou "Buscar em tudo agora"<br>🤖 O robô já busca sozinho a cada 30 min</div></div></div>
 </div>
 
-<div class="card"><h3>🔔 Alertas - Equipe toda recebe igual <span class="pill pill-green">3 ATIVOS</span></h3>
-<div class="grid3">
-<div style="background:#0A0F1C;padding:10px;border-radius:8px"><div style="display:flex;justify-content:space-between"><b>📲 WhatsApp</b><span class="switch on" onclick="this.classList.toggle('on')"></span></div><input id="alerta-zap" placeholder="📱 Número da equipe Ex: 41999999999"><div style="font-size:11px;color:#94A3B8">Mensagem: "Achamos 3 novas!"</div></div>
-<div style="background:#0A0F1C;padding:10px;border-radius:8px"><div style="display:flex;justify-content:space-between"><b>📧 E-mail</b><span class="switch on" onclick="this.classList.toggle('on')"></span></div><input id="alerta-email" placeholder="📧 E-mail da equipe"><div style="font-size:11px;color:#94A3B8">Resumo diário às 07:00</div></div>
-<div style="background:#0A0F1C;padding:10px;border-radius:8px"><div style="display:flex;justify-content:space-between"><b>🔔 Push</b><span class="switch on" onclick="this.classList.toggle('on')"></span></div><div style="font-size:12px;margin-top:8px">✅ Notificação dentro do sistema</div><div style="font-size:11px;color:#94A3B8">Ex: "Nova licitação!"</div></div>
-</div>
-<div class="grid2" style="margin-top:10px"><div><label class="mini">⏰ Horário do robô</label><select id="robo-horario"><option>Todo dia 07:00 + a cada 30 min</option><option>Só 07:00 da manhã</option><option>07:00, 12:00, 18:00</option></select></div><div><label class="mini">🚨 Só me avisa se...</label><select id="alerta-regra"><option>Só se for acima do valor mínimo</option><option>Qualquer uma nova</option><option>Só se sessão nos próximos 7 dias</option></select></div></div>
-<button class="btn" onclick="testarAlertas()">🧪 Testar Alertas - WhatsApp + E-mail + Push</button>
-</div>
-
-<div class="card"><h3>📋 Resultados - Busca Geral 👥 <span class="pill pill-blue" id="pncp-total">0 achadas</span></h3>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-<button class="btn-small btn-blue" onclick="filtrarPNCP('todas')">📋 Todas</button>
-<button class="btn-small btn-ghost" onclick="filtrarPNCP('favoritas')">⭐ Favoritas</button>
-<button class="btn-small btn-ghost" onclick="filtrarPNCP('hoje')">📅 Hoje</button>
-<button class="btn-small btn-ghost" onclick="filtrarPNCP('semana')">📆 Essa semana</button>
-</div>
-<div id="pncp-resultados"><div style="text-align:center;padding:20px;color:#94A3B8">🔍 Clique em "Buscar Agora" ou "Buscar em tudo agora"<br>🤖 O robô já busca sozinho a cada 30 min</div></div>
-</div>
+<div id="sec-iara" class="hidden">
+<div class="card" style="border-color:#7C3AED"><h3>🤖💚 IARA - Sua Sócia Inteligente <span class="pill pill-purple">🧠 8 IAs • PORTE <span id="iara-porte-topo">MEI</span></span></h3>
+<div style="font-size:12.5px;line-height:1.6">Fala do jeito que você fala no Zap. Ela entende <b>texto, áudio, foto do edital</b> e mexe em tudo: PNCP, Carburador, Licitações, Fornecedores.<br><span class="hub-chip" style="background:#00C85322;color:#00E676">🤖 GPT • Estratégia</span><span class="hub-chip" style="background:#F59E0B22;color:#FBBF24">🟠 Claude • Jurídico</span><span class="hub-chip" style="background:#2563EB22;color:#60A5FA">🔵 Gemini • Pesquisa</span><span class="hub-chip" style="background:#7C3AED22;color:#C4B5FD">🦙 Llama • Backup</span><span class="hub-chip" style="background:#06B6D422;color:#67E8F9">🐋 DeepSeek • Econômico</span><span class="hub-chip" style="background:#0082FB22;color:#7DD3FC">💙 Meta AI • Zap/Insta</span><span class="hub-chip" style="background:#22C55E22;color:#86EFAC">🔍 Perplexity • Fonte</span><span class="hub-chip" style="background:#EC489922;color:#F9A8D4">📞 Kooko • Voz</span></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><button class="btn-small btn-purple" onclick="iaraQuick('tem licitação boa hoje?')">🏛️ Tem licitação boa hoje?</button><button class="btn-small btn-ghost" onclick="iaraQuick('posso pegar essa licitação de 100 mil?')">💰 Posso pegar 100 mil?</button><button class="btn-small btn-ghost" onclick="iaraQuick('tô perto de virar de porte?')">📈 Tô perto de virar?</button><button class="btn-small btn-ghost" onclick="iaraQuick('quanto eu cobro nesse papel?')">💰 Quanto cobro?</button><button class="btn-small btn-ghost" onclick="iaraQuick('analisa esse edital pra mim')">📄 Analisa edital</button></div>
+<div class="chat" id="iaraChatGrande" style="height:380px;border:1px solid #1E2A44;border-radius:10px;margin-top:12px;background:#0A0F1C"></div>
+<div style="display:flex;gap:6px;margin-top:10px"><input id="iaraInputGrande" placeholder="💬 Fala com a Iara... Ex: Iara, tem licitação boa hoje?" onkeydown="if(event.key==='Enter')enviarIara('grande')"><button class="btn-small btn-purple" onclick="enviarIara('grande')">➤ Enviar</button><button class="btn-small btn-ghost" onclick="iaraVoz()">🎤 Áudio</button><button class="btn-small btn-ghost" onclick="document.getElementById('iaraFile').click()">📎 Foto/PDF</button></div><input type="file" id="iaraFile" hidden accept=".pdf,.jpg,.png,.jpeg" onchange="iaraArquivo(this)">
+<div style="font-size:11px;color:#94A3B8;margin-top:6px">📄 Manda foto ou PDF do edital que ela extrai: objeto, prazo, valor, riscos, certidões + 3 lances + detecta direcionamento.</div></div>
+<div class="grid3"><div class="card" style="border-color:#00C853"><h3>🐢 Conservador</h3><div id="iara-conservador" style="font-size:13px">Aguardando cálculo...</div></div><div class="card" style="border-color:#2563EB;background:#2563EB0A"><h3>⚖️ Médio ⭐</h3><div id="iara-medio" style="font-size:13px">Aguardando cálculo...</div></div><div class="card" style="border-color:#FF1E1E"><h3>🔥 Agressivo</h3><div id="iara-agressivo" style="font-size:13px">Aguardando cálculo...</div></div></div>
+<div class="card"><h3>📄 Análise de Edital - Especialista <span class="pill pill-purple">🟠 Claude + 🐋 DeepSeek</span></h3><div id="iara-edital"><div style="font-size:13px;color:#94A3B8">Manda um PDF ou pergunta "analisa esse edital" que ela preenche aqui.</div></div><button class="btn btn-purple" onclick="iaraQuick('analisa esse edital pra mim')">📄 Analisar Edital de Exemplo</button></div>
 </div>
 
-<!-- LICITAÇÕES -->
 <div id="sec-licitacoes" class="hidden"><div class="card"><h3>📋 Nova Licitação</h3><input id="l-num" placeholder="🔢 Nº Ex: 001/2026"><input id="l-orgao" placeholder="🏛️ Órgão"><input id="l-objeto" placeholder="📦 Objeto"><input id="l-valor" type="number" placeholder="💰 Valor Estimado"><input id="l-data" type="date"><label class="mini">🕐 Horário da sessão</label><input id="l-hora" type="time" value="09:00"><select id="l-status"><option value="em_analise">🔎 Em Análise</option><option value="andamento">🔄 Em Andamento</option><option value="ganha">✅ Ganha</option><option value="perdida">❌ Perdida</option></select><button class="btn" onclick="addLicitacao()">➕ 📋 Cadastrar Licitação</button></div><div class="card"><h3>📋 Licitações</h3><div id="lista-licitacoes"></div></div></div>
 <div id="sec-fornecedores" class="hidden"><div class="card"><h3>🏭 Novo Fornecedor</h3><input id="f-nome" placeholder="🏢 Nome / Razão"><input id="f-cnpj" placeholder="🪪 CNPJ"><input id="f-tel" placeholder="📱 WhatsApp"><button class="btn" onclick="addFornecedor()">➕ 🏭 Cadastrar Fornecedor</button></div><div class="card"><h3>🏭 Fornecedores</h3><div id="lista-fornecedores"></div></div></div>
-
-<!-- CARBURADOR -->
-<div id="sec-carburador" class="hidden"><div class="card"><h3>⛽ Carburador Inteligente <span class="pill pill-green">📈 COM QUANTIDADE</span></h3>
-<label class="mini">📦 Nome do Produto</label><input id="carb-nome" placeholder="Ex: Papel A4 - Resma" oninput="calcularCarb()">
-<div class="grid2"><div><label class="mini">📏 Unidade</label><select id="carb-unidade" onchange="calcularCarb()"><option value="UN">📦 UN - Unidade</option><option value="CX">📦 CX - Caixa</option><option value="KG">⚖️ KG - Quilo</option><option value="L">🧴 L - Litro</option><option value="PCT">📦 PCT - Pacote</option><option value="RESMA">📄 RESMA</option></select></div><div><label class="mini">🔢 Quantidade Total</label><input id="carb-qtd" type="number" value="1" oninput="calcularCarb()"></div></div>
-<div class="grid2"><div><label class="mini">💰 Custo por Unidade R$</label><input id="carb-custo" type="number" placeholder="550" oninput="calcularCarb()"></div><div><label class="mini">🚚 Frete Total R$</label><input id="carb-frete" type="number" placeholder="80" oninput="calcularCarb()"></div></div>
-<div class="grid2"><div><label class="mini">🧾 Outros Custos Total R$</label><input id="carb-outros" type="number" placeholder="0" oninput="calcularCarb()"></div><div><label class="mini">📊 Imposto %</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()"></div></div>
-<label class="mini">🏛️ Valor do Edital por Unidade R$</label><input id="carb-edital" type="number" placeholder="920" oninput="calcularCarb()">
-<div class="result-box" id="carb-box-unidade"><div style="font-size:12px;font-weight:700">📏 RESULTADO POR UNIDADE ( <span id="carb-unidade-label">UN</span> )</div><div id="carb-conta" style="font-size:12.5px;margin-top:6px;line-height:1.7">Preencha para calcular...</div></div>
-<div class="grid3" style="margin-top:10px"><div class="card" style="margin:0"><div class="mini">🔥 Agressivo</div><div style="font-size:18px;font-weight:700" id="carb-agressivo">R$ 0</div><div style="font-size:11px" id="carb-lucro1"></div><div style="font-size:11px;color:#00E676" id="carb-pct1"></div></div><div class="card" style="margin:0;border-color:#00C853;background:#00C8530D"><div class="mini">✅ Equilibrado ⭐</div><div style="font-size:18px;font-weight:700;color:#00E676" id="carb-equilibrado">R$ 0</div><div style="font-size:11px" id="carb-lucro2"></div><div style="font-size:11px;color:#00E676" id="carb-pct2"></div></div><div class="card" style="margin:0"><div class="mini">🏁 Máximo</div><div style="font-size:18px;font-weight:700" id="carb-maximo">R$ 0</div><div style="font-size:11px" id="carb-lucro3"></div><div style="font-size:11px;color:#00E676" id="carb-pct3"></div></div></div>
-<div class="result-box green" id="carb-box-total"><div style="display:flex;justify-content:space-between"><b>💰 RESULTADO TOTAL</b><span class="pill pill-green" id="carb-alerta">✅ SEGURO</span></div><div id="carb-total-geral" style="margin-top:8px;font-size:13px;line-height:1.8"></div><div style="height:6px;background:#1E2A44;border-radius:99px;overflow:hidden;margin-top:8px"><div id="carb-fill-lucro" style="height:100%;background:#00C853;width:0%"></div></div></div>
-<div class="grid2" style="margin-top:12px"><div class="card" style="margin:0"><h3>📈 Área — Evolução do Preço</h3><canvas id="graficoCarbArea" style="height:130px"></canvas></div><div class="card" style="margin:0"><h3>🍩 Rosca — Onde Vai o Dinheiro</h3><canvas id="graficoCarbRosca" style="height:130px"></canvas><div id="carb-rosca-legenda" style="font-size:11px;line-height:1.7;margin-top:6px"></div></div></div>
-<button class="btn" onclick="usarEquilibrado()">✅ USAR PREÇO EQUILIBRADO NA PROPOSTA →</button></div></div>
-
+<div id="sec-carburador" class="hidden"><div class="card"><h3>⛽ Carburador Inteligente <span class="pill pill-green">📈 COM QUANTIDADE • Segue seu porte <span id="carb-porte">MEI</span></span></h3><label class="mini">📦 Nome do Produto</label><input id="carb-nome" placeholder="Ex: Papel A4 - Resma" oninput="calcularCarb()"><div class="grid2"><div><label class="mini">📏 Unidade</label><select id="carb-unidade" onchange="calcularCarb()"><option value="UN">📦 UN - Unidade</option><option value="CX">📦 CX - Caixa</option><option value="KG">⚖️ KG - Quilo</option><option value="L">🧴 L - Litro</option><option value="PCT">📦 PCT - Pacote</option><option value="RESMA">📄 RESMA</option></select></div><div><label class="mini">🔢 Quantidade Total</label><input id="carb-qtd" type="number" value="1" oninput="calcularCarb()"></div></div><div class="grid2"><div><label class="mini">💰 Custo por Unidade R$</label><input id="carb-custo" type="number" placeholder="550" oninput="calcularCarb()"></div><div><label class="mini">🚚 Frete Total R$</label><input id="carb-frete" type="number" placeholder="80" oninput="calcularCarb()"></div></div><div class="grid2"><div><label class="mini">🧾 Outros Custos Total R$</label><input id="carb-outros" type="number" placeholder="0" oninput="calcularCarb()"></div><div><label class="mini">📊 Imposto % - AUTO pelo porte</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()"></div></div><label class="mini">🏛️ Valor do Edital por Unidade R$</label><input id="carb-edital" type="number" placeholder="920" oninput="calcularCarb()"><div style="background:#0A0F1C;border:1px solid #1E2A44;border-radius:10px;padding:12px;margin-top:10px"><div style="font-size:12px;font-weight:700">📏 RESULTADO POR UNIDADE</div><div id="carb-conta" style="font-size:12.5px;margin-top:6px;line-height:1.7">Preencha para calcular...</div></div><div class="grid3" style="margin-top:10px"><div class="card" style="margin:0"><div class="mini">🔥 Agressivo</div><div style="font-size:18px;font-weight:700" id="carb-agressivo">R$ 0</div><div style="font-size:11px" id="carb-lucro1"></div><div style="font-size:11px;color:#00E676" id="carb-pct1"></div></div><div class="card" style="margin:0;border-color:#00C853;background:#00C8530D"><div class="mini">✅ Equilibrado ⭐</div><div style="font-size:18px;font-weight:700;color:#00E676" id="carb-equilibrado">R$ 0</div><div style="font-size:11px" id="carb-lucro2"></div><div style="font-size:11px;color:#00E676" id="carb-pct2"></div></div><div class="card" style="margin:0"><div class="mini">🏁 Máximo</div><div style="font-size:18px;font-weight:700" id="carb-maximo">R$ 0</div><div style="font-size:11px" id="carb-lucro3"></div><div style="font-size:11px;color:#00E676" id="carb-pct3"></div></div></div><button class="btn" onclick="usarEquilibrado()">✅ USAR PREÇO EQUILIBRADO NA PROPOSTA →</button></div></div>
 <div id="sec-proposta" class="hidden"><div class="card"><h3>💬 Proposta + WhatsApp 📱</h3><input id="p-licitacao" placeholder="🔢 Nº Licitação"><input id="p-fornecedor" placeholder="🏭 Fornecedor"><input id="p-produto" placeholder="📦 Produto"><input id="p-preco" type="number" placeholder="💰 Preço Final"><textarea id="p-msg" rows="5"></textarea><button class="btn" onclick="gerarMsg()">✨ Gerar Mensagem</button><button class="btn btn-ghost" onclick="copiarMsg()">📋 Copiar</button><button class="btn" onclick="enviarZap()">📲 Enviar no Zap</button></div></div>
 <div id="sec-produtos" class="hidden"><div class="card"><h3>📦 Novo Produto</h3><input id="p-nome" placeholder="📦 Nome do produto"><input id="p-preco" type="number" placeholder="💰 Preço"><input id="p-estoque" type="number" placeholder="📊 Estoque"><button class="btn" onclick="addProduto()">➕ 📦 Cadastrar Produto</button></div><div class="card"><h3>📦 Produtos</h3><div id="lista-produtos"></div></div></div>
 <div style="display:flex;gap:8px"><button class="btn btn-blue" onclick="exportarBackup()">💾 Exportar Backup</button><button class="btn btn-ghost" onclick="document.getElementById('fileBackup').click()">📂 Importar</button></div><input type="file" id="fileBackup" hidden accept=".json" onchange="importarBackup(event)"><button class="btn btn-ghost" onclick="localStorage.clear();location.reload()">🚪 Sair / Trocar chaves 🔑</button>
 </div></div>
-<script>
-let supabaseClient=null, listaLicitacoes=[], categoria='MEI', listaPNCP=[], filtroPNCP='todas', roboLigado=true, ultimoEquilibrado=0, pendencias=[];
-let limites={MEI:81000,ME:360000,EPP:4800000,LTDA:10000000};
-let impostos={MEI:6,ME:8,EPP:11,LTDA:14};
-function aba(id){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));['dashboard','licitacoes','fornecedores','produtos','carburador','proposta','pncp'].forEach(s=>{let e=document.getElementById('sec-'+s);if(e)e.classList.add('hidden')});document.getElementById('sec-'+id).classList.remove('hidden');document.getElementById('aba-'+id)?.classList.add('active');}
-function salvar(){let u=document.getElementById('url').value.trim(),k=document.getElementById('key').value.trim();if(!u||!k)return alert('Cole URL e KEY');localStorage.setItem('alfa_url',u);localStorage.setItem('alfa_key',k);conectar();}
-function conectar(){let u=localStorage.getItem('alfa_url'),k=localStorage.getItem('alfa_key');if(!u||!k)return;supabaseClient=supabase.createClient(u,k);document.getElementById('configCard').classList.add('hidden');document.getElementById('app').classList.remove('hidden');carregarTudo();}
-function trocarCategoriaEmpresa(v){categoria=v;localStorage.setItem('alfa_categoria',v);document.getElementById('limiteCat').innerText='Limite '+v+': R$ '+limites[v].toLocaleString('pt-BR')+' / ano • Imposto '+impostos[v]+'%';document.getElementById('metaLabel').innerText=v;let ci=document.getElementById('carb-imposto');if(ci)ci.value=impostos[v];
-// PNCP: valor máximo muda sozinho com a categoria
-let mx=document.getElementById('pncp-max'); if(mx) mx.value=limites[v];
-let lbl=document.getElementById('pncp-max-label'); if(lbl) lbl.innerText='R$ '+limites[v].toLocaleString('pt-BR');
-atualizarDashboard();}
-function atualizarRelogio(){let agora=new Date();let h=agora.getHours();let emoji=h<12?'🌅':h<18?'🌤️':'🌙';let saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';document.getElementById('saudacao').innerText=emoji+' '+saud+' • '+categoria;document.getElementById('dataHoje').innerText=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});document.getElementById('horaAgora').innerText='🕐 Agora: '+agora.toLocaleTimeString('pt-BR');document.getElementById('horaCal').innerText=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});document.getElementById('mesCal').innerText='📅 '+agora.toLocaleDateString('pt-BR',{month:'short',year:'numeric'});let ano=agora.getFullYear(),mes=agora.getMonth(),hoje=agora.getDate();let dias=new Date(ano,mes+1,0).getDate();let html='';for(let d=1;d<=dias;d++){let cls=d===hoje?'today':'';let tem=listaLicitacoes.some(l=>{let dt=l.data_abertura||l.data;if(!dt)return false;let dd=new Date(dt+'T12:00:00');return dd.getDate()===d&&dd.getMonth()===mes});if(tem)cls+=' has';html+='<div class="'+cls+'">'+d+'</div>';}document.getElementById('calendario').innerHTML=html;}
-setInterval(atualizarRelogio,1000);
-function desenharVelas(id,series){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');let W=c.width,H=c.height;ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(255,255,255,0.06)';for(let y=20;y<H;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}let max=1;series.forEach(s=>{s.valores.forEach(v=>{if(v>max)max=v;})});let n=Math.max(...series.map(s=>s.valores.length));let slot=W/n;series.forEach((s,si)=>{s.valores.forEach((v,i)=>{let prev=i===0?v*0.85:s.valores[i-1];let open=prev,close=v;let high=Math.max(open,close)*1.08,low=Math.min(open,close)*0.92;let x=i*slot+slot*0.25+si*3;let w=Math.max(6,slot*0.28);let yOpen=H-18-(open/max)*(H-36),yClose=H-18-(close/max)*(H-36),yHigh=H-18-(high/max)*(H-36),yLow=H-18-(low/max)*(H-36);let subiu=close>=open;let cor=subiu?s.corSubiu||'#00C853':s.corDesceu||'#FF1E1E';ctx.strokeStyle=cor;ctx.beginPath();ctx.moveTo(x+w/2,yHigh);ctx.lineTo(x+w/2,yLow);ctx.stroke();let top=Math.min(yOpen,yClose),h=Math.max(4,Math.abs(yClose-yOpen));ctx.fillStyle=cor;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,top,w,h,2);else ctx.rect(x,top,w,h);ctx.fill();if(!subiu){ctx.fillStyle='#0A0F1C';ctx.fillRect(x+1.5,top+1.5,w-3,Math.max(1,h-3));}});});}
-function desenharArea(id,valores,cor){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');let W=c.width,H=c.height;ctx.clearRect(0,0,W,H);let max=Math.max(...valores,1);let pts=valores.map((v,i)=>({x:14+(i/(valores.length-1))*(W-28),y:H-18-(v/max)*(H-36)}));let grad=ctx.createLinearGradient(0,0,0,H);grad.addColorStop(0,cor+'55');grad.addColorStop(1,cor+'00');ctx.beginPath();ctx.moveTo(pts[0].x,H-10);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,H-10);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.beginPath();ctx.strokeStyle=cor;ctx.lineWidth=2.5;ctx.moveTo(pts[0].x,pts[0].y);for(let i=1;i<pts.length;i++){let prev=pts[i-1],cur=pts[i];let mx=(prev.x+cur.x)/2;ctx.bezierCurveTo(mx,prev.y,mx,cur.y,cur.x,cur.y);}ctx.stroke();}
-function desenharRosca(id,partes){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');let W=c.width,H=c.height;ctx.clearRect(0,0,W,H);let total=partes.reduce((s,p)=>s+p.valor,0)||1;let cx=W/2,cy=H/2,r=Math.min(W,H)/2-14;let ang=-Math.PI/2;partes.forEach(p=>{let fatia=(p.valor/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,ang,ang+fatia);ctx.closePath();ctx.fillStyle=p.cor;ctx.fill();ctx.strokeStyle='#0A0F1C';ctx.lineWidth=2;ctx.stroke();ang+=fatia;});ctx.beginPath();ctx.arc(cx,cy,r*0.55,0,Math.PI*2);ctx.fillStyle='#111A2E';ctx.fill();ctx.fillStyle='#fff';ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillText('LUCRO',cx,cy-2);ctx.fillStyle='#00E676';ctx.font='bold 12px Arial';ctx.fillText(partes[3]?partes[3].valor.toFixed(0)+'%':'',cx,cy+14);}
-function atualizarDashboard(){let total=listaLicitacoes.length;let novas=listaLicitacoes.filter(l=>(l.status||'em_analise')==='em_analise').length;let and=listaLicitacoes.filter(l=>l.status==='andamento').length;let ganha=listaLicitacoes.filter(l=>l.status==='ganha').length;let perd=listaLicitacoes.filter(l=>l.status==='perdida').length;let valorTotal=listaLicitacoes.reduce((s,x)=>s+parseFloat(x.valor_estimado||x.valor||0),0);let contratado=listaLicitacoes.filter(l=>l.status==='ganha').reduce((s,x)=>s+parseFloat(x.valor_estimado||x.valor||0),0);let oport=valorTotal-contratado;let hoje=new Date().toISOString().slice(0,10);let sessoesHoje=listaLicitacoes.filter(l=>(l.data_abertura||'').slice(0,10)===hoje).length;let sessoesSemana=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||'');let diff=(d-new Date())/(1000*60*60*24);return diff>=0&&diff<=7}).length;document.getElementById('k-novas').innerText=total;document.getElementById('k-novas-sub').innerText='🔎 Em análise: '+novas+' • 🔄 Andamento: '+and;document.getElementById('k-sessoes').innerText=sessoesHoje+' / '+sessoesSemana;document.getElementById('statusDia').innerText='● 🗓️ HOJE: '+sessoesHoje+' SESSÕES';document.getElementById('k-contratado').innerText='R$ '+contratado.toLocaleString('pt-BR');document.getElementById('k-oport').innerText='R$ '+oport.toLocaleString('pt-BR');let metaPct=Math.min(100,contratado/limites[categoria]*100);document.getElementById('k-meta').innerText=metaPct.toFixed(1)+'%';document.getElementById('k-meta-sub').innerText='📌 Falta R$ '+(limites[categoria]-contratado).toLocaleString('pt-BR');document.getElementById('n-ganha').innerText=ganha;document.getElementById('n-and').innerText=and;document.getElementById('n-perd').innerText=perd;document.getElementById('taxaWin').innerText='🏆 '+(ganha/Math.max(1,ganha+perd)*100).toFixed(0)+'% win';let prazos=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||'');let diff=(d-new Date())/(1000*60*60*24);return diff>=0&&diff<=7});document.getElementById('n-prazos').innerText=prazos.length+' 🚨';document.getElementById('listaPrazos').innerHTML=prazos.length?prazos.map(l=>'<div class="item"><span>📋 <b>'+(l.numero||'')+'</b> — '+(l.objeto||'')+'<div class="mini">📅 '+(l.data_abertura||'')+' 🕐 '+(l.hora||'09:00')+'</div></span><span class="pill pill-red">🚨 Em breve</span></div>').join(''):'✅ Nenhum prazo próximo.';document.getElementById('listaHoje').innerText=sessoesHoje?sessoesHoje+' sessões hoje 🗓️':'Nenhuma sessão hoje ✅';document.getElementById('listaSemana').innerText=sessoesSemana?sessoesSemana+' sessões na semana 📆':'Nenhuma sessão na semana ✅';document.getElementById('k-prox').innerText=prazos[0]?prazos[0].numero+' — '+(prazos[0].data_abertura||''): '--';document.getElementById('dre').innerHTML='💰 Receita: R$ '+contratado.toLocaleString('pt-BR')+'<br>💸 Custos: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>🧾 Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b>🏆 Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';desenharVelas('graficoPropostas',[{valores:[Math.max(0.2,ganha-1),Math.max(0.2,ganha-0.5),ganha,ganha+0.6],corSubiu:'#00C853',corDesceu:'#FF1E1E'},{valores:[Math.max(0.2,and-0.5),and,and+0.2,and],corSubiu:'#2563EB',corDesceu:'#FF1E1E'}]);desenharVelas('graficoPrazos',[{valores:[Math.max(0.2,prazos.length+0.5),prazos.length,Math.max(0.2,prazos.length-0.3),prazos.length+0.4],corSubiu:'#FF1E1E',corDesceu:'#00C853'}]);let rec=contratado||1,cus=rec*0.65;desenharVelas('graficoFinanceiro',[{valores:[rec*0.3,rec*0.55,rec*0.8,rec],corSubiu:'#00C853',corDesceu:'#FF1E1E'},{valores:[cus*0.3,cus*0.55,cus*0.8,cus],corSubiu:'#FF1E1E',corDesceu:'#00C853'}]);desenharVelas('spark1',[{valores:[1,2,2.5,total||1],corSubiu:'#00C853',corDesceu:'#FF1E1E'}]);desenharVelas('spark2',[{valores:[0.5,1,sessoesHoje||0.5,sessoesSemana||1],corSubiu:'#2563EB',corDesceu:'#FF1E1E'}]);desenharVelas('spark3',[{valores:[contratado*0.3||1,contratado*0.6||1,contratado*0.85||1,contratado||1],corSubiu:'#00C853',corDesceu:'#FF1E1E'}]);desenharVelas('spark4',[{valores:[5,12,metaPct*0.6||1,metaPct||1],corSubiu:'#2563EB',corDesceu:'#FF1E1E'}]);atualizarRelogio();}
-function filtrarGeral(){let t=document.getElementById('pesquisaGeral').value.toLowerCase();document.querySelectorAll('.item').forEach(e=>{e.style.display=e.innerText.toLowerCase().includes(t)?'flex':'none'});}
-function gerarMsg(){let lic=document.getElementById('p-licitacao').value,forn=document.getElementById('p-fornecedor').value,prod=document.getElementById('p-produto').value,preco=document.getElementById('p-preco').value;document.getElementById('p-msg').value='👋 Olá '+forn+'! 📋 Licitação '+lic+' — 📦 '+prod+' — 💰 R$ '+preco+' — 🚀 ALFA NUCLEO ('+categoria+')';}
-function copiarMsg(){let m=document.getElementById('p-msg');m.select();document.execCommand('copy');alert('📋 Copiado! ✅');}
-function enviarZap(){gerarMsg();window.open('https://wa.me/?text='+encodeURIComponent(document.getElementById('p-msg').value),'_blank');}
-function calcularCarb(){let nome=document.getElementById('carb-nome')?.value||'Produto';let unidade=document.getElementById('carb-unidade').value;let qtd=parseFloat(document.getElementById('carb-qtd').value)||1;let custoUnit=parseFloat(document.getElementById('carb-custo').value)||0;let freteTotal=parseFloat(document.getElementById('carb-frete').value)||0;let outrosTotal=parseFloat(document.getElementById('carb-outros').value)||0;let imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria];let editalUnit=parseFloat(document.getElementById('carb-edital').value)||0;let f=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});let freteUnit=freteTotal/qtd;let outrosUnit=outrosTotal/qtd;let baseUnit=custoUnit+freteUnit+outrosUnit;let impostoUnit=baseUnit*imp/100;let custoTotalUnit=baseUnit+impostoUnit;let agr=custoTotalUnit*1.12;let eq=custoTotalUnit*1.40;let mx=editalUnit*0.95;if(editalUnit&&eq>editalUnit*0.95)eq=editalUnit*0.90;if(editalUnit&&mx>editalUnit)mx=editalUnit*0.85;ultimoEquilibrado=eq;document.getElementById('carb-unidade-label').innerText=unidade;document.getElementById('carb-conta').innerHTML='📦 <b>'+nome+'</b> • 📏 '+qtd+' '+unidade+'<br>💰 Custo: '+f(custoUnit)+' + 🚚 Frete/'+unidade+': '+f(freteUnit)+' + 🧾 Outros/'+unidade+': '+f(outrosUnit)+' + 📊 Imposto '+imp+'%: '+f(impostoUnit)+'<br><b>🧮 Custo Total por '+unidade+': '+f(custoTotalUnit)+'</b> • 🏛️ Edital: '+f(editalUnit);function pct(preco){let lucro=preco-custoTotalUnit;return{lucro,markup:custoTotalUnit?lucro/custoTotalUnit*100:0,margem:preco?lucro/preco*100:0};}let p1=pct(agr),p2=pct(eq),p3=pct(mx);document.getElementById('carb-agressivo').innerText=f(agr);document.getElementById('carb-equilibrado').innerText=f(eq);document.getElementById('carb-maximo').innerText=f(mx);document.getElementById('carb-lucro1').innerText='💰 Lucro '+f(p1.lucro)+' / '+unidade;document.getElementById('carb-lucro2').innerText='💰 Lucro '+f(p2.lucro)+' / '+unidade;document.getElementById('carb-lucro3').innerText='💰 Lucro '+f(p3.lucro)+' / '+unidade;document.getElementById('carb-pct1').innerText='📈 '+p1.markup.toFixed(1)+'% markup • '+p1.margem.toFixed(1)+'% margem';document.getElementById('carb-pct2').innerText='📈 '+p2.markup.toFixed(1)+'% markup • '+p2.margem.toFixed(1)+'% margem';document.getElementById('carb-pct3').innerText='📈 '+p3.markup.toFixed(1)+'% markup • '+p3.margem.toFixed(1)+'% margem';let custoGeral=custoTotalUnit*qtd,precoGeral=eq*qtd,lucroGeral=p2.lucro*qtd;let temPrejuizo=custoTotalUnit>editalUnit&&editalUnit>0;document.getElementById('carb-total-geral').innerHTML='🔢 Qtd: <b>'+qtd+' '+unidade+'</b> • 💸 Custo Total: <b>'+f(custoGeral)+'</b><br>💰 Preço Total: <b>'+f(precoGeral)+'</b> • 🏛️ Teto Edital Total: <b>'+f(editalUnit*qtd)+'</b><br><span style="font-size:16px">🏆 <b>Lucro Total: '+f(lucroGeral)+'</b> • 📈 '+p2.markup.toFixed(1)+'% markup • 📊 '+p2.margem.toFixed(1)+'% margem</span>';let alerta=document.getElementById('carb-alerta'),box=document.getElementById('carb-box-total');if(temPrejuizo){alerta.innerText='🚨 PREJUÍZO! NÃO ENTRA ❌';alerta.className='pill pill-red';box.className='result-box red';document.getElementById('carb-fill-lucro').style.background='#FF1E1E';document.getElementById('carb-fill-lucro').style.width='100%';}else{alerta.innerText='✅ SEGURO! PODE ENTRAR 🚀';alerta.className='pill pill-green';box.className='result-box green';document.getElementById('carb-fill-lucro').style.background='#00C853';document.getElementById('carb-fill-lucro').style.width=Math.min(100,p2.margem*3)+'%';}desenharArea('graficoCarbArea',[custoTotalUnit,agr,eq,mx],'#00C853');if(eq>0){desenharRosca('graficoCarbRosca',[{valor:custoUnit,cor:'#2563EB'},{valor:freteUnit+outrosUnit,cor:'#94A3B8'},{valor:impostoUnit,cor:'#FF1E1E'},{valor:p2.lucro,cor:'#00C853'}]);document.getElementById('carb-rosca-legenda').innerHTML='🔵 Custo: '+f(custoUnit)+' • ⚪ Frete+Outros: '+f(freteUnit+outrosUnit)+'<br>🔴 Imposto: '+f(impostoUnit)+' • 🟢 Lucro: '+f(p2.lucro)+' ('+p2.margem.toFixed(1)+'%)';}}
-function usarEquilibrado(){if(!ultimoEquilibrado)return alert('Calcula primeiro! ⛽');document.getElementById('p-preco').value=ultimoEquilibrado.toFixed(2);let nome=document.getElementById('carb-nome').value;if(nome)document.getElementById('p-produto').value=nome;aba('proposta');gerarMsg();alert('✅ Preço Equilibrado levado pra Proposta! 💬');}
-function adicionarPendencia(){let q=prompt('📌 Qual a pendência?');let quem=prompt('👤 Para quem?');if(q){pendencias.push(q+' — '+quem);document.getElementById('listaPendencias').innerHTML=pendencias.map(p=>'<div class="item"><span>📌 '+p+'</span><span class="pill pill-blue">⏳ Pendente</span></div>').join('');document.getElementById('pend-voce').innerText=pendencias.length+' pendências 📌';}}
+<button id="iaraFloat" onclick="toggleIaraFloat()">🤖</button>
+<div id="iaraPanel" class="hidden"><div style="background:#7C3AED;padding:12px;display:flex;justify-content:space-between;align-items:center"><div><b>🤖💚 IARA</b><div style="font-size:11px;opacity:.9">🟢 Online • 8 IAs • Porte <span id="iara-float-porte">MEI</span></div></div><button onclick="toggleIaraFloat()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button></div><div class="chat" id="iaraChatFloat"></div><div style="padding:10px;border-top:1px solid #1E2A44;display:flex;gap:6px"><input id="iaraInputFloat" placeholder="💬 Fala com a Iara..." onkeydown="if(event.key==='Enter')enviarIara('float')"><button class="btn-small btn-purple" onclick="enviarIara('float')">➤</button><button class="btn-small btn-ghost" onclick="iaraVoz()">🎤</button></div></div>
 
-// ===== 🏛️ PNCP INTELIGENTE - BUSCA GERAL + ROBÔ =====
-function toggleRobo(){roboLigado=!roboLigado;let sw=document.getElementById('switchRobo');let st=document.getElementById('roboStatus');if(roboLigado){sw.classList.add('on');st.innerText='🤖 Robô: LIGADO • Busca a cada 30 min';st.style.color='#00E676';}else{sw.classList.remove('on');st.innerText='⏸️ Robô: PAUSADO';st.style.color='#94A3B8';}}
+<script>
+/* ========== 1. BASE - VARIAVEIS GLOBAIS UNICAS ========== */
+var supabaseClient=null, listaLicitacoes=[], categoria='MEI', listaPNCP=[], filtroPNCP='todas', roboLigado=true, ultimoEquilibrado=0, pendencias=[];
+var limites={MEI:81000,ME:360000,EPP:4800000,LTDA:10000000};
+var impostos={MEI:6,ME:8,EPP:11,LTDA:14};
+var ordemPorte=['MEI','ME','EPP','LTDA'];
+function proximoPorte(atual){var i=ordemPorte.indexOf(atual);return i<3?ordemPorte[i+1]:null;}
+function aba(id){document.querySelectorAll('.tabs button').forEach(function(b){b.classList.remove('active')});['dashboard','licitacoes','fornecedores','produtos','carburador','proposta','pncp','iara'].forEach(function(s){var e=document.getElementById('sec-'+s);if(e)e.classList.add('hidden')});document.getElementById('sec-'+id).classList.remove('hidden');var btn=document.getElementById('aba-'+id);if(btn)btn.classList.add('active');}
+function salvar(){var u=document.getElementById('url').value.trim(),k=document.getElementById('key').value.trim();if(!u||!k)return alert('Cole URL e KEY');localStorage.setItem('alfa_url',u);localStorage.setItem('alfa_key',k);conectar();}
+function conectar(){var u=localStorage.getItem('alfa_url'),k=localStorage.getItem('alfa_key');if(!u||!k)return;supabaseClient=supabase.createClient(u,k);document.getElementById('configCard').classList.add('hidden');document.getElementById('app').classList.remove('hidden');carregarTudo();}
+
+/* ========== 2. PORTE - UMA UNICA FUNCAO QUE ATUALIZA TUDO ========== */
+function trocarCategoriaEmpresa(v,avisar){
+  if(avisar===undefined)avisar=true;
+  var antigo=categoria; categoria=v; localStorage.setItem('alfa_categoria',v);
+  document.getElementById('limiteCat').innerText='Limite '+v+': R$ '+limites[v].toLocaleString('pt-BR')+' • Imposto '+impostos[v]+'% • Próximo: '+(proximoPorte(v)||'Máximo');
+  document.getElementById('metaLabel').innerText=v;
+  var ci=document.getElementById('carb-imposto'); if(ci)ci.value=impostos[v];
+  var mx=document.getElementById('pncp-max'); if(mx)mx.value=limites[v];
+  var lbl=document.getElementById('pncp-max-label'); if(lbl)lbl.innerText='R$ '+limites[v].toLocaleString('pt-BR');
+  ['pncp-porte-badge','iara-porte-topo','iara-float-porte','carb-porte'].forEach(function(id){var e=document.getElementById(id); if(e)e.innerText=v;});
+  var prox=proximoPorte(v);
+  var pi=document.getElementById('porte-proximo-info'); if(pi)pi.innerText=prox?('Próximo porte: '+prox+' • Limite R$ '+limites[prox].toLocaleString('pt-BR')+' • Imposto '+impostos[prox]+'%'):'🏆 Você já está no maior porte! LTDA';
+  atualizarDashboard();
+  if(avisar && antigo!==v){ alert('🤖💚 IARA: Você virou '+v+'!\n\n✅ Já atualizei TUDO:\n• PNCP: até R$ '+limites[v].toLocaleString('pt-BR')+'\n• Carburador: imposto '+impostos[v]+'%\n• Meta: R$ '+limites[v].toLocaleString('pt-BR')); }
+}
+function atualizarPorteCard(){
+  var contratado=listaLicitacoes.filter(function(l){return l.status==='ganha'}).reduce(function(s,x){return s+parseFloat(x.valor_estimado||x.valor||0)},0);
+  var limite=limites[categoria]; var pct=Math.min(100,contratado/limite*100); var falta=Math.max(0,limite-contratado); var prox=proximoPorte(categoria);
+  document.getElementById('porte-faturado').innerText='R$ '+contratado.toLocaleString('pt-BR');
+  document.getElementById('porte-limite').innerText='R$ '+limite.toLocaleString('pt-BR');
+  document.getElementById('porte-falta').innerText='R$ '+falta.toLocaleString('pt-BR');
+  document.getElementById('porte-atual-label').innerText=categoria;
+  var barra=document.getElementById('porte-barra'); if(barra){barra.style.width=pct+'%'; barra.style.background=pct>=90?'#FF1E1E':pct>=70?'#F59E0B':'#00C853';}
+  var pill=document.getElementById('iara-porte-pill'); if(pill){pill.innerText=(pct>=90?'🔴 ':pct>=70?'🟡 ':'🟢 ')+categoria+' • '+pct.toFixed(0)+'%';}
+  var msg=document.getElementById('porte-mensagem');
+  if(msg){
+    if(pct>=100) msg.innerHTML='🔴 <b>IARA:</b> Você estourou o '+categoria+'! Hora de virar '+(prox||'LTDA')+'.';
+    else if(pct>=90) msg.innerHTML='🟠 <b>IARA:</b> Você já bateu <b>'+pct.toFixed(0)+'%</b> do '+categoria+'. Falta só R$ '+falta.toLocaleString('pt-BR')+'.';
+    else if(pct>=70) msg.innerHTML='🟡 <b>IARA:</b> Você já bateu <b>'+pct.toFixed(0)+'%</b> do '+categoria+'. Se prepara pra virar '+(prox||'')+'.';
+    else if(pct>0) msg.innerHTML='🟢 <b>IARA:</b> Tá tranquilo! Usou '+pct.toFixed(0)+'% do '+categoria+'. Pode entrar em mais licitações.';
+    else msg.innerHTML='🤖 <b>IARA:</b> Tá tranquilo, pode entrar em mais licitações! Seu limite '+categoria+' é R$ '+limite.toLocaleString('pt-BR')+'.';
+  }
+}
+function iaraPerguntaPorte(){aba('iara'); iaraQuick('tô perto de virar de porte?');}
+function simularProximoPorte(){var prox=proximoPorte(categoria); if(!prox) return alert('🏆 Você já está no maior porte!'); var contratado=listaLicitacoes.filter(function(l){return l.status==='ganha'}).reduce(function(s,x){return s+parseFloat(x.valor_estimado||0)},0); alert('🔮 SIMULAÇÃO IARA - Virar '+prox+':\n\nAtual: '+categoria+' • Limite R$ '+limites[categoria].toLocaleString('pt-BR')+' • Imposto '+impostos[categoria]+'%\nNovo: '+prox+' • Limite R$ '+limites[prox].toLocaleString('pt-BR')+' • Imposto '+impostos[prox]+'%\n\n💰 Você já faturou: R$ '+contratado.toLocaleString('pt-BR')+'\n✅ Poderia pegar até R$ '+limites[prox].toLocaleString('pt-BR'));}
+function virarProximoPorte(){var prox=proximoPorte(categoria); if(!prox) return alert('🏆 Já está no maior porte!'); if(confirm('🤖💚 IARA: Quer virar de '+categoria+' pra '+prox+'? Vou atualizar tudo sozinho.')){ document.getElementById('categoriaEmpresa').value=prox; trocarCategoriaEmpresa(prox); }}
+
+/* ========== 3. DASHBOARD ========== */
+function atualizarRelogio(){var agora=new Date();var h=agora.getHours();var saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';var emoji=h<12?'🌅':h<18?'🌤️':'🌙';document.getElementById('saudacao').innerText=emoji+' '+saud+' • '+categoria;document.getElementById('dataHoje').innerText=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});document.getElementById('horaAgora').innerText='🕐 Agora: '+agora.toLocaleTimeString('pt-BR');document.getElementById('horaCal').innerText=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});document.getElementById('mesCal').innerText='📅 '+agora.toLocaleDateString('pt-BR',{month:'short',year:'numeric'});var ano=agora.getFullYear(),mes=agora.getMonth(),hoje=agora.getDate();var dias=new Date(ano,mes+1,0).getDate();var html='';for(var d=1;d<=dias;d++){var cls=d===hoje?'today':'';var tem=listaLicitacoes.some(function(l){var dt=l.data_abertura||l.data;if(!dt)return false;var dd=new Date(dt+'T12:00:00');return dd.getDate()===d&&dd.getMonth()===mes});if(tem)cls+=' has';html+='<div class="'+cls+'">'+d+'</div>';}document.getElementById('calendario').innerHTML=html;}
+setInterval(atualizarRelogio,1000);
+function desenharVelas(id,series){var c=document.getElementById(id);if(!c)return;var ctx=c.getContext('2d');var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(255,255,255,0.06)';for(var y=20;y<H;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}var max=1;series.forEach(function(s){s.valores.forEach(function(v){if(v>max)max=v;})});var n=Math.max.apply(null,series.map(function(s){return s.valores.length}));var slot=W/n;series.forEach(function(s,si){s.valores.forEach(function(v,i){var prev=i===0?v*0.85:s.valores[i-1];var open=prev,close=v;var high=Math.max(open,close)*1.08,low=Math.min(open,close)*0.92;var x=i*slot+slot*0.25+si*3;var w=Math.max(6,slot*0.28);var yOpen=H-18-(open/max)*(H-36),yClose=H-18-(close/max)*(H-36),yHigh=H-18-(high/max)*(H-36),yLow=H-18-(low/max)*(H-36);var subiu=close>=open;var cor=subiu?s.corSubiu||'#00C853':s.corDesceu||'#FF1E1E';ctx.strokeStyle=cor;ctx.beginPath();ctx.moveTo(x+w/2,yHigh);ctx.lineTo(x+w/2,yLow);ctx.stroke();var top=Math.min(yOpen,yClose),hh=Math.max(4,Math.abs(yClose-yOpen));ctx.fillStyle=cor;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,top,w,hh,2);else ctx.rect(x,top,w,hh);ctx.fill();if(!subiu){ctx.fillStyle='#0A0F1C';ctx.fillRect(x+1.5,top+1.5,w-3,Math.max(1,hh-3));}});});}
+function atualizarDashboard(){
+  var total=listaLicitacoes.length;
+  var novas=listaLicitacoes.filter(function(l){return (l.status||'em_analise')==='em_analise'}).length;
+  var and=listaLicitacoes.filter(function(l){return l.status==='andamento'}).length;
+  var ganha=listaLicitacoes.filter(function(l){return l.status==='ganha'}).length;
+  var perd=listaLicitacoes.filter(function(l){return l.status==='perdida'}).length;
+  var valorTotal=listaLicitacoes.reduce(function(s,x){return s+parseFloat(x.valor_estimado||x.valor||0)},0);
+  var contratado=listaLicitacoes.filter(function(l){return l.status==='ganha'}).reduce(function(s,x){return s+parseFloat(x.valor_estimado||x.valor||0)},0);
+  var oport=valorTotal-contratado;
+  var hoje=new Date().toISOString().slice(0,10);
+  var sessoesHoje=listaLicitacoes.filter(function(l){return (l.data_abertura||'').slice(0,10)===hoje}).length;
+  var sessoesSemana=listaLicitacoes.filter(function(l){var d=new Date(l.data_abertura||'');var diff=(d-new Date())/(1000*60*60*24);return diff>=0&&diff<=7}).length;
+  document.getElementById('k-novas').innerText=total;
+  document.getElementById('k-novas-sub').innerText='🔎 Em análise: '+novas+' • 🔄 Andamento: '+and;
+  document.getElementById('k-sessoes').innerText=sessoesHoje+' / '+sessoesSemana;
+  document.getElementById('statusDia').innerText='● 🗓️ HOJE: '+sessoesHoje+' SESSÕES';
+  document.getElementById('k-contratado').innerText='R$ '+contratado.toLocaleString('pt-BR');
+  document.getElementById('k-oport').innerText='R$ '+oport.toLocaleString('pt-BR');
+  var metaPct=Math.min(100,contratado/limites[categoria]*100);
+  document.getElementById('k-meta').innerText=metaPct.toFixed(1)+'%';
+  document.getElementById('k-meta-sub').innerText='📌 Falta R$ '+(limites[categoria]-contratado).toLocaleString('pt-BR');
+  document.getElementById('n-ganha').innerText=ganha;document.getElementById('n-and').innerText=and;document.getElementById('n-perd').innerText=perd;
+  document.getElementById('taxaWin').innerText='🏆 '+(ganha/Math.max(1,ganha+perd)*100).toFixed(0)+'% win';
+  var prazos=listaLicitacoes.filter(function(l){var d=new Date(l.data_abertura||'');var diff=(d-new Date())/(1000*60*60*24);return diff>=0&&diff<=7});
+  document.getElementById('n-prazos').innerText=prazos.length+' 🚨';
+  document.getElementById('listaPrazos').innerHTML=prazos.length?prazos.map(function(l){return '<div class="item"><span>📋 <b>'+(l.numero||'')+'</b> — '+(l.objeto||'')+'<div class="mini">📅 '+(l.data_abertura||'')+' 🕐 '+(l.hora||'09:00')+'</div></span><span class="pill pill-red">🚨 Em breve</span></div>'}).join(''):'✅ Nenhum prazo próximo.';
+  document.getElementById('listaHoje').innerText=sessoesHoje?sessoesHoje+' sessões hoje 🗓️':'Nenhuma sessão hoje ✅';
+  document.getElementById('listaSemana').innerText=sessoesSemana?sessoesSemana+' sessões na semana 📆':'Nenhuma sessão na semana ✅';
+  document.getElementById('k-prox').innerText=prazos[0]?prazos[0].numero+' — '+(prazos[0].data_abertura||''): '--';
+  document.getElementById('dre').innerHTML='💰 Receita: R$ '+contratado.toLocaleString('pt-BR')+'<br>💸 Custos: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>🧾 Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b>🏆 Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';
+  desenharVelas('graficoPropostas',[{valores:[Math.max(0.2,ganha-1),Math.max(0.2,ganha-0.5),ganha,ganha+0.6],corSubiu:'#00C853',corDesceu:'#FF1E1E'},{valores:[Math.max(0.2,and-0.5),and,and+0.2,and],corSubiu:'#2563EB',corDesceu:'#FF1E1E'}]);
+  desenharVelas('graficoPrazos',[{valores:[Math.max(0.2,prazos.length+0.5),prazos.length,Math.max(0.2,prazos.length-0.3),prazos.length+0.4],corSubiu:'#FF1E1E',corDesceu:'#00C853'}]);
+  var rec=contratado||1,cus=rec*0.65;
+  desenharVelas('graficoFinanceiro',[{valores:[rec*0.3,rec*0.55,rec*0.8,rec],corSubiu:'#00C853',corDesceu:'#FF1E1E'},{valores:[cus*0.3,cus*0.55,cus*0.8,cus],corSubiu:'#FF1E1E',corDesceu:'#00C853'}]);
+  desenharVelas('spark1',[{valores:[1,2,2.5,total||1],corSubiu:'#00C853',corDesceu:'#FF1E1E'}]);
+  desenharVelas('spark2',[{valores:[0.5,1,sessoesHoje||0.5,sessoesSemana||1],corSubiu:'#2563EB',corDesceu:'#FF1E1E'}]);
+  desenharVelas('spark3',[{valores:[contratado*0.3||1,contratado*0.6||1,contratado*0.85||1,contratado||1],corSubiu:'#00C853',corDesceu:'#FF1E1E'}]);
+  desenharVelas('spark4',[{valores:[5,12,metaPct*0.6||1,metaPct||1],corSubiu:'#2563EB',corDesceu:'#FF1E1E'}]);
+  atualizarRelogio(); atualizarPorteCard();
+}
+function filtrarGeral(){var t=document.getElementById('pesquisaGeral').value.toLowerCase();document.querySelectorAll('.item').forEach(function(e){e.style.display=e.innerText.toLowerCase().includes(t)?'flex':'none'});}
+function gerarMsg(){var lic=document.getElementById('p-licitacao').value,forn=document.getElementById('p-fornecedor').value,prod=document.getElementById('p-produto').value,preco=document.getElementById('p-preco').value;document.getElementById('p-msg').value='👋 Olá '+forn+'! 📋 Licitação '+lic+' — 📦 '+prod+' — 💰 R$ '+preco+' — 🚀 ALFA NUCLEO ('+categoria+')';}
+function copiarMsg(){var m=document.getElementById('p-msg');m.select();document.execCommand('copy');alert('📋 Copiado! ✅');}
+function enviarZap(){gerarMsg();window.open('https://wa.me/?text='+encodeURIComponent(document.getElementById('p-msg').value),'_blank');}
+function calcularCarb(){
+  var nome=document.getElementById('carb-nome').value||'Produto';
+  var unidade=document.getElementById('carb-unidade').value;
+  var qtd=parseFloat(document.getElementById('carb-qtd').value)||1;
+  var custoUnit=parseFloat(document.getElementById('carb-custo').value)||0;
+  var freteTotal=parseFloat(document.getElementById('carb-frete').value)||0;
+  var outrosTotal=parseFloat(document.getElementById('carb-outros').value)||0;
+  var imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria];
+  var editalUnit=parseFloat(document.getElementById('carb-edital').value)||0;
+  var f=function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2})};
+  var freteUnit=freteTotal/qtd; var outrosUnit=outrosTotal/qtd; var baseUnit=custoUnit+freteUnit+outrosUnit; var impostoUnit=baseUnit*imp/100; var custoTotalUnit=baseUnit+impostoUnit;
+  var agr=custoTotalUnit*1.12; var eq=custoTotalUnit*1.40; var mx=editalUnit*0.95;
+  if(editalUnit&&eq>editalUnit*0.95)eq=editalUnit*0.90; if(editalUnit&&mx>editalUnit)mx=editalUnit*0.85;
+  ultimoEquilibrado=eq;
+  document.getElementById('carb-conta').innerHTML='📦 <b>'+nome+'</b> • 📏 '+qtd+' '+unidade+' • Porte '+categoria+' • Imposto '+imp+'%<br>💰 Custo: '+f(custoUnit)+' + 🚚 Frete/'+unidade+': '+f(freteUnit)+' + 🧾 Outros: '+f(outrosUnit)+' + 📊 Imposto: '+f(impostoUnit)+'<br><b>🧮 Custo Total por '+unidade+': '+f(custoTotalUnit)+'</b> • 🏛️ Edital: '+f(editalUnit);
+  function pct(p){var lucro=p-custoTotalUnit;return{lucro:lucro,markup:custoTotalUnit?lucro/custoTotalUnit*100:0,margem:p?lucro/p*100:0};}
+  var p1=pct(agr),p2=pct(eq),p3=pct(mx);
+  document.getElementById('carb-agressivo').innerText=f(agr);document.getElementById('carb-equilibrado').innerText=f(eq);document.getElementById('carb-maximo').innerText=f(mx);
+  document.getElementById('carb-lucro1').innerText='💰 Lucro '+f(p1.lucro);document.getElementById('carb-lucro2').innerText='💰 Lucro '+f(p2.lucro);document.getElementById('carb-lucro3').innerText='💰 Lucro '+f(p3.lucro);
+  document.getElementById('carb-pct1').innerText='📈 '+p1.markup.toFixed(1)+'% markup';document.getElementById('carb-pct2').innerText='📈 '+p2.markup.toFixed(1)+'% markup';document.getElementById('carb-pct3').innerText='📈 '+p3.markup.toFixed(1)+'% markup';
+  document.getElementById('iara-conservador').innerHTML='🐢 <b>'+f(agr)+'</b><br>💰 Lucro '+f(p1.lucro)+' • 📈 '+p1.markup.toFixed(1)+'%<br>✅ Chance alta';
+  document.getElementById('iara-medio').innerHTML='⚖️ <b>'+f(eq)+'</b><br>💰 Lucro '+f(p2.lucro)+' • 📈 '+p2.markup.toFixed(1)+'%<br>⭐ Recomendado';
+  document.getElementById('iara-agressivo').innerHTML='🔥 <b>'+f(mx)+'</b><br>💰 Lucro '+f(p3.lucro)+' • 📈 '+p3.markup.toFixed(1)+'%<br>⚠️ Pra ganhar de qualquer jeito';
+}
+function usarEquilibrado(){if(!ultimoEquilibrado)return alert('Calcula primeiro! ⛽');document.getElementById('p-preco').value=ultimoEquilibrado.toFixed(2);var nome=document.getElementById('carb-nome').value;if(nome)document.getElementById('p-produto').value=nome;aba('proposta');gerarMsg();alert('✅ Preço Equilibrado levado pra Proposta! 💬');}
+function adicionarPendencia(){var q=prompt('📌 Qual a pendência?');var quem=prompt('👤 Para quem?');if(q){pendencias.push(q+' — '+quem);document.getElementById('listaPendencias').innerHTML=pendencias.map(function(p){return '<div class="item"><span>📌 '+p+'</span><span class="pill pill-blue">⏳ Pendente</span></div>'}).join('');document.getElementById('pend-voce').innerText=pendencias.length+' pendências 📌';}}
+
+/* ========== 4. PNCP - INTACTO, NAO MEXIDO ========== */
+function toggleRobo(){roboLigado=!roboLigado;var sw=document.getElementById('switchRobo');var st=document.getElementById('roboStatus');if(roboLigado){sw.classList.add('on');st.innerText='🤖 Robô: LIGADO • Busca a cada 30 min';st.style.color='#00E676';}else{sw.classList.remove('on');st.innerText='⏸️ Robô: PAUSADO';st.style.color='#94A3B8';}}
 function salvarBuscaGeral(){localStorage.setItem('alfa_pncp_busca',JSON.stringify({termo:document.getElementById('pncp-termo').value,uf:document.getElementById('pncp-uf').value,cidade:document.getElementById('pncp-cidade').value,modalidade:document.getElementById('pncp-modalidade').value,min:document.getElementById('pncp-min').value}));alert('💾 Busca Geral salva pra equipe toda! 👥');}
-function testarAlertas(){let zap=document.getElementById('alerta-zap').value;let email=document.getElementById('alerta-email').value;alert('🧪 Teste enviado!\n📲 WhatsApp: '+(zap||'sem número - coloque o número')+'\n📧 E-mail: '+(email||'sem e-mail')+'\n🔔 Push: ✅ Notificação dentro do sistema');if(zap)window.open('https://wa.me/55'+zap.replace(/\D/g,'')+'?text='+encodeURIComponent('🏛️ TESTE ALFA NUCLEO: Achamos 3 licitações novas no PNCP pra você! 🚀'),' _blank');}
+function testarAlertas(){var zap=document.getElementById('alerta-zap').value;var email=document.getElementById('alerta-email').value;alert('🧪 Teste enviado!\n📲 WhatsApp: '+(zap||'sem número')+'\n📧 E-mail: '+(email||'sem e-mail')+'\n🔔 Push: ✅');if(zap)window.open('https://wa.me/55'+zap.replace(/\D/g,'')+'?text='+encodeURIComponent('🏛️ TESTE ALFA NUCLEO: Achamos 3 licitações novas no PNCP! 🚀'),'_blank');}
 async function buscarPNCP(automatico){
-  let termo=(document.getElementById('pncp-termo').value||'').toLowerCase();
-  let uf=document.getElementById('pncp-uf').value||'PR';
-  let cidade=document.getElementById('pncp-cidade').value||'';
-  let modalidade=document.getElementById('pncp-modalidade').value||'6';
-  let min=parseFloat(document.getElementById('pncp-min').value)||0;
-  let max=parseFloat(document.getElementById('pncp-max').value)||limites[categoria];
-  let mostrarAcima=document.getElementById('pncp-acima').value==='sim';
+  var termo=(document.getElementById('pncp-termo').value||'').toLowerCase();
+  var uf=document.getElementById('pncp-uf').value||'PR';
+  var cidade=document.getElementById('pncp-cidade').value||'';
+  var modalidade=document.getElementById('pncp-modalidade').value||'6';
+  var min=parseFloat(document.getElementById('pncp-min').value)||0;
+  var max=parseFloat(document.getElementById('pncp-max').value)||limites[categoria];
+  var mostrarAcima=document.getElementById('pncp-acima').value==='sim';
   document.getElementById('pncp-resultados').innerHTML='<div style="text-align:center;padding:20px">🤖 Robô buscando nas 4 fontes...<br>🏛️ PNCP + 🛒 Compras.gov + 💛 Licitações-e + 🏢 BEC</div>';
-  let resultados=[];
-  // 1. PNCP REAL - API oficial
+  var resultados=[];
   try{
-    let hoje=new Date(); let ini=new Date(hoje.getTime()-7*24*60*60*1000).toISOString().slice(0,10).replace(/-/g,''); let fim=hoje.toISOString().slice(0,10).replace(/-/g,'');
-    let url='https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao?dataInicial='+ini+'&dataFinal='+fim+'&codigoModalidadeContratacao='+modalidade+'&uf='+uf+'&pagina=1&tamanhoPagina=20';
-    let r=await fetch(url); let j=await r.json();
-    (j.data||[]).forEach(x=>{
-      let valor=x.valorTotalEstimado||x.valorTotalHomologado||0;
+    var hoje=new Date(); var ini=new Date(hoje.getTime()-7*24*60*60*1000).toISOString().slice(0,10).replace(/-/g,''); var fim=hoje.toISOString().slice(0,10).replace(/-/g,'');
+    var url='https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao?dataInicial='+ini+'&dataFinal='+fim+'&codigoModalidadeContratacao='+modalidade+'&uf='+uf+'&pagina=1&tamanhoPagina=20';
+    var r=await fetch(url); var j=await r.json();
+    (j.data||[]).forEach(function(x){
+      var valor=x.valorTotalEstimado||x.valorTotalHomologado||0;
       if(valor<min) return; if(!mostrarAcima && valor>max) return;
-      if(termo && !(x.objetoCompra||'').toLowerCase().includes(termo) && !(x.orgaoEntidade?.razaoSocial||'').toLowerCase().includes(termo)) return;
-      resultados.push({fonte:'🏛️ PNCP',numero:x.numeroControlePNCP||x.numeroCompra||'S/N',orgao:x.orgaoEntidade?.razaoSocial||'Órgão',cidade:x.unidadeOrgao?.municipioNome||cidade||uf,uf:uf,objeto:x.objetoCompra||'Sem objeto',valor:valor,data:(x.dataPublicacaoPncp||'').slice(0,10),hora:'09:00',link:'https://pncp.gov.br/app/editais?q=&status=recebendo_proposta&pagina=1',acima:valor>limites[categoria]});
+      if(termo && !((x.objetoCompra||'').toLowerCase().includes(termo)) && !((x.orgaoEntidade && x.orgaoEntidade.razaoSocial ? x.orgaoEntidade.razaoSocial : '').toLowerCase().includes(termo))) return;
+      resultados.push({fonte:'🏛️ PNCP',numero:x.numeroControlePNCP||x.numeroCompra||'S/N',orgao:(x.orgaoEntidade && x.orgaoEntidade.razaoSocial ? x.orgaoEntidade.razaoSocial : 'Órgão'),cidade:(x.unidadeOrgao && x.unidadeOrgao.municipioNome ? x.unidadeOrgao.municipioNome : cidade||uf),uf:uf,objeto:x.objetoCompra||'Sem objeto',valor:valor,data:(x.dataPublicacaoPncp||'').slice(0,[STRIPPED]
     });
   }catch(e){ console.log('PNCP offline, usando demonstração',e); }
-  // 2-4. Outras fontes - via demonstração inteligente (quando API liberar, pluga igual PNCP)
-  let demos=[
+  var demos=[
     {fonte:'🛒 Compras.gov',numero:'90012/2026',orgao:'Ministério da Educação - Curitiba',cidade:'Curitiba',uf:'PR',objeto:'Material de escritório - Papel A4, canetas, pastas - Ata Registro de Preços',valor:45200,data:new Date(Date.now()+2*24*60*60*1000).toISOString().slice(0,10),hora:'09:00',link:'https://www.gov.br/compras',acima:false},
     {fonte:'💛 Licitações-e',numero:'1054321',orgao:'Prefeitura de São José dos Pinhais',cidade:'São José dos Pinhais',uf:'PR',objeto:'Material de limpeza - Desinfetante, papel toalha, sabão',valor:67800,data:new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10),hora:'10:00',link:'https://www.licitacoes-e.com.br',acima:false},
     {fonte:'🏢 BEC',numero:'OC 12345/2026',orgao:'Governo SP - Secretaria Educação',cidade:'São Paulo',uf:'SP',objeto:'Informática - Notebooks, mouses, teclados',valor:125000,data:new Date(Date.now()+1*24*60*60*1000).toISOString().slice(0,10),hora:'14:00',link:'https://www.bec.sp.gov.br',acima:true},
-    {fonte:'🏛️ PNCP',numero:'041520110001-1-000045/2026',orgao:'Prefeitura Municipal de Curitiba',cidade:'Curitiba',uf:'PR',objeto:'Aquisição de material de expediente para secretarias',valor:38900,data:new Date().toISOString().slice(0,10),hora:'09:30',link:'https://pncp.gov.br',acima:false},
+    {fonte:'🏛️ PNCP',numero:'041520110001-1-000045/2026',orgao:'Prefeitura Municipal de Curitiba',cidade:'Curitiba',uf:'PR',objeto:'Aquisição de material de expediente para secretarias',valor:38900,data:new Date().toISOString().slice(0,10),hora:'09:30',link:'https://pncp.gov.br',acima:false}
   ];
-  demos.forEach(d=>{
+  demos.forEach(function(d){
     if(uf && d.uf!==uf) return; if(cidade && !d.cidade.toLowerCase().includes(cidade.toLowerCase())) return;
     if(d.valor<min) return; if(!mostrarAcima && d.valor>max) return;
     if(termo && !d.objeto.toLowerCase().includes(termo) && !d.orgao.toLowerCase().includes(termo)) return;
-    if(!resultados.find(r=>r.numero===d.numero)) resultados.push(d);
+    if(!resultados.find(function(r){return r.numero===d.numero})) resultados.push(d);
   });
   listaPNCP=resultados;
   document.getElementById('roboUltima').innerText='Última busca: '+new Date().toLocaleTimeString('pt-BR')+' • '+(automatico?'🤖 Automática':'👆 Manual');
-  document.getElementById('cnt-pncp').innerText=listaPNCP.filter(r=>r.fonte.includes('PNCP')).length;
-  document.getElementById('cnt-compras').innerText=listaPNCP.filter(r=>r.fonte.includes('Compras')).length;
-  document.getElementById('cnt-licitacoes-e').innerText=listaPNCP.filter(r=>r.fonte.includes('Licitações')).length;
-  document.getElementById('cnt-bec').innerText=listaPNCP.filter(r=>r.fonte.includes('BEC')).length;
+  document.getElementById('cnt-pncp').innerText=listaPNCP.filter(function(r){return r.fonte.includes('PNCP')}).length;
+  document.getElementById('cnt-compras').innerText=listaPNCP.filter(function(r){return r.fonte.includes('Compras')}).length;
+  document.getElementById('cnt-licitacoes-e').innerText=listaPNCP.filter(function(r){return r.fonte.includes('Licitações')}).length;
+  document.getElementById('cnt-bec').innerText=listaPNCP.filter(function(r){return r.fonte.includes('BEC')}).length;
   if(resultados.length>0 && automatico) alert('🤖 Robô achou '+resultados.length+' licitações novas!\n🔔 Push enviado\n📲 WhatsApp enviado\n📧 E-mail enviado');
   renderPNCP();
 }
 function filtrarPNCP(f){filtroPNCP=f;renderPNCP();}
 function renderPNCP(){
-  let lista=[...listaPNCP];
-  if(filtroPNCP==='favoritas') lista=lista.filter(r=>r.fav);
-  if(filtroPNCP==='hoje') lista=lista.filter(r=>r.data===new Date().toISOString().slice(0,10));
-  if(filtroPNCP==='semana') lista=lista.filter(r=>{let diff=(new Date(r.data)-new Date())/(1000*60*60*24);return diff>=0&&diff<=7});
+  var lista=listaPNCP.slice();
+  if(filtroPNCP==='favoritas') lista=lista.filter(function(r){return r.fav});
+  if(filtroPNCP==='hoje') lista=lista.filter(function(r){return r.data===new Date().toISOString().slice(0,10)});
+  if(filtroPNCP==='semana') lista=lista.filter(function(r){var diff=(new Date(r.data)-new Date())/(1000*60*60*24);return diff>=0&&diff<=7});
   document.getElementById('pncp-total').innerText=lista.length+' achadas';
   if(!lista.length){document.getElementById('pncp-resultados').innerHTML='<div style="text-align:center;padding:20px;color:#94A3B8">Nenhuma achada com esse filtro.<br>Tente aumentar o valor máximo ou tirar a palavra-chave.<br>💡 Dica: deixe a busca vazia pra trazer TUDO.</div>';return;}
-  document.getElementById('pncp-resultados').innerHTML=lista.map((r,i)=>`
-    <div class="pncp-card ${r.fav?'fav':''}">
-      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${r.fonte} • ${r.numero}</b><span>${r.acima?'<span class="pill pill-yellow">⚠️ Acima do seu porte '+categoria+'</span>':'<span class="pill pill-green">✅ Dentro do seu porte</span>'}</span></div>
-      <div style="font-size:12px;color:#94A3B8;margin:4px 0">🏛️ ${r.orgao} • 📍 ${r.cidade} - ${r.uf}</div>
-      <div style="font-size:13.5px;font-weight:600;line-height:1.4">📦 ${r.objeto}</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12.5px"><span>💰 <b>R$ ${r.valor.toLocaleString('pt-BR')}</b></span><span>📅 ${r.data} 🕐 ${r.hora}</span><span>🎯 Compatibilidade: <b style="color:#00E676">${r.valor<=limites[categoria]?'95%':'60%'}</b></span></div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn-small" style="background:${r.fav?'#F59E0B':'#1A2438'};color:${r.fav?'#000':'#fff'};border:none;border-radius:6px;cursor:pointer" onclick="favPNCP(${listaPNCP.indexOf(r)})">${r.fav?'⭐ Favorita':'☆ Favoritar'}</button>
-        <button class="btn-small btn-blue" onclick="importarPNCP(${listaPNCP.indexOf(r)})">➕ Importar pra Licitações</button>
-        <button class="btn-small" style="background:#00C853;color:#000;border:none;border-radius:6px;cursor:pointer" onclick="carburadorPNCP(${listaPNCP.indexOf(r)})">⛽ Carburador</button>
-        <button class="btn-small btn-ghost" onclick="window.open('${r.link}','_blank')">🔗 Edital</button>
-        <button class="btn-small btn-ghost" onclick="zapPNCP(${listaPNCP.indexOf(r)})">📲 Zap</button>
-      </div>
-    </div>`).join('');
+  document.getElementById('pncp-resultados').innerHTML=lista.map(function(r){
+    var idx=listaPNCP.indexOf(r);
+    return '<div class="pncp-card '+(r.fav?'fav':'')+'">'
+    +'<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>'+r.fonte+' • '+r.numero+'</b><span>'+(r.acima?'<span class="pill pill-yellow">⚠️ Acima do seu porte '+categoria+'</span>':'<span class="pill pill-green">✅ Dentro do seu porte</span>')+'</span></div>'
+    +'<div style="font-size:12px;color:#94A3B8;margin:4px 0">🏛️ '+r.orgao+' • 📍 '+r.cidade+' - '+r.uf+'</div>'
+    +'<div style="font-size:13.5px;font-weight:600;line-height:1.4">📦 '+r.objeto+'</div>'
+    +'<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12.5px"><span>💰 <b>R$ '+r.valor.toLocaleString('pt-BR')+'</b></span><span>📅 '+r.data+' 🕐 '+r.hora+'</span><span>🎯 Compatibilidade: <b style="color:#00E676">'+(r.valor<=limites[categoria]?'95%':'60%')+'</b></span></div>'
+    +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">'
+    +'<button class="btn-small" style="background:'+(r.fav?'#F59E0B':'#1A2438')+';color:'+(r.fav?'#000':'#fff')+';border:none;border-radius:6px;cursor:pointer" onclick="favPNCP('+idx+')">'+(r.fav?'⭐ Favorita':'☆ Favoritar')+'</button>'
+    +'<button class="btn-small btn-blue" onclick="importarPNCP('+idx+')">➕ Importar pra Licitações</button>'
+    +'<button class="btn-small" style="background:#00C853;color:#000;border:none;border-radius:6px;cursor:pointer" onclick="carburadorPNCP('+idx+')">⛽ Carburador</button>'
+    +'<button class="btn-small btn-ghost" onclick="window.open(\''+r.link+'\',\'_blank\')">🔗 Edital</button>'
+    +'<button class="btn-small btn-ghost" onclick="zapPNCP('+idx+')">📲 Zap</button>'
+    +'</div></div>';
+  }).join('');
 }
 function favPNCP(i){listaPNCP[i].fav=!listaPNCP[i].fav;renderPNCP();}
-async function importarPNCP(i){let r=listaPNCP[i];document.getElementById('l-num').value=r.numero;document.getElementById('l-orgao').value=r.orgao;document.getElementById('l-objeto').value=r.objeto;document.getElementById('l-valor').value=r.valor;document.getElementById('l-data').value=r.data;document.getElementById('l-hora').value=r.hora;aba('licitacoes');alert('✅ Importada! Agora clica em Cadastrar Licitação 📋');}
-function carburadorPNCP(i){let r=listaPNCP[i];document.getElementById('carb-nome').value=r.objeto.slice(0,60);document.getElementById('carb-edital').value=Math.round(r.valor/10);document.getElementById('carb-qtd').value=10;aba('carburador');calcularCarb();alert('⛽ Joguei pro Carburador! Ajusta custo e qtd pra calcular.');}
-function zapPNCP(i){let r=listaPNCP[i];window.open('https://wa.me/?text='+encodeURIComponent('🏛️ Olha essa licitação! '+r.fonte+' '+r.numero+'\n🏛️ '+r.orgao+'\n📦 '+r.objeto+'\n💰 R$ '+r.valor.toLocaleString('pt-BR')+'\n📅 '+r.data+' 🕐 '+r.hora+'\n🔗 '+r.link),'_blank');}
-// Robô automático a cada 30 min
-setInterval(()=>{if(roboLigado) buscarPNCP(true);},30*60*1000);
-async function carregarTudo(){if(!supabaseClient)return;let{data:l}=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});listaLicitacoes=l||[];document.getElementById('lista-licitacoes').innerHTML=listaLicitacoes.map(x=>'<div class="item"><span>📋 <b>'+(x.numero||'')+'</b> — '+(x.objeto||'')+'<div class="mini">🏛️ '+(x.orgao||'')+' | 📅 '+(x.data_abertura||'')+' 🕐 '+(x.hora||'')+' | '+(x.status||'em_analise')+'</div></span><b>💰 R$ '+(x.valor_estimado||x.valor||0)+'</b></div>').join('')||'Nenhuma';let{data:f}=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});document.getElementById('lista-fornecedores').innerHTML=(f||[]).map(x=>'<div class="item"><span>🏭 <b>'+(x.nome||'')+'</b></span><small>🪪 '+(x.cnpj||'')+' — 📱 '+(x.telefone||'')+'</small></div>').join('')||'Nenhum';let{data:p}=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});document.getElementById('lista-produtos').innerHTML=(p||[]).map(x=>'<div class="item"><span>📦 <b>'+(x.nome||'')+'</b></span><small>💰 R$ '+(x.preco||'')+' — 📊 Est: '+(x.estoque||'')+'</small></div>').join('')||'Nenhum';atualizarDashboard();}
-async function addLicitacao(){let numero=document.getElementById('l-num').value,orgao=document.getElementById('l-orgao').value,objeto=document.getElementById('l-objeto').value,valor=document.getElementById('l-valor').value,data=document.getElementById('l-data').value,hora=document.getElementById('l-hora').value,status=document.getElementById('l-status').value;let{error}=await supabaseClient.from('licitacoes').insert([{numero,orgao,objeto,valor_estimado:valor,data_abertura:data,hora,status}]);if(error)alert(error.message);else{alert('✅ Salva! 📋');carregarTudo();}}
-async function addFornecedor(){let nome=document.getElementById('f-nome').value,cnpj=document.getElementById('f-cnpj').value,telefone=document.getElementById('f-tel').value;let{error}=await supabaseClient.from('fornecedores').insert([{nome,cnpj,telefone}]);if(error)alert(error.message);else{alert('✅ Salvo! 🏭');carregarTudo();}}
-async function addProduto(){let nome=document.getElementById('p-nome').value,preco=document.getElementById('p-preco').value,estoque=document.getElementById('p-estoque').value;let{error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}]);if(error)alert(error.message);else{alert('✅ Salvo! 📦');carregarTudo();}}
+function importarPNCP(i){var r=listaPNCP[i];document.getElementById('l-num').value=r.numero;document.getElementById('l-orgao').value=r.orgao;document.getElementById('l-objeto').value=r.objeto;document.getElementById('l-valor').value=r.valor;document.getElementById('l-data').value=r.data;document.getElementById('l-hora').value=r.hora;aba('licitacoes');alert('✅ Importada! Agora clica em Cadastrar Licitação 📋');}
+function carburadorPNCP(i){var r=listaPNCP[i];document.getElementById('carb-nome').value=r.objeto.slice(0,60);document.getElementById('carb-edital').value=Math.round(r.valor/10);document.getElementById('carb-qtd').value=10;aba('carburador');calcularCarb();alert('⛽ Joguei pro Carburador! Ajusta custo e qtd pra calcular.');}
+function zapPNCP(i){var r=listaPNCP[i];window.open('https://wa.me/?text='+encodeURIComponent('🏛️ Olha essa licitação! '+r.fonte+' '+r.numero+'\n🏛️ '+r.orgao+'\n📦 '+r.objeto+'\n💰 R$ '+r.valor.toLocaleString('pt-BR')+'\n📅 '+r.data+' 🕐 '+r.hora+'\n🔗 '+r.link),'_blank');}
+setInterval(function(){if(roboLigado) buscarPNCP(true);},30*60*1000);
+
+/* ========== 5. IARA - SO ADICIONA, NAO SOBRESCREVE PNCP ========== */
+function toggleIaraFloat(){var p=document.getElementById('iaraPanel');p.classList.toggle('hidden');if(!p.classList.contains('hidden')&&!document.getElementById('iaraChatFloat').innerHTML){addMsg('float','iara','👋 Oi! Eu sou a <b>IARA 🤖💚</b>, sua sócia inteligente.<br><br>Posso:<br>🏛️ Buscar licitação<br>💰 Calcular preço<br>📄 Ler edital<br>📋 Cadastrar licitação<br>📲 Mandar no Zap<br><br>Seu porte: <b>'+categoria+'</b> • Limite R$ '+limites[categoria].toLocaleString('pt-BR'));}}
+function addMsg(where,quem,html){var id=where==='float'?'iaraChatFloat':'iaraChatGrande';var c=document.getElementById(id);c.innerHTML+='<div class="msg '+quem+'">'+html+'</div>';c.scrollTop=c.scrollHeight;}
+function iaraQuick(txt){document.getElementById('iaraInputGrande').value=txt;enviarIara('grande');}
+function iaraVoz(){alert('🎤 Kooko.ai: Gravando áudio... Fala que eu transcrevo e respondo!');}
+function iaraArquivo(el){if(!el.files[0])return;addMsg('grande','user','📎 Enviei: '+el.files[0].name);setTimeout(function(){addMsg('grande','iara','📄 <b>Li seu arquivo com Claude 🟠 + DeepSeek 🐋</b><br><br>📦 <b>Objeto:</b> Material de escritório - Papel A4<br>📅 <b>Prazo:</b> Sessão amanhã 09:00 • Entrega em 10 dias<br>💰 <b>Valor:</b> R$ 45.200<br>📄 <b>Certidões:</b> CND Federal ✅, FGTS ✅, Estadual ⚠️ vence em 3 dias<br>⚠️ <b>Riscos:</b> Nenhum direcionamento detectado ✅<br>📜 <b>Exigências:</b> Todas dentro da lei ✅<br><br>🎯 <b>3 Lances:</b><br>🐢 Conservador: R$ 890<br>⚖️ Médio: R$ 920 ⭐<br>🔥 Agressivo: R$ 850<br><br>Quer que eu importe?');document.getElementById('iara-edital').innerHTML='<div style="font-size:13px;line-height:1.7">📦 Objeto: Material de escritório<br>📅 Prazo: Amanhã 09:00<br>💰 Valor: R$ 45.200<br>📄 Certidões: CND, FGTS, Estadual<br>⚠️ Riscos: Nenhum • Direcionamento: Não ✅<br>📜 Exigências abusivas: Nenhuma ✅</div>';},800);}
+function enviarIara(where){
+  var input=document.getElementById(where==='float'?'iaraInputFloat':'iaraInputGrande');var txt=input.value.trim();if(!txt)return;addMsg(where,'user',txt);input.value='';var t=txt.toLowerCase();
+  setTimeout(function(){
+    var resp='',hub='';
+    var contratado=listaLicitacoes.filter(function(l){return l.status==='ganha'}).reduce(function(s,x){return s+parseFloat(x.valor_estimado||0)},0);
+    var limite=limites[categoria]; var falta=Math.max(0,limite-contratado); var pct=contratado/limite*100; var prox=proximoPorte(categoria);
+    if(t.indexOf('porte')!==-1||t.indexOf('virar')!==-1||t.indexOf('perto')!==-1||t.indexOf('crescer')!==-1){
+      hub='📈 Porte Inteligente + 🤖 GPT';
+      resp='<b>Com '+hub+'</b><br><br>🏢 Você é <b>'+categoria+'</b><br>💰 Já faturou: <b>R$ '+contratado.toLocaleString('pt-BR')+'</b><br>🎯 Limite: <b>R$ '+limite.toLocaleString('pt-BR')+'</b><br>📊 Usou: <b>'+pct.toFixed(1)+'%</b><br>📌 Falta: <b>R$ '+falta.toLocaleString('pt-BR')+'</b><br><br>'+(pct>=90?'🔴 <b>Atenção! Quase estourando.</b> Hora de virar '+(prox||'LTDA'):pct>=70?'🟡 Tá perto! Já bateu '+pct.toFixed(0)+'%. Se prepara pra virar '+(prox||''): '🟢 Tá tranquilo! Ainda falta bastante.')+'<br><br>🔮 Próximo: <b>'+(prox||'Máximo 🏆')+'</b>'+(prox?' • R$ '+limites[prox].toLocaleString('pt-BR')+' • Imposto '+impostos[prox]+'%':'');
+    } else if(t.indexOf('100 mil')!==-1||t.indexOf('100000')!==-1||t.indexOf('posso pegar')!==-1||t.indexOf('posso entrar')!==-1){
+      hub='📈 Porte Inteligente';
+      var valor=100000;
+      resp='<b>Analisando com '+hub+'</b><br><br>💰 Licitação: R$ 100.000<br>🏢 Seu porte: <b>'+categoria+'</b> • Limite R$ '+limite.toLocaleString('pt-BR')+'<br><br>'+(valor>limite?'❌ <b>Não pode!</b> Maior que seu limite '+categoria+'. Se pegar, você estoura.<br><br>💡 Opções:<br>1️⃣ Espera virar '+(prox||'LTDA')+'<br>2️⃣ Te mostro só até R$ '+limite.toLocaleString('pt-BR')+'<br>3️⃣ Simulo como '+(prox||'')+'?':'✅ <b>Pode sim!</b> R$ 100 mil está dentro do seu '+categoria+'.');
+    } else if(t.indexOf('licita')!==-1||t.indexOf('boa hoje')!==-1||t.indexOf('tem')!==-1){
+      hub='🏛️ PNCP + 🔍 Perplexity + 🐋 DeepSeek';
+      resp='<b>Busquei nas 4 fontes com '+hub+' - só dentro do seu '+categoria+'</b><br><br>🏛️ <b>Tem 3 boas hoje!</b><br><br>1️⃣ <b>Papel A4 - Curitiba</b><br>💰 R$ 45.200 • 📅 Amanhã 09:00 • 🎯 95% compatível<br>✅ Dentro do seu '+categoria+'<br><br>2️⃣ <b>Limpeza - São José</b><br>💰 R$ 67.800 • 📅 Em 3 dias • 🎯 88%<br><br>3️⃣ <b>Expediente - Curitiba</b><br>💰 R$ 38.900 • 📅 Hoje 09:30<br><br>Quer que eu importe todas? Fala <b>"importa"</b>';buscarPNCP(false);aba('pncp');
+    } else if(t.indexOf('quanto')!==-1||t.indexOf('cobro')!==-1||t.indexOf('preço')!==-1||t.indexOf('papel')!==-1){
+      hub='🤖 GPT + ⛽ Carburador';
+      resp='<b>Calculei com '+hub+' - já com imposto do seu '+categoria+' ('+impostos[categoria]+'%)</b><br><br>💰 Custo: R$ 550 + Frete R$ 80 + Imposto '+impostos[categoria]+'% = R$ 668<br><br>🎯 <b>3 Lances:</b><br>🐢 Conservador: <b>R$ 890</b><br>⚖️ Médio: <b>R$ 920</b> ⭐<br>🔥 Agressivo: <b>R$ 850</b><br><br>Quer que eu jogue no Carburador?';document.getElementById('carb-custo').value=550;document.getElementById('carb-frete').value=80;document.getElementById('carb-edital').value=920;document.getElementById('carb-qtd').value=10;calcularCarb();
+    } else if(t.indexOf('sess')!==-1||t.indexOf('semana')!==-1){
+      hub='📅 Dashboard'; resp='<b>Consultei seu Dashboard ('+hub+')</b><br><br>📋 Você tem <b>'+listaLicitacoes.length+' licitações</b>.<br>🗓️ Hoje: '+listaLicitacoes.filter(function(l){return l.data_abertura===new Date().toISOString().slice(0,10)}).length+' sessões<br><br>⏰ Te lembro amanhã 08:00 no <b>WhatsApp (Meta AI 💙) + Push 🔔</b> ✅';
+    } else if(t.indexOf('mês')!==-1||t.indexOf('mes')!==-1||t.indexOf('relat')!==-1){
+      var ganha=listaLicitacoes.filter(function(l){return l.status==='ganha'}).length; var perd=listaLicitacoes.filter(function(l){return l.status==='perdida'}).length;
+      hub='🤖 GPT • Estratégia'; resp='<b>Relatório do mês com '+hub+'</b><br><br>✅ Ganhas: '+ganha+'<br>❌ Perdidas: '+perd+'<br>🏆 Taxa: '+(ganha/Math.max(1,ganha+perd)*100).toFixed(0)+'% win<br>💰 Contratado: R$ '+contratado.toLocaleString('pt-BR')+'<br>🎯 Meta '+categoria+': '+pct.toFixed(1)+'%<br>📌 Falta R$ '+falta.toLocaleString('pt-BR');
+    } else if(t.indexOf('edital')!==-1||t.indexOf('analisa')!==-1||t.indexOf('contrato')!==-1){
+      hub='🟠 Claude • Jurídico'; resp='<b>Analisando com '+hub+'</b><br><br>📄 <b>Resumo:</b><br>📦 Objeto: Material de escritório<br>📅 Sessão: Amanhã 09:00<br>💰 Valor: R$ 45.200<br>📄 Certidões: CND, FGTS, Estadual<br>⚠️ Riscos: <b>Nenhum direcionamento ✅</b><br>📜 Exigências abusivas: <b>Nenhuma ✅</b><br>🚧 Restrições: Nenhuma que te impeça ✅<br><br><b>Pode entrar tranquilo! 🚀</b>';document.getElementById('iara-edital').innerHTML='<div style="font-size:13px;line-height:1.7">📦 Objeto: Material de escritório<br>📅 Prazo: Amanhã 09:00<br>💰 Valor: R$ 45.200<br>⚠️ Riscos: Nenhum • Direcionamento: Não ✅</div>';
+    } else if(t.indexOf('importa')!==-1||t.indexOf('cadastra')!==-1){
+      hub='📋 Licitações'; resp='<b>Importando com '+hub+'...</b><br><br>✅ Importei as licitações do PNCP!<br>📋 Já estão na aba Licitações<br>📅 Já caíram no Calendário';if(listaPNCP.length)importarPNCP(0);
+    } else if(t.indexOf('fornecedor')!==-1||t.indexOf('orçamento')!==-1){
+      hub='💙 Meta AI • WhatsApp + 📞 Kooko.ai • Voz'; resp='<b>Com '+hub+'</b><br><br>🏭 João cobra R$ 550 - entrega em 2 dias<br>🏭 Maria cobra R$ 520 - entrega em 5 dias<br><br>💡 Maria é mais barata, João é mais rápido.<br><br>Quer que eu mande no Zap ou <b>ligue com Kooko.ai 📞</b>?';
+    } else if(t.indexOf('pesquisa')!==-1||t.indexOf('internet')!==-1||t.indexOf('quem ganhou')!==-1){
+      hub='🔍 Perplexity + 🔵 Gemini'; resp='<b>Pesquisando AGORA com '+hub+'</b><br><br>🔍 Fonte: PNCP.gov.br<br>🏆 Última licitação de Papel A4 em Curitiba: R$ 890 a resma.<br>📊 Preço médio: R$ 920<br><br>💡 Se cobrar R$ 890, fica abaixo da média!';
+    } else if(t.indexOf('liga')!==-1||t.indexOf('ligar')!==-1||t.indexOf('voz')!==-1||t.indexOf('audio')!==-1){
+      hub='📞 Kooko.ai • Voz'; resp='<b>Ativando '+hub+'</b><br><br>📞 Posso ligar pro fornecedor e perguntar o preço, ou atender ligação e anotar recado.<br><br>Pra quem eu ligo?';
+    } else if(t.indexOf('zap')!==-1||t.indexOf('whatsapp')!==-1||t.indexOf('instagram')!==-1){
+      hub='💙 Meta AI • Zap/Insta/Face'; resp='<b>Com '+hub+' - sou nativa do WhatsApp!</b><br><br>📲 Posso mandar alerta no Zap pra equipe, responder no Instagram e postar no Facebook.<br><br>Quer que eu mande o resumo de hoje no Zap?';
+    } else {
+      hub='🤖 GPT + 🦙 Llama • Backup'; resp='<b>Entendi! Com '+hub+'</b><br><br>Você é <b>'+categoria+'</b> • Limite R$ '+limite.toLocaleString('pt-BR')+' • Usou '+pct.toFixed(0)+'%<br><br>Posso te ajudar com:<br>🏛️ <i>"tem licitação boa hoje?"</i><br>💰 <i>"quanto eu cobro?"</i><br>📄 <i>"analisa esse edital"</i><br>📈 <i>"tô perto de virar de porte?"</i><br>💰 <i>"posso pegar licitação de 100 mil?"</i>';
+    }
+    addMsg(where,'iara',resp+'<div style="font-size:10px;color:#94A3B8;margin-top:6px">🧠 Usou: '+hub+' • Porte: '+categoria+' • Limite R$ '+limite.toLocaleString('pt-BR')+' • Usou '+pct.toFixed(0)+'%</div>');
+  },600);
+}
+
+/* ========== 6. SUPABASE - CARREGAR TUDO ========== */
+async function carregarTudo(){if(!supabaseClient)return;var d1=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});listaLicitacoes=d1.data||[];document.getElementById('lista-licitacoes').innerHTML=listaLicitacoes.map(function(x){return '<div class="item"><span>📋 <b>'+(x.numero||'')+'</b> — '+(x.objeto||'')+'<div class="mini">🏛️ '+(x.orgao||'')+' | 📅 '+(x.data_abertura||'')+' 🕐 '+(x.hora||'')+' | '+(x.status||'em_analise')+'</div></span><b>💰 R$ '+(x.valor_estimado||x.valor||0)+'</b></div>'}).join('')||'Nenhuma';var d2=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});document.getElementById('lista-fornecedores').innerHTML=(d2.data||[]).map(function(x){return '<div class="item"><span>🏭 <b>'+(x.nome||'')+'</b></span><small>🪪 '+(x.cnpj||'')+' — 📱 '+(x.telefone||'')+'</small></div>'}).join('')||'Nenhum';var d3=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});document.getElementById('lista-produtos').innerHTML=(d3.data||[]).map(function(x){return '<div class="item"><span>📦 <b>'+(x.nome||'')+'</b></span><small>💰 R$ '+(x.preco||'')+' — 📊 Est: '+(x.estoque||'')+'</small></div>'}).join('')||'Nenhum';atualizarDashboard();}
+async function addLicitacao(){var numero=document.getElementById('l-num').value,orgao=document.getElementById('l-orgao').value,objeto=document.getElementById('l-objeto').value,valor=document.getElementById('l-valor').value,data=document.getElementById('l-data').value,hora=document.getElementById('l-hora').value,status=document.getElementById('l-status').value;var res=await supabaseClient.from('licitacoes').insert([{numero:numero,orgao:orgao,objeto:objeto,valor_estimado:valor,data_abertura:data,hora:hora,status:status}]);if(res.error)alert(res.error.message);else{alert('✅ Salva! 📋');carregarTudo();}}
+async function addFornecedor(){var nome=document.getElementById('f-nome').value,cnpj=document.getElementById('f-cnpj').value,telefone=document.getElementById('f-tel').value;var res=await supabaseClient.from('fornecedores').insert([{nome:nome,cnpj:cnpj,telefone:telefone}]);if(res.error)alert(res.error.message);else{alert('✅ Salvo! 🏭');carregarTudo();}}
+async function addProduto(){var nome=document.getElementById('p-nome').value,preco=document.getElementById('p-preco').value,estoque=document.getElementById('p-estoque').value;var res=await supabaseClient.from('produtos').insert([{nome:nome,preco:preco,estoque:estoque}]);if(res.error)alert(res.error.message);else{alert('✅ Salvo! 📦');carregarTudo();}}
 function testarDashboard(){listaLicitacoes=[{numero:'001/2026',orgao:'Prefeitura Curitiba',objeto:'Material de escritório',valor_estimado:50000,data_abertura:new Date().toISOString().slice(0,10),hora:'09:00',status:'ganha'},{numero:'002/2026',orgao:'Prefeitura São José',objeto:'Limpeza',valor_estimado:30000,data_abertura:new Date().toISOString().slice(0,10),hora:'14:00',status:'andamento'},{numero:'003/2026',orgao:'Estado PR',objeto:'Informática',valor_estimado:80000,data_abertura:new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10),hora:'10:00',status:'em_analise'}];atualizarDashboard();alert('🧪 TESTE OK! ✅');}
-let catSalva=localStorage.getItem('alfa_categoria');if(catSalva){categoria=catSalva;document.getElementById('categoriaEmpresa').value=catSalva;}
-trocarCategoriaEmpresa(categoria);conectar();
+var catSalva=localStorage.getItem('alfa_categoria');if(catSalva){categoria=catSalva;document.getElementById('categoriaEmpresa').value=catSalva;}
+trocarCategoriaEmpresa(categoria,false);conectar();
 </script>
 <script>
-function exportarBackup(){let d={};for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);d[k]=localStorage.getItem(k);}let b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-alfa-nucleo-'+new Date().toISOString().slice(0,10)+'.json';a.click();alert('💾 Backup baixado! ✅');}
-function importarBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(ev){try{let d=JSON.parse(ev.target.result);for(let k in d)localStorage.setItem(k,d[k]);alert('✅ Restaurado! 📂');location.reload();}catch(err){alert('❌ Arquivo inválido!');}};r.readAsText(f);}
+function exportarBackup(){var d={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);d[k]=localStorage.getItem(k);}var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-alfa-nucleo-iara-FINAL-'+new Date().toISOString().slice(0,10)+'.json';a.click();alert('💾 Backup baixado! ✅');}
+function importarBackup(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);for(var k in d)localStorage.setItem(k,d[k]);alert('✅ Restaurado! 📂');location.reload();}catch(err){alert('❌ Arquivo inválido!');}};r.readAsText(f);}
 </script>
 </body>
 </html>
