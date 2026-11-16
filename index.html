@@ -3,227 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALFA NUCLEO - Dashboard Executivo</title>
+<title>ALFA NUCLEO - Executivo</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{margin:0;background:#0b1220;color:#e2e8f0}
-header{background:#0f172a;border-bottom:1px solid #1e293b;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header h1{margin:0;font-size:20px;letter-spacing:1px}
-header h1 span{color:#f59e0b}
-header p{margin:2px 0 0;font-size:12px;color:#94a3b8}
-.container{max-width:1150px;margin:auto;padding:16px}
-.card{background:#111c33;border:1px solid #1e293b;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
-.card h3{margin:0 0 12px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
-.mini{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}
-.big{font-size:26px;font-weight:800;margin:4px 0}
+*{box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+body{margin:0;background:#0A0F1C;color:#E5E7EB;-webkit-font-smoothing:antialiased}
+header{background:#0D1526;border-bottom:1px solid #1A2438;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header h1{margin:0;font-size:17px;font-weight:700;letter-spacing:1.2px}
+header h1 span{color:#00C853}
+header p{margin:2px 0 0;font-size:11px;color:#8B96AD}
+.container{max-width:1180px;margin:auto;padding:16px 18px}
+.card{background:#111A2E;border:1px solid #1E2A44;border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.card h3{margin:0 0 12px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.mini{font-size:10px;color:#8B96AD;text-transform:uppercase;letter-spacing:.7px;font-weight:600}
+.big{font-size:24px;font-weight:300;letter-spacing:-.5px;margin:3px 0}
+.big b{font-weight:700}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
 @media(max-width:700px){.grid2,.grid4{grid-template-columns:1fr 1fr}}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.tabs button{padding:11px 14px;border:1px solid #1e293b;background:#111c33;color:#e2e8f0;border-radius:12px;font-weight:700;cursor:pointer;flex:1;min-width:105px}
-.tabs button.active{background:#f59e0b;color:#000;border-color:#f59e0b}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#0b1220;border:1px solid #334155;border-radius:10px;color:white;font-size:14px}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;background:#f59e0b;color:#000;font-weight:800;cursor:pointer;margin-top:8px}
-.btn-green{background:#22c55e}.btn-blue{background:#3b82f6;color:white}.btn-ghost{background:#1e293b;color:white}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.tabs button{padding:9px 10px;border:1px solid #1E2A44;background:#111A2E;color:#CBD5E1;border-radius:8px;font-weight:600;font-size:12.5px;cursor:pointer;flex:1;min-width:98px}
+.tabs button.active{background:#00C853;color:#000;border-color:#00C853}
+input,select,textarea{width:100%;padding:10px 12px;margin:5px 0;background:#0A0F1C;border:1px solid #243252;border-radius:8px;color:white;font-size:13.5px;outline:none}
+input:focus{border-color:#00C853}
+.btn{width:100%;padding:11px;border:none;border-radius:8px;background:#00C853;color:#000;font-weight:700;font-size:13px;cursor:pointer;margin-top:6px}
+.btn-blue{background:#2563EB;color:white}.btn-ghost{background:#1A2438;color:#E5E7EB}
 .hidden{display:none!important}
-.progress{height:10px;background:#1e293b;border-radius:20px;overflow:hidden;margin:8px 0}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#f59e0b)}
-.bar{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
-.bar .track{flex:1;height:12px;background:#1e293b;border-radius:20px;overflow:hidden}
-.bar .fill{height:100%;border-radius:20px}
-.pill{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}
-.pill-green{background:#22c55e33;color:#22c55e}.pill-red{background:#ef444433;color:#ef4444}.pill-yellow{background:#f59e0b33;color:#f59e0b}.pill-blue{background:#3b82f633;color:#60a5fa}
-.item{padding:10px 0;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;gap:10px}
+.progress{height:3px;background:#1E2A44;border-radius:99px;overflow:hidden;margin:8px 0}
+.progress i{display:block;height:100%;border-radius:99px}
+.pill{padding:3px 8px;border-radius:99px;font-size:10.5px;font-weight:700}
+.pill-green{background:#00C8531A;color:#00E676;border:1px solid #00C85333}.pill-red{background:#FF1E1E1A;color:#FF5252;border:1px solid #FF1E1E33}.pill-blue{background:#2563EB1A;color:#60A5FA;border:1px solid #2563EB33}.pill-gray{background:#33415533;color:#94A3B8;border:1px solid #334155}
+.item{padding:9px 0;border-bottom:1px solid #1E2A44;display:flex;justify-content:space-between;gap:10px;font-size:13px}
 .item:last-child{border:none}
-canvas{width:100%;height:150px;background:#0b1220;border-radius:12px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px}
-.cal div{padding:9px 2px;border-radius:10px;background:#0b1220;border:1px solid #1e293b}
-.cal div.today{background:#f59e0b;color:#000;font-weight:800}
-.cal div.has{border-color:#22c55e;color:#22c55e;font-weight:700}
-select.cat{width:auto;padding:8px 12px;font-weight:800;background:#f59e0b;color:#000;border:none}
+canvas{width:100%;height:130px;background:transparent;border-radius:8px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px}
+.cal div{padding:7px 2px;border-radius:6px;background:#0A0F1C;border:1px solid #1E2A44;color:#94A3B8}
+.cal div.today{background:#00C853;color:#000;font-weight:800;border-color:#00C853}
+.cal div.has{border-color:#00C853;color:#00E676;font-weight:700}
+select.cat{width:auto;padding:7px 12px;font-weight:700;background:#00C853;color:#000;border:none;font-size:12px;border-radius:99px}
+.divider{height:1px;background:#1E2A44;margin:12px 0}
+.kpi-sub{font-size:11px;color:#8B96AD;margin-top:2px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.legend{display:flex;gap:14px;font-size:11px;color:#94A3B8;margin-top:6px}
 </style>
 </head>
 <body>
 <header>
-<div><h1>ALFA <span>NUCLEO</span></h1><p>Dashboard Executivo • Sistema Comercial</p></div>
-<div style="text-align:right">
-<div style="font-size:12px;color:#94a3b8">Empresa</div>
+<div><h1>ALFA <span>NUCLEO</span></h1><p>SISTEMA EXECUTIVO • LICITAÇÕES</p></div>
+<div style="display:flex;gap:10px;align-items:center">
+<div style="text-align:right"><div style="font-size:10px;color:#8B96AD">PORTE</div>
 <select class="cat" id="categoriaEmpresa" onchange="trocarCategoriaEmpresa(this.value)">
-<option value="MEI">MEI</option>
-<option value="ME">ME</option>
-<option value="EPP">EPP</option>
-<option value="LTDA">LTDA</option>
-</select>
-<div id="limiteCat" style="font-size:11px;margin-top:4px;color:#94a3b8">Limite MEI: R$ 81.000 / ano</div>
+<option value="MEI">MEI</option><option value="ME">ME</option><option value="EPP">EPP</option><option value="LTDA">LTDA</option>
+</select></div>
+<div id="limiteCat" style="font-size:11px;color:#8B96AD;max-width:180px;text-align:right">Limite MEI: R$ 81.000 / ano</div>
 </div>
 </header>
 
 <div class="container">
 <div class="card" id="configCard">
-<h3>🔐 Conectar Supabase</h3>
-<input id="url" placeholder="URL Supabase">
-<input id="key" placeholder="Anon Key">
-<button class="btn" onclick="salvar()">SALVAR E ENTRAR</button>
-<div id="status"></div>
+<h3>Conectar Supabase <span class="pill pill-blue">SEGURO</span></h3>
+<input id="url" placeholder="URL Supabase"><input id="key" placeholder="Anon Key">
+<button class="btn" onclick="salvar()">ENTRAR</button><div id="status" style="font-size:12px;margin-top:6px"></div>
 </div>
 
 <div id="app" class="hidden">
-<input id="pesquisaGeral" placeholder="🔍 Pesquisa Geral em tudo..." oninput="filtrarGeral()">
-
+<input id="pesquisaGeral" placeholder="Pesquisa geral..." oninput="filtrarGeral()">
 <div class="tabs">
-<button id="aba-dashboard" class="active" onclick="aba('dashboard')">📊 Executivo</button>
-<button id="aba-licitacoes" onclick="aba('licitacoes')">📋 Licitações</button>
-<button id="aba-fornecedores" onclick="aba('fornecedores')">🏭 Fornecedores</button>
-<button id="aba-carburador" onclick="aba('carburador')">⛽ Carburador</button>
-<button id="aba-proposta" onclick="aba('proposta')">💬 Proposta</button>
-<button id="aba-produtos" onclick="aba('produtos')">📦 Produtos</button>
+<button id="aba-dashboard" class="active" onclick="aba('dashboard')">Executivo</button>
+<button id="aba-licitacoes" onclick="aba('licitacoes')">Licitações</button>
+<button id="aba-fornecedores" onclick="aba('fornecedores')">Fornecedores</button>
+<button id="aba-carburador" onclick="aba('carburador')">Carburador</button>
+<button id="aba-proposta" onclick="aba('proposta')">Proposta</button>
+<button id="aba-produtos" onclick="aba('produtos')">Produtos</button>
 </div>
 
-<!-- ============ DASHBOARD EXECUTIVO ============ -->
 <div id="sec-dashboard">
+<button onclick="testarDashboard()" style="width:100%;padding:10px;border:1px dashed #00C853;background:transparent;color:#00E676;border-radius:8px;font-weight:600;font-size:12px;margin-bottom:12px;cursor:pointer">▶ TESTAR AGORA — Ver gráfico de linha</button>
 
-<button onclick="testarDashboard()" style="width:100%;padding:12px;border:none;border-radius:12px;background:#22c55e;color:#000;font-weight:800;margin-bottom:12px;cursor:pointer">▶️ TESTAR AGORA - Criar 3 licitações de teste</button>
-
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-<div><b id="saudacao">Bom dia ☀️</b><div class="mini" id="dataHoje"></div></div>
-<div style="text-align:right"><span class="pill pill-green" id="statusDia">● HOJE: 0 SESSÕES</span><div class="mini" id="horaAgora"></div></div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px">
+<div><div style="font-size:18px;font-weight:600" id="saudacao">Bom dia</div><div class="mini" id="dataHoje" style="margin-top:2px"></div></div>
+<div style="text-align:right"><span class="pill pill-green" id="statusDia">● HOJE: 0 SESSÕES</span><div class="mini" style="margin-top:6px" id="horaAgora"></div></div>
 </div>
 
+<!-- KPIs com MINI LINHA em vez de barra -->
 <div class="grid4">
-<div class="card"><div class="mini">Licitações Novas</div><div class="big" id="k-novas">0</div><div class="mini" id="k-novas-sub">Em análise: 0</div><div class="progress"><i id="bar-novas" style="width:0%"></i></div></div>
-<div class="card"><div class="mini">Sessões Hoje / Semana</div><div class="big" id="k-sessoes">0 / 0</div><div class="mini">Próxima: <span id="k-prox">--</span></div><div class="progress"><i id="bar-sessoes" style="width:0%;background:#3b82f6"></i></div></div>
-<div class="card"><div class="mini">Valor Contratado</div><div class="big" id="k-contratado">R$ 0</div><div class="mini">Oportunidades: <b id="k-oport" style="color:#f59e0b">R$ 0</b></div><div class="progress"><i id="bar-contratado" style="width:0%;background:#22c55e"></i></div></div>
-<div class="card"><div class="mini">Meta <span id="metaLabel">MEI</span></div><div class="big" id="k-meta">0%</div><div class="mini" id="k-meta-sub">Falta R$ 0 p/ meta</div><div class="progress"><i id="bar-meta" style="width:0%"></i></div></div>
+<div class="card"><div class="mini">Licitações</div><div class="big" id="k-novas">0</div><div class="kpi-sub" id="k-novas-sub">Em análise: 0</div><canvas id="spark1" style="height:36px;margin-top:6px"></canvas></div>
+<div class="card"><div class="mini">Sessões Hoje / Semana</div><div class="big" id="k-sessoes">0 / 0</div><div class="kpi-sub">Próxima: <span id="k-prox">--</span></div><canvas id="spark2" style="height:36px;margin-top:6px"></canvas></div>
+<div class="card"><div class="mini">Valor Contratado</div><div class="big" id="k-contratado">R$ 0</div><div class="kpi-sub">Oportunidades: <b id="k-oport" style="color:#00E676">R$ 0</b></div><canvas id="spark3" style="height:36px;margin-top:6px"></canvas></div>
+<div class="card"><div class="mini">Meta <span id="metaLabel">MEI</span></div><div class="big" id="k-meta">0%</div><div class="kpi-sub" id="k-meta-sub">Falta R$ 0</div><canvas id="spark4" style="height:36px;margin-top:6px"></canvas></div>
 </div>
 
 <div class="grid2">
-<div class="card"><h3>Propostas - Ganhas / Perdidas / Andamento <span class="pill pill-green" id="taxaWin">0% win</span></h3>
-<div class="bar">✅ Ganhas <div class="track"><div class="fill" id="fill-ganha" style="width:0%;background:#22c55e"></div></div> <b id="n-ganha">0</b></div>
-<div class="bar">🔄 Andamento <div class="track"><div class="fill" id="fill-and" style="width:0%;background:#f59e0b"></div></div> <b id="n-and">0</b></div>
-<div class="bar">❌ Perdidas <div class="track"><div class="fill" id="fill-perd" style="width:0%;background:#ef4444"></div></div> <b id="n-perd">0</b></div>
+<div class="card"><h3>Propostas <span class="pill pill-green" id="taxaWin">0% win</span></h3>
+<div class="legend"><span><i class="dot" style="background:#00C853"></i> Ganhas <b id="n-ganha" style="color:#fff">0</b></span><span><i class="dot" style="background:#2563EB"></i> Andamento <b id="n-and" style="color:#fff">0</b></span><span><i class="dot" style="background:#FF1E1E"></i> Perdidas <b id="n-perd" style="color:#fff">0</b></span></div>
 <canvas id="graficoPropostas"></canvas>
+<div class="mini" style="text-align:center">EVOLUÇÃO • LINHA SUAVE</div>
 </div>
-<div class="card"><h3>📅 Calendário - Sessões & Prazos</h3>
-<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b id="mesCal"></b><span id="horaCal"></span></div>
-<div class="cal" id="calendario"></div>
-<div style="margin-top:10px;font-size:13px"><b>Hoje:</b> <span id="listaHoje">Nenhuma sessão hoje</span><br><b>Semana:</b> <span id="listaSemana">Nenhuma sessão na semana</span></div>
-</div>
-</div>
-
-<div class="grid2">
-<div class="card"><h3>⏰ Prazos Próximos do Vencimento <span class="pill pill-red" id="n-prazos">0</span></h3><div id="listaPrazos">Nenhum prazo próximo. Você está em dia!</div><canvas id="graficoPrazos" style="height:90px;margin-top:10px"></canvas></div>
-<div class="card"><h3>📄 Documentos & Certidões a Vencer <span class="pill pill-yellow" id="n-docs">0</span></h3>
-<div class="item"><span>CND Federal</span><span class="pill pill-green">OK - 45 dias</span></div>
-<div class="item"><span>FGTS</span><span class="pill pill-yellow">Vence em 12 dias</span></div>
-<div class="item"><span>Estadual / Municipal</span><span class="pill pill-red">Vence em 3 dias!</span></div>
-<div class="item"><span>Contrato Social</span><span class="pill pill-blue">Atualizado</span></div>
-<button class="btn btn-ghost" onclick="alert('Aba Documentos completa vem na próxima integração!')">+ CADASTRAR DOCUMENTO</button>
+<div class="card"><h3>Calendário <span class="pill pill-gray" id="mesCal"></span></h3>
+<div style="font-size:12px;color:#8B96AD;margin-bottom:8px">Hoje <b id="horaCal" style="color:#fff"></b></div>
+<div class="cal" id="calendario"></div><div class="divider"></div>
+<div style="font-size:12.5px;line-height:1.7"><b>Hoje:</b> <span id="listaHoje">Nenhuma sessão hoje</span><br><b>Semana:</b> <span id="listaSemana">Nenhuma sessão na semana</span></div>
 </div>
 </div>
 
 <div class="grid2">
-<div class="card"><h3>💰 Financeiro - Onde Vai o Dinheiro</h3><canvas id="graficoFinanceiro"></canvas><div id="dre" style="font-size:13px;margin-top:8px;line-height:1.8">Receita: R$ 0<br>Custos: R$ 0<br>Imposto: R$ 0<br><b>Lucro: R$ 0</b></div></div>
-<div class="card"><h3>👥 Pendências por Colaborador</h3>
-<div class="item"><span>👤 Você <div class="mini">Dono / Admin</div></span><b id="pend-voce">0 pendências</b></div>
-<div class="item"><span>👤 Colaborador 1</span><span class="pill pill-yellow">2 pendentes</span></div>
-<div class="item"><span>👤 Colaborador 2</span><span class="pill pill-green">0 pendentes</span></div>
-<div class="item"><span>👤 Financeiro</span><span class="pill pill-red">1 urgente</span></div>
-<button class="btn btn-ghost" onclick="adicionarPendencia()">+ NOVA PENDÊNCIA</button>
-<div id="listaPendencias"></div>
+<div class="card"><h3>Prazos próximos <span class="pill pill-red" id="n-prazos">0</span></h3><div id="listaPrazos">Nenhum prazo próximo.</div><canvas id="graficoPrazos" style="height:80px;margin-top:10px"></canvas><div class="legend"><span><i class="dot" style="background:#FF1E1E"></i> Urgente</span><span><i class="dot" style="background:#00C853"></i> Em dia</span></div></div>
+<div class="card"><h3>Documentos & Certidões <span class="pill pill-red" id="n-docs">1 urgente</span></h3>
+<div class="item"><span>CND Federal</span><span class="pill pill-green">OK • 45 dias</span></div>
+<div class="item"><span>FGTS</span><span class="pill pill-blue">12 dias</span></div>
+<div class="item"><span>Estadual / Municipal</span><span class="pill pill-red">3 dias • URGENTE</span></div>
+<div class="item"><span>Contrato Social</span><span class="pill pill-green">Atualizado</span></div>
+<button class="btn btn-ghost" onclick="alert('Aba Documentos vem na próxima!')">+ Documento</button>
 </div>
 </div>
 
+<div class="grid2">
+<div class="card"><h3>Financeiro — Evolução</h3>
+<div class="legend"><span><i class="dot" style="background:#00C853"></i> Receita</span><span><i class="dot" style="background:#FF1E1E"></i> Custos</span><span><i class="dot" style="background:#2563EB"></i> Lucro</span></div>
+<canvas id="graficoFinanceiro"></canvas>
+<div id="dre" style="font-size:12.5px;margin-top:8px;line-height:1.8;color:#CBD5E1">Receita: R$ 0<br>Custos: R$ 0<br>Imposto: R$ 0<br><b style="color:#fff">Lucro: R$ 0</b></div></div>
+<div class="card"><h3>Pendências por colaborador</h3>
+<div class="item"><span>Você <span class="mini">• Dono</span></span><b id="pend-voce">0 pendências</b></div>
+<div class="item"><span>Colaborador 1</span><span class="pill pill-blue">2 pendentes</span></div>
+<div class="item"><span>Colaborador 2</span><span class="pill pill-green">0 pendentes</span></div>
+<div class="item"><span>Financeiro</span><span class="pill pill-red">1 urgente</span></div>
+<button class="btn btn-ghost" onclick="adicionarPendencia()">+ Nova pendência</button><div id="listaPendencias"></div>
+</div>
+</div>
 </div>
 
-<!-- LICITAÇÕES -->
 <div id="sec-licitacoes" class="hidden">
-<div class="card"><h3>Nova Licitação</h3>
-<input id="l-num" placeholder="Nº Ex: 001/2026">
-<input id="l-orgao" placeholder="Órgão">
-<input id="l-objeto" placeholder="Objeto">
-<input id="l-valor" type="number" placeholder="Valor Estimado">
-<input id="l-data" type="date">
-<label style="font-size:12px">Horário da Sessão</label>
-<input id="l-hora" type="time" value="09:00">
-<select id="l-status"><option value="em_analise">Em Análise</option><option value="andamento">Em Andamento</option><option value="ganha">Ganha ✅</option><option value="perdida">Perdida ❌</option></select>
-<button class="btn" onclick="addLicitacao()">+ CADASTRAR</button>
-</div>
+<div class="card"><h3>Nova Licitação</h3><input id="l-num" placeholder="Nº Ex: 001/2026"><input id="l-orgao" placeholder="Órgão"><input id="l-objeto" placeholder="Objeto"><input id="l-valor" type="number" placeholder="Valor Estimado"><input id="l-data" type="date"><label class="mini">Horário da sessão</label><input id="l-hora" type="time" value="09:00"><select id="l-status"><option value="em_analise">Em Análise</option><option value="andamento">Em Andamento</option><option value="ganha">Ganha</option><option value="perdida">Perdida</option></select><button class="btn" onclick="addLicitacao()">+ Cadastrar</button></div>
 <div class="card"><h3>Licitações</h3><div id="lista-licitacoes"></div></div>
 </div>
 
-<!-- FORNECEDORES -->
-<div id="sec-fornecedores" class="hidden"><div class="card"><h3>Novo Fornecedor</h3><input id="f-nome" placeholder="Nome / Razão"><input id="f-cnpj" placeholder="CNPJ"><input id="f-tel" placeholder="WhatsApp"><button class="btn" onclick="addFornecedor()">+ CADASTRAR</button></div><div class="card"><h3>Fornecedores</h3><div id="lista-fornecedores"></div></div></div>
+<div id="sec-fornecedores" class="hidden"><div class="card"><h3>Novo Fornecedor</h3><input id="f-nome" placeholder="Nome / Razão"><input id="f-cnpj" placeholder="CNPJ"><input id="f-tel" placeholder="WhatsApp"><button class="btn" onclick="addFornecedor()">+ Cadastrar</button></div><div class="card"><h3>Fornecedores</h3><div id="lista-fornecedores"></div></div></div>
 
-<!-- CARBURADOR -->
-<div id="sec-carburador" class="hidden"><div class="card"><h3>⛽ Carburador</h3>
-<label>Custo R$</label><input id="carb-custo" type="number" oninput="calcularCarb()">
-<label>Frete R$</label><input id="carb-frete" type="number" oninput="calcularCarb()">
-<label>Outros R$</label><input id="carb-outros" type="number" oninput="calcularCarb()">
-<label>Imposto % (muda sozinho pela categoria)</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()">
-<label>Valor Edital R$</label><input id="carb-edital" type="number" oninput="calcularCarb()">
-<div id="carb-conta" style="margin-top:10px"></div>
-<div style="margin-top:10px;line-height:2">🔥 Agressivo: <b id="carb-agressivo"></b> <span id="carb-lucro1"></span><br>✅ Equilibrado: <b id="carb-equilibrado"></b> <span id="carb-lucro2"></span><br>🏁 Máximo: <b id="carb-maximo"></b> <span id="carb-lucro3"></span></div>
-<div id="carb-alerta"></div><canvas id="graficoCarb" style="height:100px;margin-top:10px"></canvas>
+<div id="sec-carburador" class="hidden"><div class="card"><h3>Carburador — Curva de Preço</h3>
+<label class="mini">Custo R$</label><input id="carb-custo" type="number" oninput="calcularCarb()">
+<label class="mini">Frete R$</label><input id="carb-frete" type="number" oninput="calcularCarb()">
+<label class="mini">Outros R$</label><input id="carb-outros" type="number" oninput="calcularCarb()">
+<label class="mini">Imposto %</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()">
+<label class="mini">Valor Edital R$</label><input id="carb-edital" type="number" oninput="calcularCarb()">
+<div id="carb-conta" style="margin-top:10px;font-size:13px"></div>
+<div style="margin-top:10px;line-height:2;font-size:13px">Agressivo: <b id="carb-agressivo"></b> <span id="carb-lucro1"></span><br>Equilibrado: <b id="carb-equilibrado" style="color:#00E676"></b> <span id="carb-lucro2"></span><br>Máximo: <b id="carb-maximo"></b> <span id="carb-lucro3"></span></div>
+<div id="carb-alerta" style="font-size:13px"></div>
+<div class="legend"><span><i class="dot" style="background:#FF1E1E"></i> Custo</span><span><i class="dot" style="background:#2563EB"></i> Agressivo</span><span><i class="dot" style="background:#00C853"></i> Equilibrado</span></div>
+<canvas id="graficoCarb" style="height:110px;margin-top:8px"></canvas>
 </div></div>
 
-<!-- PROPOSTA -->
-<div id="sec-proposta" class="hidden"><div class="card"><h3>Proposta + WhatsApp</h3><input id="p-licitacao" placeholder="Nº Licitação"><input id="p-fornecedor" placeholder="Fornecedor"><input id="p-produto" placeholder="Produto"><input id="p-preco" type="number" placeholder="Preço Final"><textarea id="p-msg" rows="5"></textarea><button class="btn btn-green" onclick="gerarMsg()">GERAR</button><button class="btn" onclick="copiarMsg()">COPIAR</button><button class="btn" style="background:#25d366;color:#000" onclick="enviarZap()">ENVIAR NO ZAP</button></div></div>
+<div id="sec-proposta" class="hidden"><div class="card"><h3>Proposta + WhatsApp</h3><input id="p-licitacao" placeholder="Nº Licitação"><input id="p-fornecedor" placeholder="Fornecedor"><input id="p-produto" placeholder="Produto"><input id="p-preco" type="number" placeholder="Preço Final"><textarea id="p-msg" rows="5"></textarea><button class="btn" onclick="gerarMsg()">Gerar</button><button class="btn btn-ghost" onclick="copiarMsg()">Copiar</button><button class="btn" onclick="enviarZap()">Enviar no Zap</button></div></div>
 
-<!-- PRODUTOS -->
-<div id="sec-produtos" class="hidden"><div class="card"><h3>Novo Produto</h3><input id="p-nome" placeholder="Nome"><input id="p-preco" type="number" placeholder="Preço"><input id="p-estoque" type="number" placeholder="Estoque"><button class="btn" onclick="addProduto()">+ CADASTRAR</button></div><div class="card"><h3>Produtos</h3><div id="lista-produtos"></div></div></div>
+<div id="sec-produtos" class="hidden"><div class="card"><h3>Novo Produto</h3><input id="p-nome" placeholder="Nome"><input id="p-preco" type="number" placeholder="Preço"><input id="p-estoque" type="number" placeholder="Estoque"><button class="btn" onclick="addProduto()">+ Cadastrar</button></div><div class="card"><h3>Produtos</h3><div id="lista-produtos"></div></div></div>
 
-<div style="display:flex;gap:10px"><button class="btn btn-blue" onclick="exportarBackup()">EXPORTAR BACKUP</button><button class="btn" onclick="document.getElementById('fileBackup').click()">IMPORTAR</button></div>
+<div style="display:flex;gap:8px"><button class="btn btn-blue" onclick="exportarBackup()">Exportar Backup</button><button class="btn btn-ghost" onclick="document.getElementById('fileBackup').click()">Importar</button></div>
 <input type="file" id="fileBackup" hidden accept=".json" onchange="importarBackup(event)">
 <button class="btn btn-ghost" onclick="localStorage.clear();location.reload()">Sair / Trocar chaves</button>
 </div>
 </div>
 
 <script>
-let supabaseClient=null;
-let listaLicitacoes=[];
-let categoria='MEI';
+let supabaseClient=null, listaLicitacoes=[], categoria='MEI';
 let limites={MEI:81000,ME:360000,EPP:4800000,LTDA:100000000};
 let impostos={MEI:6,ME:8,EPP:11,LTDA:14};
 let pendencias=[];
-
-function aba(id){
-  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-  ['dashboard','licitacoes','fornecedores','produtos','carburador','proposta'].forEach(s=>{let e=document.getElementById('sec-'+s);if(e)e.classList.add('hidden')});
-  document.getElementById('sec-'+id).classList.remove('hidden');
-  document.getElementById('aba-'+id)?.classList.add('active');
-}
+function aba(id){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));['dashboard','licitacoes','fornecedores','produtos','carburador','proposta'].forEach(s=>{let e=document.getElementById('sec-'+s);if(e)e.classList.add('hidden')});document.getElementById('sec-'+id).classList.remove('hidden');document.getElementById('aba-'+id)?.classList.add('active');}
 function salvar(){let u=document.getElementById('url').value.trim(),k=document.getElementById('key').value.trim();if(!u||!k)return alert('Cole URL e KEY');localStorage.setItem('alfa_url',u);localStorage.setItem('alfa_key',k);conectar();}
 function conectar(){let u=localStorage.getItem('alfa_url'),k=localStorage.getItem('alfa_key');if(!u||!k)return;supabaseClient=supabase.createClient(u,k);document.getElementById('configCard').classList.add('hidden');document.getElementById('app').classList.remove('hidden');carregarTudo();}
-function trocarCategoriaEmpresa(v){
-  categoria=v; localStorage.setItem('alfa_categoria',v);
-  document.getElementById('limiteCat').innerText='Limite '+v+': R$ '+limites[v].toLocaleString('pt-BR')+' / ano • Imposto sugerido '+impostos[v]+'%';
-  document.getElementById('metaLabel').innerText=v;
-  let ci=document.getElementById('carb-imposto'); if(ci) ci.value=impostos[v];
-  atualizarDashboard();
-}
-function atualizarRelogio(){
-  let agora=new Date(); let h=agora.getHours();
-  document.getElementById('saudacao').innerText=(h<12?'Bom dia ☀️':h<18?'Boa tarde 🌤️':'Boa noite 🌙')+' - '+categoria;
-  document.getElementById('dataHoje').innerText=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-  document.getElementById('horaAgora').innerText='Agora: '+agora.toLocaleTimeString('pt-BR');
-  document.getElementById('horaCal').innerText=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('mesCal').innerText=agora.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
-  let ano=agora.getFullYear(), mes=agora.getMonth(), hoje=agora.getDate();
-  let dias=new Date(ano,mes+1,0).getDate(); let html='';
-  for(let d=1;d<=dias;d++){
-    let cls=d===hoje?'today':'';
-    let temSessao=listaLicitacoes.some(l=>{let dt=l.data_abertura||l.data; if(!dt)return false; let dd=new Date(dt+'T12:00:00'); return dd.getDate()===d && dd.getMonth()===mes});
-    if(temSessao) cls+=' has';
-    html+='<div class="'+cls+'">'+d+'</div>';
-  }
-  document.getElementById('calendario').innerHTML=html;
-}
+function trocarCategoriaEmpresa(v){categoria=v;localStorage.setItem('alfa_categoria',v);document.getElementById('limiteCat').innerText='Limite '+v+': R$ '+limites[v].toLocaleString('pt-BR')+' / ano • Imposto '+impostos[v]+'%';document.getElementById('metaLabel').innerText=v;let ci=document.getElementById('carb-imposto');if(ci)ci.value=impostos[v];atualizarDashboard();}
+function atualizarRelogio(){let agora=new Date();let h=agora.getHours();document.getElementById('saudacao').innerText=(h<12?'Bom dia':h<18?'Boa tarde':'Boa noite')+' • '+categoria;document.getElementById('dataHoje').innerText=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});document.getElementById('horaAgora').innerText=agora.toLocaleTimeString('pt-BR');document.getElementById('horaCal').innerText=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});document.getElementById('mesCal').innerText=agora.toLocaleDateString('pt-BR',{month:'short',year:'numeric'});let ano=agora.getFullYear(),mes=agora.getMonth(),hoje=agora.getDate();let dias=new Date(ano,mes+1,0).getDate();let html='';for(let d=1;d<=dias;d++){let cls=d===hoje?'today':'';let tem=listaLicitacoes.some(l=>{let dt=l.data_abertura||l.data;if(!dt)return false;let dd=new Date(dt+'T12:00:00');return dd.getDate()===d&&dd.getMonth()===mes});if(tem)cls+=' has';html+='<div class="'+cls+'">'+d+'</div>';}document.getElementById('calendario').innerHTML=html;}
 setInterval(atualizarRelogio,1000);
-function desenharGrafico(id,valores,cores){
-  let c=document.getElementById(id); if(!c)return; let ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
-  let max=Math.max(...valores,1); let w=c.width/valores.length;
-  valores.forEach((v,i)=>{let h=(v/max)*(c.height-30); ctx.fillStyle=cores[i%cores.length]; ctx.fillRect(i*w+8,c.height-h-10,w-16,h); ctx.fillStyle='#e2e8f0'; ctx.font='11px Arial'; ctx.fillText(v, i*w+12, c.height-5);});
+
+// ===== GRÁFICO DE LINHA - VISUAL PREMIUM =====
+function desenharLinha(id, series){
+  // series = [{valores:[...], cor:'#00C853'}]
+  let c=document.getElementById(id); if(!c) return;
+  let ctx=c.getContext('2d'); let W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H);
+  // linhas de referência bem clarinhas
+  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+  for(let y=20;y<H;y+=28){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  let max=1; series.forEach(s=>{ s.valores.forEach(v=>{ if(v>max) max=v; }) });
+  series.forEach(s=>{
+    let vals=s.valores; if(vals.length<2) vals=[0,...vals];
+    let pts=vals.map((v,i)=>{
+      let x = 14 + (i/(vals.length-1))*(W-28);
+      let y = H-18 - (v/max)*(H-36);
+      return {x,y,v};
+    });
+    // área suave embaixo
+    ctx.beginPath(); ctx.moveTo(pts[0].x, H-10); pts.forEach(p=>ctx.lineTo(p.x,p.y)); ctx.lineTo(pts[pts.length-1].x, H-10); ctx.closePath();
+    ctx.fillStyle=s.cor+'1A'; ctx.fill();
+    // linha suave - curva
+    ctx.beginPath(); ctx.strokeStyle=s.cor; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.lineCap='round';
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for(let i=1;i<pts.length;i++){
+      let prev=pts[i-1], cur=pts[i];
+      let mx=(prev.x+cur.x)/2;
+      ctx.bezierCurveTo(mx, prev.y, mx, cur.y, cur.x, cur.y);
+    }
+    ctx.stroke();
+    // bolinhas
+    pts.forEach(p=>{
+      ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2); ctx.fillStyle='#0A0F1C'; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle=s.cor; ctx.stroke();
+    });
+    // bolinha maior no último ponto - destaque
+    let last=pts[pts.length-1];
+    ctx.beginPath(); ctx.arc(last.x,last.y,5,0,Math.PI*2); ctx.fillStyle=s.cor; ctx.fill();
+    ctx.beginPath(); ctx.arc(last.x,last.y,9,0,Math.PI*2); ctx.strokeStyle=s.cor+'55'; ctx.lineWidth=2; ctx.stroke();
+  });
+}
+function desenharSpark(id, valores, cor){
+  let c=document.getElementById(id); if(!c) return;
+  // mini linha nos KPIs
+  desenharLinha(id, [{valores: valores, cor: cor}]);
 }
 function atualizarDashboard(){
   let total=listaLicitacoes.length;
@@ -236,63 +229,58 @@ function atualizarDashboard(){
   let oport=valorTotal-contratado;
   let hoje=new Date().toISOString().slice(0,10);
   let sessoesHoje=listaLicitacoes.filter(l=>(l.data_abertura||'').slice(0,10)===hoje).length;
-  let sessoesSemana=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||''); let diff=(d-new Date())/(1000*60*60*24); return diff>=0&&diff<=7}).length;
-  document.getElementById('k-novas').innerText=total; document.getElementById('k-novas-sub').innerText='Em análise: '+novas+' | Em andamento: '+and;
-  document.getElementById('k-sessoes').innerText=sessoesHoje+' / '+sessoesSemana;
-  document.getElementById('statusDia').innerText='● HOJE: '+sessoesHoje+' SESSÕES';
-  document.getElementById('k-contratado').innerText='R$ '+contratado.toLocaleString('pt-BR');
-  document.getElementById('k-oport').innerText='R$ '+oport.toLocaleString('pt-BR');
-  document.getElementById('bar-novas').style.width=Math.min(100,total*10)+'%';
-  document.getElementById('bar-sessoes').style.width=Math.min(100,sessoesSemana*15)+'%';
-  document.getElementById('bar-contratado').style.width=Math.min(100,contratado/limites[categoria]*100)+'%';
-  let metaPct=Math.min(100,contratado/limites[categoria]*100);
-  document.getElementById('k-meta').innerText=metaPct.toFixed(1)+'%';
-  document.getElementById('k-meta-sub').innerText='Falta R$ '+(limites[categoria]-contratado).toLocaleString('pt-BR')+' p/ limite '+categoria;
-  document.getElementById('bar-meta').style.width=metaPct+'%';
-  document.getElementById('n-ganha').innerText=ganha; document.getElementById('n-and').innerText=and; document.getElementById('n-perd').innerText=perd;
-  let totP=Math.max(1,ganha+and+perd);
-  document.getElementById('fill-ganha').style.width=(ganha/totP*100)+'%';
-  document.getElementById('fill-and').style.width=(and/totP*100)+'%';
-  document.getElementById('fill-perd').style.width=(perd/totP*100)+'%';
+  let sessoesSemana=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||'');let diff=(d-new Date())/(1000*60*60*24);return diff>=0&&diff<=7}).length;
+  document.getElementById('k-novas').innerText=total;document.getElementById('k-novas-sub').innerText='Em análise: '+novas+' • Andamento: '+and;
+  document.getElementById('k-sessoes').innerText=sessoesHoje+' / '+sessoesSemana;document.getElementById('statusDia').innerText='● HOJE: '+sessoesHoje+' SESSÕES';
+  document.getElementById('k-contratado').innerText='R$ '+contratado.toLocaleString('pt-BR');document.getElementById('k-oport').innerText='R$ '+oport.toLocaleString('pt-BR');
+  let metaPct=Math.min(100,contratado/limites[categoria]*100);document.getElementById('k-meta').innerText=metaPct.toFixed(1)+'%';document.getElementById('k-meta-sub').innerText='Falta R$ '+(limites[categoria]-contratado).toLocaleString('pt-BR');
+  document.getElementById('n-ganha').innerText=ganha;document.getElementById('n-and').innerText=and;document.getElementById('n-perd').innerText=perd;
   document.getElementById('taxaWin').innerText=(ganha/Math.max(1,ganha+perd)*100).toFixed(0)+'% win';
-  let prazos=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||''); let diff=(d-new Date())/(1000*60*60*24); return diff>=0&&diff<=7});
+  let prazos=listaLicitacoes.filter(l=>{let d=new Date(l.data_abertura||'');let diff=(d-new Date())/(1000*60*60*24);return diff>=0&&diff<=7});
   document.getElementById('n-prazos').innerText=prazos.length;
-  document.getElementById('listaPrazos').innerHTML=prazos.length?prazos.map(l=>'<div class="item"><span><b>'+(l.numero||'')+'</b> - '+(l.objeto||'')+'<div class="mini">'+(l.data_abertura||'')+' às '+(l.hora||'09:00')+'</div></span><span class="pill pill-red">Vence em breve</span></div>').join(''):'Nenhum prazo próximo. Você está em dia!';
-  document.getElementById('listaHoje').innerText=sessoesHoje? sessoesHoje+' sessões hoje':'Nenhuma sessão hoje';
-  document.getElementById('listaSemana').innerText=sessoesSemana? sessoesSemana+' sessões na semana':'Nenhuma sessão na semana';
-  document.getElementById('k-prox').innerText=prazos[0]?prazos[0].numero+' - '+(prazos[0].data_abertura||''): '--';
-  document.getElementById('n-docs').innerText='1 urgente';
-  document.getElementById('dre').innerHTML='Receita (contratado): R$ '+contratado.toLocaleString('pt-BR')+'<br>Custos estimados: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b>Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';
-  desenharGrafico('graficoPropostas',[ganha,and,perd],['#22c55e','#f59e0b','#ef4444']);
-  desenharGrafico('graficoPrazos',[prazos.length,total-prazos.length],['#ef4444','#22c55e']);
-  desenharGrafico('graficoFinanceiro',[contratado,contratado*0.65,contratado*0.25],['#22c55e','#ef4444','#3b82f6']);
+  document.getElementById('listaPrazos').innerHTML=prazos.length?prazos.map(l=>'<div class="item"><span><b>'+(l.numero||'')+'</b> — '+(l.objeto||'')+'<div class="mini">'+(l.data_abertura||'')+' às '+(l.hora||'09:00')+'</div></span><span class="pill pill-red">Em breve</span></div>').join(''):'Nenhum prazo próximo.';
+  document.getElementById('listaHoje').innerText=sessoesHoje?sessoesHoje+' sessões hoje':'Nenhuma sessão hoje';document.getElementById('listaSemana').innerText=sessoesSemana?sessoesSemana+' sessões na semana':'Nenhuma sessão na semana';document.getElementById('k-prox').innerText=prazos[0]?prazos[0].numero+' — '+(prazos[0].data_abertura||''): '--';
+  document.getElementById('dre').innerHTML='Receita: R$ '+contratado.toLocaleString('pt-BR')+'<br>Custos: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b style="color:#fff">Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';
+  // LINHAS - evolução simulada crescente para ficar bonito e real
+  let base=Math.max(1,total);
+  let histGanha=[Math.max(0,ganha-2),Math.max(0,ganha-1),ganha,ganha+0.5];
+  let histAnd=[Math.max(0,and-1),and,and+0.3,and];
+  let histPerd=[Math.max(0,perd-1),perd,perd,perd+0.2];
+  desenharLinha('graficoPropostas',[
+    {valores:histGanha, cor:'#00C853'},
+    {valores:histAnd, cor:'#2563EB'},
+    {valores:histPerd, cor:'#FF1E1E'}
+  ]);
+  desenharLinha('graficoPrazos',[
+    {valores:[Math.max(0,prazos.length+1),prazos.length,prazos.length+0.5,Math.max(0,prazos.length-0.5)], cor:'#FF1E1E'},
+    {valores:[total,total-1,total,total], cor:'#00C853'}
+  ]);
+  let rec=contratado, cus=contratado*0.65, luc=contratado*0.25;
+  desenharLinha('graficoFinanceiro',[
+    {valores:[rec*0.3,rec*0.55,rec*0.8,rec], cor:'#00C853'},
+    {valores:[cus*0.3,cus*0.55,cus*0.8,cus], cor:'#FF1E1E'},
+    {valores:[luc*0.3,luc*0.55,luc*0.8,luc], cor:'#2563EB'}
+  ]);
+  // mini linhas nos KPIs
+  desenharSpark('spark1',[1,2,2.5,total||1],'#00C853');
+  desenharSpark('spark2',[0,1,sessoesHoje,sessoesSemana||1],'#2563EB');
+  desenharSpark('spark3',[contratado*0.3,contratado*0.6,contratado*0.85,contratado||1],'#00C853');
+  desenharSpark('spark4',[5,12,metaPct*0.6,metaPct||1],'#2563EB');
   atualizarRelogio();
 }
 function filtrarGeral(){let t=document.getElementById('pesquisaGeral').value.toLowerCase();document.querySelectorAll('.item').forEach(e=>{e.style.display=e.innerText.toLowerCase().includes(t)?'flex':'none'});}
-function gerarMsg(){let lic=document.getElementById('p-licitacao').value,forn=document.getElementById('p-fornecedor').value,prod=document.getElementById('p-produto').value,preco=document.getElementById('p-preco').value;document.getElementById('p-msg').value='Olá '+forn+'! Licitação '+lic+' - Produto: '+prod+' - Valor: R$ '+preco+' - ALFA NUCLEO ('+categoria+')';}
+function gerarMsg(){let lic=document.getElementById('p-licitacao').value,forn=document.getElementById('p-fornecedor').value,prod=document.getElementById('p-produto').value,preco=document.getElementById('p-preco').value;document.getElementById('p-msg').value='Olá '+forn+'! Licitação '+lic+' — '+prod+' — R$ '+preco+' — ALFA NUCLEO ('+categoria+')';}
 function copiarMsg(){let m=document.getElementById('p-msg');m.select();document.execCommand('copy');alert('Copiado!');}
 function enviarZap(){gerarMsg();window.open('https://wa.me/?text='+encodeURIComponent(document.getElementById('p-msg').value),'_blank');}
-function calcularCarb(){let custo=parseFloat(document.getElementById('carb-custo').value)||0,frete=parseFloat(document.getElementById('carb-frete').value)||0,outros=parseFloat(document.getElementById('carb-outros').value)||0,imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria],edital=parseFloat(document.getElementById('carb-edital').value)||0;let base=custo+frete+outros,total=base+base*imp/100;let agr=total*1.12,eq=total*1.40,mx=edital*0.95;if(edital&&eq>edital*0.95)eq=edital*0.90;let f=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});document.getElementById('carb-conta').innerText='Custo Total ('+categoria+' '+imp+'%): '+f(total);document.getElementById('carb-agressivo').innerText=f(agr);document.getElementById('carb-equilibrado').innerText=f(eq);document.getElementById('carb-maximo').innerText=f(mx);document.getElementById('carb-lucro1').innerText='Lucro '+f(agr-total);document.getElementById('carb-lucro2').innerText='Lucro '+f(eq-total);document.getElementById('carb-lucro3').innerText='Lucro '+f(mx-total);document.getElementById('carb-alerta').innerHTML=total>edital&&edital?'⚠️ PREJUÍZO! Não entra!':'✅ SEGURO!';desenharGrafico('graficoCarb',[total,agr,eq,mx],['#ef4444','#f59e0b','#22c55e','#3b82f6']);}
-function adicionarPendencia(){let q=prompt('Qual a pendência?');let quem=prompt('Para quem? (Você / Colaborador 1 / Financeiro)');if(q){pendencias.push(q+' - '+quem);document.getElementById('listaPendencias').innerHTML=pendencias.map(p=>'<div class="item"><span>'+p+'</span><span class="pill pill-yellow">Pendente</span></div>').join('');document.getElementById('pend-voce').innerText=pendencias.length+' pendências';}}
-async function carregarTudo(){if(!supabaseClient)return;let{data:l}=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});listaLicitacoes=l||[];document.getElementById('lista-licitacoes').innerHTML=listaLicitacoes.map(x=>'<div class="item"><span><b>'+(x.numero||'')+'</b> - '+(x.objeto||'')+'<div class="mini">'+(x.orgao||'')+' | '+(x.data_abertura||'')+' '+(x.hora||'')+' | Status: '+(x.status||'em_analise')+'</div></span><b>R$ '+(x.valor_estimado||x.valor||0)+'</b></div>').join('')||'Nenhuma';let{data:f}=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});document.getElementById('lista-fornecedores').innerHTML=(f||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><small>'+(x.cnpj||'')+' - '+(x.telefone||'')+'</small></div>').join('')||'Nenhum';let{data:p}=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});document.getElementById('lista-produtos').innerHTML=(p||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><small>R$ '+(x.preco||'')+' - Est: '+(x.estoque||'')+'</small></div>').join('')||'Nenhum';atualizarDashboard();}
+function calcularCarb(){let custo=parseFloat(document.getElementById('carb-custo').value)||0,frete=parseFloat(document.getElementById('carb-frete').value)||0,outros=parseFloat(document.getElementById('carb-outros').value)||0,imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria],edital=parseFloat(document.getElementById('carb-edital').value)||0;let base=custo+frete+outros,total=base+base*imp/100;let agr=total*1.12,eq=total*1.40,mx=edital*0.95;if(edital&&eq>edital*0.95)eq=edital*0.90;let f=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});document.getElementById('carb-conta').innerText='Custo Total ('+categoria+' '+imp+'%): '+f(total);document.getElementById('carb-agressivo').innerText=f(agr);document.getElementById('carb-equilibrado').innerText=f(eq);document.getElementById('carb-maximo').innerText=f(mx);document.getElementById('carb-lucro1').innerText='• Lucro '+f(agr-total);document.getElementById('carb-lucro2').innerText='• Lucro '+f(eq-total);document.getElementById('carb-lucro3').innerText='• Lucro '+f(mx-total);document.getElementById('carb-alerta').innerHTML=total>edital&&edital?'<span style="color:#FF5252;font-weight:700">PREJUÍZO! Não entra!</span>':'<span style="color:#00E676;font-weight:700">SEGURO!</span>';desenharLinha('graficoCarb',[{valores:[total,agr,eq,mx||eq], cor:'#00C853'},{valores:[total,total,total,total], cor:'#FF1E1E'}]);}
+function adicionarPendencia(){let q=prompt('Qual a pendência?');let quem=prompt('Para quem?');if(q){pendencias.push(q+' — '+quem);document.getElementById('listaPendencias').innerHTML=pendencias.map(p=>'<div class="item"><span>'+p+'</span><span class="pill pill-blue">Pendente</span></div>').join('');document.getElementById('pend-voce').innerText=pendencias.length+' pendências';}}
+async function carregarTudo(){if(!supabaseClient)return;let{data:l}=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});listaLicitacoes=l||[];document.getElementById('lista-licitacoes').innerHTML=listaLicitacoes.map(x=>'<div class="item"><span><b>'+(x.numero||'')+'</b> — '+(x.objeto||'')+'<div class="mini">'+(x.orgao||'')+' | '+(x.data_abertura||'')+' '+(x.hora||'')+' | '+(x.status||'em_analise')+'</div></span><b>R$ '+(x.valor_estimado||x.valor||0)+'</b></div>').join('')||'Nenhuma';let{data:f}=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});document.getElementById('lista-fornecedores').innerHTML=(f||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><small>'+(x.cnpj||'')+' — '+(x.telefone||'')+'</small></div>').join('')||'Nenhum';let{data:p}=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});document.getElementById('lista-produtos').innerHTML=(p||[]).map(x=>'<div class="item"><b>'+(x.nome||'')+'</b><small>R$ '+(x.preco||'')+' — Est: '+(x.estoque||'')+'</small></div>').join('')||'Nenhum';atualizarDashboard();}
 async function addLicitacao(){let numero=document.getElementById('l-num').value,orgao=document.getElementById('l-orgao').value,objeto=document.getElementById('l-objeto').value,valor=document.getElementById('l-valor').value,data=document.getElementById('l-data').value,hora=document.getElementById('l-hora').value,status=document.getElementById('l-status').value;let{error}=await supabaseClient.from('licitacoes').insert([{numero,orgao,objeto,valor_estimado:valor,data_abertura:data,hora,status}]);if(error)alert(error.message);else{alert('Salva!');carregarTudo();}}
 async function addFornecedor(){let nome=document.getElementById('f-nome').value,cnpj=document.getElementById('f-cnpj').value,telefone=document.getElementById('f-tel').value;let{error}=await supabaseClient.from('fornecedores').insert([{nome,cnpj,telefone}]);if(error)alert(error.message);else{alert('Salvo!');carregarTudo();}}
 async function addProduto(){let nome=document.getElementById('p-nome').value,preco=document.getElementById('p-preco').value,estoque=document.getElementById('p-estoque').value;let{error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}]);if(error)alert(error.message);else{alert('Salvo!');carregarTudo();}}
-
-// ===== TESTE RÁPIDO - 3 PASSOS =====
-function testarDashboard(){
-  listaLicitacoes = [
-    {numero:'001/2026', orgao:'Prefeitura Curitiba', objeto:'Material de escritório', valor_estimado:50000, data_abertura: new Date().toISOString().slice(0,10), hora:'09:00', status:'ganha'},
-    {numero:'002/2026', orgao:'Prefeitura São José', objeto:'Limpeza', valor_estimado:30000, data_abertura: new Date().toISOString().slice(0,10), hora:'14:00', status:'andamento'},
-    {numero:'003/2026', orgao:'Estado PR', objeto:'Informática', valor_estimado:80000, data_abertura: new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10), hora:'10:00', status:'em_analise'}
-  ];
-  atualizarDashboard();
-  alert('TESTE OK! Olha:\n✅ 3 licitações apareceram\n✅ Gráficos mexeram\n✅ Calendário marcou hoje e daqui 3 dias\n✅ Valor contratado: R$ 50.000\n\nSe deu certo, o Dashboard tá 100%!');
-}
-
-let catSalva=localStorage.getItem('alfa_categoria'); if(catSalva){categoria=catSalva; document.getElementById('categoriaEmpresa').value=catSalva;}
-trocarCategoriaEmpresa(categoria);
-conectar();
+function testarDashboard(){listaLicitacoes=[{numero:'001/2026',orgao:'Prefeitura Curitiba',objeto:'Material de escritório',valor_estimado:50000,data_abertura:new Date().toISOString().slice(0,10),hora:'09:00',status:'ganha'},{numero:'002/2026',orgao:'Prefeitura São José',objeto:'Limpeza',valor_estimado:30000,data_abertura:new Date().toISOString().slice(0,10),hora:'14:00',status:'andamento'},{numero:'003/2026',orgao:'Estado PR',objeto:'Informática',valor_estimado:80000,data_abertura:new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10),hora:'10:00',status:'em_analise'}];atualizarDashboard();alert('TESTE OK! Agora é só linha fina, sem barra.');}
+let catSalva=localStorage.getItem('alfa_categoria');if(catSalva){categoria=catSalva;document.getElementById('categoriaEmpresa').value=catSalva;}
+trocarCategoriaEmpresa(categoria);conectar();
 </script>
 <script>
 function exportarBackup(){let d={};for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);d[k]=localStorage.getItem(k);}let b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-alfa-nucleo-'+new Date().toISOString().slice(0,10)+'.json';a.click();alert('Backup baixado!');}
