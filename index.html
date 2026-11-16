@@ -17,10 +17,10 @@ header p{margin:2px 0 0;font-size:11px;color:#8B96AD}
 .card h3{margin:0 0 12px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
 .mini{font-size:10px;color:#8B96AD;text-transform:uppercase;letter-spacing:.7px;font-weight:600}
 .big{font-size:24px;font-weight:300;letter-spacing:-.5px;margin:3px 0}
-.big b{font-weight:700}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
-@media(max-width:700px){.grid2,.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.grid2,.grid3,.grid4{grid-template-columns:1fr 1fr}}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
 .tabs button{padding:9px 10px;border:1px solid #1E2A44;background:#111A2E;color:#CBD5E1;border-radius:8px;font-weight:600;font-size:12.5px;cursor:pointer;flex:1;min-width:98px}
 .tabs button.active{background:#00C853;color:#000;border-color:#00C853}
@@ -41,8 +41,11 @@ canvas{width:100%;height:130px;background:transparent;border-radius:8px}
 select.cat{width:auto;padding:7px 12px;font-weight:700;background:#00C853;color:#000;border:none;font-size:12px;border-radius:99px}
 .divider{height:1px;background:#1E2A44;margin:12px 0}
 .kpi-sub{font-size:11px;color:#8B96AD;margin-top:2px}
-.legend{display:flex;gap:14px;font-size:11px;color:#94A3B8;margin-top:6px;flex-wrap:wrap}
+.legend{display:flex;gap:12px;font-size:11px;color:#94A3B8;margin-top:6px;flex-wrap:wrap}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.result-box{background:#0A0F1C;border:1px solid #1E2A44;border-radius:10px;padding:12px;margin-top:10px}
+.result-box.green{border-color:#00C853;background:#00C8530D}
+.result-box.red{border-color:#FF1E1E;background:#FF1E1E0D}
 </style>
 </head>
 <body>
@@ -76,57 +79,40 @@ select.cat{width:auto;padding:7px 12px;font-weight:700;background:#00C853;color:
 </div>
 
 <div id="sec-dashboard">
-<button onclick="testarDashboard()" style="width:100%;padding:10px;border:1px dashed #00C853;background:transparent;color:#00E676;border-radius:8px;font-weight:600;font-size:12px;margin-bottom:12px;cursor:pointer">▶️ 🧪 TESTAR AGORA — Ver gráfico de velas 🕯️</button>
-
+<button onclick="testarDashboard()" style="width:100%;padding:10px;border:1px dashed #00C853;background:transparent;color:#00E676;border-radius:8px;font-weight:600;font-size:12px;margin-bottom:12px;cursor:pointer">▶️ 🧪 TESTAR AGORA</button>
 <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px">
 <div><div style="font-size:18px;font-weight:600" id="saudacao">🌙 Boa noite</div><div class="mini" id="dataHoje" style="margin-top:2px"></div></div>
-<div style="text-align:right"><span class="pill pill-green" id="statusDia">● HOJE: 0 SESSÕES</span><div class="mini" style="margin-top:6px" id="horaAgora"></div></div>
+<div style="text-align:right"><span class="pill pill-green" id="statusDia">● 🗓️ HOJE: 0 SESSÕES</span><div class="mini" style="margin-top:6px" id="horaAgora"></div></div>
 </div>
-
-<!-- KPIs COM FIGURINHA + MINI VELAS -->
 <div class="grid4">
 <div class="card"><div class="mini">📋 Licitações</div><div class="big" id="k-novas">0</div><div class="kpi-sub" id="k-novas-sub">🔎 Em análise: 0</div><canvas id="spark1" style="height:42px;margin-top:6px"></canvas></div>
 <div class="card"><div class="mini">🗓️ Sessões Hoje / Semana</div><div class="big" id="k-sessoes">0 / 0</div><div class="kpi-sub">⏭️ Próxima: <span id="k-prox">--</span></div><canvas id="spark2" style="height:42px;margin-top:6px"></canvas></div>
 <div class="card"><div class="mini">💰 Valor Contratado</div><div class="big" id="k-contratado">R$ 0</div><div class="kpi-sub">💡 Oportunidades: <b id="k-oport" style="color:#00E676">R$ 0</b></div><canvas id="spark3" style="height:42px;margin-top:6px"></canvas></div>
 <div class="card"><div class="mini">🎯 Meta <span id="metaLabel">MEI</span></div><div class="big" id="k-meta">0%</div><div class="kpi-sub" id="k-meta-sub">📌 Falta R$ 0</div><canvas id="spark4" style="height:42px;margin-top:6px"></canvas></div>
 </div>
-
 <div class="grid2">
 <div class="card"><h3>📊 Propostas — Velas 🕯️ <span class="pill pill-green" id="taxaWin">0% win 🏆</span></h3>
 <div class="legend"><span>🟢 ✅ Ganhas <b id="n-ganha" style="color:#fff">0</b></span><span>🔵 🔄 Andamento <b id="n-and" style="color:#fff">0</b></span><span>🔴 ❌ Perdidas <b id="n-perd" style="color:#fff">0</b></span></div>
-<canvas id="graficoPropostas"></canvas>
-<div class="mini" style="text-align:center">🕯️ CANDLESTICK • VERDE SUBIU • VERMELHO DESCEU</div>
+<canvas id="graficoPropostas"></canvas><div class="mini" style="text-align:center">🕯️ CANDLESTICK</div></div>
+<div class="card"><h3>📅 Calendário <span class="pill pill-gray" id="mesCal"></span></h3><div style="font-size:12px;color:#8B96AD;margin-bottom:8px">🕐 Hoje <b id="horaCal" style="color:#fff"></b></div><div class="cal" id="calendario"></div><div class="divider"></div><div style="font-size:12.5px;line-height:1.7">📍 <b>Hoje:</b> <span id="listaHoje">Nenhuma sessão hoje</span><br>📆 <b>Semana:</b> <span id="listaSemana">Nenhuma sessão na semana</span></div></div>
 </div>
-<div class="card"><h3>📅 Calendário — Sessões & Prazos <span class="pill pill-gray" id="mesCal"></span></h3>
-<div style="font-size:12px;color:#8B96AD;margin-bottom:8px">🕐 Hoje <b id="horaCal" style="color:#fff"></b></div>
-<div class="cal" id="calendario"></div><div class="divider"></div>
-<div style="font-size:12.5px;line-height:1.7">📍 <b>Hoje:</b> <span id="listaHoje">Nenhuma sessão hoje</span><br>📆 <b>Semana:</b> <span id="listaSemana">Nenhuma sessão na semana</span></div>
-</div>
-</div>
-
 <div class="grid2">
-<div class="card"><h3>⏰ Prazos Próximos do Vencimento <span class="pill pill-red" id="n-prazos">0 🚨</span></h3><div id="listaPrazos">✅ Nenhum prazo próximo.</div><canvas id="graficoPrazos" style="height:90px;margin-top:10px"></canvas><div class="legend"><span>🔴 🚨 Urgente</span><span>🟢 ✅ Em dia</span></div></div>
-<div class="card"><h3>📄 Documentos & Certidões a Vencer <span class="pill pill-red" id="n-docs">1 urgente ⚠️</span></h3>
+<div class="card"><h3>⏰ Prazos Próximos <span class="pill pill-red" id="n-prazos">0 🚨</span></h3><div id="listaPrazos">✅ Nenhum prazo próximo.</div><canvas id="graficoPrazos" style="height:90px;margin-top:10px"></canvas></div>
+<div class="card"><h3>📄 Documentos & Certidões <span class="pill pill-red" id="n-docs">1 urgente ⚠️</span></h3>
 <div class="item"><span>📜 CND Federal</span><span class="pill pill-green">✅ OK • 45 dias</span></div>
 <div class="item"><span>🏛️ FGTS</span><span class="pill pill-blue">⏳ 12 dias</span></div>
 <div class="item"><span>🏢 Estadual / Municipal</span><span class="pill pill-red">🚨 3 dias • URGENTE</span></div>
 <div class="item"><span>📝 Contrato Social</span><span class="pill pill-green">✅ Atualizado</span></div>
-<button class="btn btn-ghost" onclick="alert('Aba Documentos vem na próxima! 📄')">➕ 📄 Documento</button>
+<button class="btn btn-ghost" onclick="alert('Aba Documentos vem na próxima! 📄')">➕ 📄 Documento</button></div>
 </div>
-</div>
-
 <div class="grid2">
-<div class="card"><h3>💸 Financeiro — Evolução 🕯️</h3>
-<div class="legend"><span>🟢 💰 Receita</span><span>🔴 💸 Custos</span><span>🔵 📈 Lucro</span></div>
-<canvas id="graficoFinanceiro"></canvas>
-<div id="dre" style="font-size:12.5px;margin-top:8px;line-height:1.8;color:#CBD5E1">💰 Receita: R$ 0<br>💸 Custos: R$ 0<br>🧾 Imposto: R$ 0<br><b style="color:#fff">🏆 Lucro: R$ 0</b></div></div>
+<div class="card"><h3>💸 Financeiro — Evolução 🕯️</h3><div class="legend"><span>🟢 💰 Receita</span><span>🔴 💸 Custos</span><span>🔵 📈 Lucro</span></div><canvas id="graficoFinanceiro"></canvas><div id="dre" style="font-size:12.5px;margin-top:8px;line-height:1.8">💰 Receita: R$ 0<br>💸 Custos: R$ 0<br>🧾 Imposto: R$ 0<br><b>🏆 Lucro: R$ 0</b></div></div>
 <div class="card"><h3>👥 Pendências por Colaborador</h3>
 <div class="item"><span>👤 Você <span class="mini">• 👑 Dono</span></span><b id="pend-voce">0 pendências ✅</b></div>
 <div class="item"><span>👨‍💼 Colaborador 1</span><span class="pill pill-blue">⏳ 2 pendentes</span></div>
 <div class="item"><span>👩‍💼 Colaborador 2</span><span class="pill pill-green">✅ 0 pendentes</span></div>
 <div class="item"><span>💼 Financeiro</span><span class="pill pill-red">🚨 1 urgente</span></div>
-<button class="btn btn-ghost" onclick="adicionarPendencia()">➕ Nova pendência 📌</button><div id="listaPendencias"></div>
-</div>
+<button class="btn btn-ghost" onclick="adicionarPendencia()">➕ Nova pendência 📌</button><div id="listaPendencias"></div></div>
 </div>
 </div>
 
@@ -137,18 +123,55 @@ select.cat{width:auto;padding:7px 12px;font-weight:700;background:#00C853;color:
 
 <div id="sec-fornecedores" class="hidden"><div class="card"><h3>🏭 Novo Fornecedor</h3><input id="f-nome" placeholder="🏢 Nome / Razão"><input id="f-cnpj" placeholder="🪪 CNPJ"><input id="f-tel" placeholder="📱 WhatsApp"><button class="btn" onclick="addFornecedor()">➕ 🏭 Cadastrar Fornecedor</button></div><div class="card"><h3>🏭 Fornecedores</h3><div id="lista-fornecedores"></div></div></div>
 
-<div id="sec-carburador" class="hidden"><div class="card"><h3>⛽ Carburador — Curva de Preço 🕯️</h3>
-<label class="mini">💰 Custo R$</label><input id="carb-custo" type="number" oninput="calcularCarb()">
-<label class="mini">🚚 Frete R$</label><input id="carb-frete" type="number" oninput="calcularCarb()">
-<label class="mini">🧾 Outros R$</label><input id="carb-outros" type="number" oninput="calcularCarb()">
-<label class="mini">📊 Imposto %</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()">
-<label class="mini">🏛️ Valor Edital R$</label><input id="carb-edital" type="number" oninput="calcularCarb()">
-<div id="carb-conta" style="margin-top:10px;font-size:13px"></div>
-<div style="margin-top:10px;line-height:2;font-size:13px">🔥 Agressivo: <b id="carb-agressivo"></b> <span id="carb-lucro1"></span><br>✅ Equilibrado ⭐: <b id="carb-equilibrado" style="color:#00E676"></b> <span id="carb-lucro2"></span><br>🏁 Máximo: <b id="carb-maximo"></b> <span id="carb-lucro3"></span></div>
-<div id="carb-alerta" style="font-size:13px"></div>
-<div class="legend"><span>🔴 💸 Custo</span><span>🔵 🔥 Agressivo</span><span>🟢 ✅ Equilibrado</span></div>
-<canvas id="graficoCarb" style="height:120px;margin-top:8px"></canvas>
-</div></div>
+<!-- ============ ⛽ CARBURADOR NOVO - COMPLETO ============ -->
+<div id="sec-carburador" class="hidden">
+<div class="card"><h3>⛽ Carburador Inteligente <span class="pill pill-green">📈 NOVO • COM QUANTIDADE</span></h3>
+<label class="mini">📦 Nome do Produto</label><input id="carb-nome" placeholder="Ex: Papel A4 - Resma" oninput="calcularCarb()">
+<div class="grid2">
+<div><label class="mini">📏 Unidade</label><select id="carb-unidade" onchange="calcularCarb()"><option value="UN">📦 UN - Unidade</option><option value="CX">📦 CX - Caixa</option><option value="KG">⚖️ KG - Quilo</option><option value="L">🧴 L - Litro</option><option value="PCT">📦 PCT - Pacote</option><option value="RESMA">📄 RESMA</option><option value="PAR">👞 PAR</option></select></div>
+<div><label class="mini">🔢 Quantidade Total do Edital</label><input id="carb-qtd" type="number" value="1" oninput="calcularCarb()"></div>
+</div>
+<div class="grid2">
+<div><label class="mini">💰 Custo por Unidade R$</label><input id="carb-custo" type="number" placeholder="550" oninput="calcularCarb()"></div>
+<div><label class="mini">🚚 Frete Total R$</label><input id="carb-frete" type="number" placeholder="80" oninput="calcularCarb()"></div>
+</div>
+<div class="grid2">
+<div><label class="mini">🧾 Outros Custos Total R$</label><input id="carb-outros" type="number" placeholder="0" oninput="calcularCarb()"></div>
+<div><label class="mini">📊 Imposto %</label><input id="carb-imposto" type="number" value="6" oninput="calcularCarb()"></div>
+</div>
+<label class="mini">🏛️ Valor do Edital por Unidade R$</label><input id="carb-edital" type="number" placeholder="920" oninput="calcularCarb()">
+
+<!-- RESULTADO POR UNIDADE -->
+<div class="result-box" id="carb-box-unidade">
+<div style="font-size:12px;font-weight:700">📏 RESULTADO POR UNIDADE ( <span id="carb-unidade-label">UN</span> )</div>
+<div id="carb-conta" style="font-size:12.5px;margin-top:6px;line-height:1.7">Preencha para calcular...</div>
+</div>
+
+<!-- 3 OPÇÕES -->
+<div class="grid3" style="margin-top:10px">
+<div class="card" style="margin:0"><div class="mini">🔥 Agressivo</div><div style="font-size:18px;font-weight:700" id="carb-agressivo">R$ 0</div><div style="font-size:11px" id="carb-lucro1"></div><div style="font-size:11px;color:#00E676" id="carb-pct1"></div></div>
+<div class="card" style="margin:0;border-color:#00C853;background:#00C8530D"><div class="mini">✅ Equilibrado ⭐</div><div style="font-size:18px;font-weight:700;color:#00E676" id="carb-equilibrado">R$ 0</div><div style="font-size:11px" id="carb-lucro2"></div><div style="font-size:11px;color:#00E676" id="carb-pct2"></div></div>
+<div class="card" style="margin:0"><div class="mini">🏁 Máximo</div><div style="font-size:18px;font-weight:700" id="carb-maximo">R$ 0</div><div style="font-size:11px" id="carb-lucro3"></div><div style="font-size:11px;color:#00E676" id="carb-pct3"></div></div>
+</div>
+
+<!-- RESULTADO TOTAL - O MAIS IMPORTANTE -->
+<div class="result-box green" id="carb-box-total">
+<div style="display:flex;justify-content:space-between;align-items:center"><b>💰 RESULTADO TOTAL DA LICITAÇÃO</b><span class="pill pill-green" id="carb-alerta">✅ SEGURO</span></div>
+<div id="carb-total-geral" style="margin-top:8px;font-size:13px;line-height:1.8">Quantidade: 0 • Custo Total: R$ 0 • Preço Total: R$ 0 • <b>Lucro Total: R$ 0</b></div>
+<div id="carb-barra-lucro" style="height:6px;background:#1E2A44;border-radius:99px;overflow:hidden;margin-top:8px"><div id="carb-fill-lucro" style="height:100%;background:#00C853;width:0%"></div></div>
+<div style="font-size:11px;color:#94A3B8;margin-top:4px">📊 Quanto maior a barra verde, maior seu lucro no total</div>
+</div>
+
+<!-- GRÁFICOS TOP 📈 📊 -->
+<div class="grid2" style="margin-top:12px">
+<div class="card" style="margin:0"><h3>📈 Área — Evolução do Preço</h3><canvas id="graficoCarbArea" style="height:130px"></canvas><div class="legend"><span>🔴 Custo</span><span>🔵 Agressivo</span><span>🟢 Equilibrado</span><span>🟣 Máximo</span></div></div>
+<div class="card" style="margin:0"><h3>🍩 Rosca — Onde Vai o Dinheiro</h3><canvas id="graficoCarbRosca" style="height:130px"></canvas><div id="carb-rosca-legenda" style="font-size:11px;line-height:1.7;margin-top:6px">Preencha para ver...</div></div>
+</div>
+
+<button class="btn" onclick="usarEquilibrado()">✅ USAR PREÇO EQUILIBRADO NA PROPOSTA →</button>
+<div style="font-size:11px;color:#94A3B8;margin-top:8px;text-align:center">💡 Dica: No exemplo da sua foto (550 + 80 frete, qtd 1) → Lucro Total R$ 160,20 • 24% markup • 19,35% margem</div>
+</div>
+</div>
 
 <div id="sec-proposta" class="hidden"><div class="card"><h3>💬 Proposta + WhatsApp 📱</h3><input id="p-licitacao" placeholder="🔢 Nº Licitação"><input id="p-fornecedor" placeholder="🏭 Fornecedor"><input id="p-produto" placeholder="📦 Produto"><input id="p-preco" type="number" placeholder="💰 Preço Final"><textarea id="p-msg" rows="5" placeholder="✍️ Mensagem pronta vai aparecer aqui..."></textarea><button class="btn" onclick="gerarMsg()">✨ Gerar Mensagem</button><button class="btn btn-ghost" onclick="copiarMsg()">📋 Copiar</button><button class="btn" onclick="enviarZap()">📲 Enviar no Zap</button></div></div>
 
@@ -165,57 +188,56 @@ let supabaseClient=null, listaLicitacoes=[], categoria='MEI';
 let limites={MEI:81000,ME:360000,EPP:4800000,LTDA:100000000};
 let impostos={MEI:6,ME:8,EPP:11,LTDA:14};
 let pendencias=[];
+let ultimoEquilibrado=0;
 function aba(id){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));['dashboard','licitacoes','fornecedores','produtos','carburador','proposta'].forEach(s=>{let e=document.getElementById('sec-'+s);if(e)e.classList.add('hidden')});document.getElementById('sec-'+id).classList.remove('hidden');document.getElementById('aba-'+id)?.classList.add('active');}
 function salvar(){let u=document.getElementById('url').value.trim(),k=document.getElementById('key').value.trim();if(!u||!k)return alert('Cole URL e KEY');localStorage.setItem('alfa_url',u);localStorage.setItem('alfa_key',k);conectar();}
 function conectar(){let u=localStorage.getItem('alfa_url'),k=localStorage.getItem('alfa_key');if(!u||!k)return;supabaseClient=supabase.createClient(u,k);document.getElementById('configCard').classList.add('hidden');document.getElementById('app').classList.remove('hidden');carregarTudo();}
 function trocarCategoriaEmpresa(v){categoria=v;localStorage.setItem('alfa_categoria',v);document.getElementById('limiteCat').innerText='Limite '+v+': R$ '+limites[v].toLocaleString('pt-BR')+' / ano • Imposto '+impostos[v]+'%';document.getElementById('metaLabel').innerText=v;let ci=document.getElementById('carb-imposto');if(ci)ci.value=impostos[v];atualizarDashboard();}
 function atualizarRelogio(){let agora=new Date();let h=agora.getHours();let emoji=h<12?'🌅':h<18?'🌤️':'🌙';let saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';document.getElementById('saudacao').innerText=emoji+' '+saud+' • '+categoria;document.getElementById('dataHoje').innerText=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});document.getElementById('horaAgora').innerText='🕐 Agora: '+agora.toLocaleTimeString('pt-BR');document.getElementById('horaCal').innerText=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});document.getElementById('mesCal').innerText='📅 '+agora.toLocaleDateString('pt-BR',{month:'short',year:'numeric'});let ano=agora.getFullYear(),mes=agora.getMonth(),hoje=agora.getDate();let dias=new Date(ano,mes+1,0).getDate();let html='';for(let d=1;d<=dias;d++){let cls=d===hoje?'today':'';let tem=listaLicitacoes.some(l=>{let dt=l.data_abertura||l.data;if(!dt)return false;let dd=new Date(dt+'T12:00:00');return dd.getDate()===d&&dd.getMonth()===mes});if(tem)cls+=' has';html+='<div class="'+cls+'">'+d+'</div>';}document.getElementById('calendario').innerHTML=html;}
 setInterval(atualizarRelogio,1000);
-
-// ===== 🕯️ GRÁFICO DE VELAS / CANDLESTICK - SEM BOLINHA =====
 function desenharVelas(id, series){
   let c=document.getElementById(id); if(!c) return;
-  let ctx=c.getContext('2d'); let W=c.width, H=c.height;
-  ctx.clearRect(0,0,W,H);
-  // grade clarinha
+  let ctx=c.getContext('2d'); let W=c.width, H=c.height; ctx.clearRect(0,0,W,H);
   ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
   for(let y=20;y<H;y+=28){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
   let max=1; series.forEach(s=>{ s.valores.forEach(v=>{ if(v>max) max=v; }) });
-  let n = Math.max(...series.map(s=>s.valores.length));
-  let slot = W / n;
-  series.forEach((s, si)=>{
-    s.valores.forEach((v,i)=>{
-      let prev = i===0 ? v*0.85 : s.valores[i-1];
-      let open = prev;
-      let close = v;
-      let high = Math.max(open, close) * 1.08;
-      let low = Math.min(open, close) * 0.92;
-      let x = i*slot + slot*0.25 + si*3;
-      let w = Math.max(6, slot*0.28);
-      let yOpen = H-18 - (open/max)*(H-36);
-      let yClose = H-18 - (close/max)*(H-36);
-      let yHigh = H-18 - (high/max)*(H-36);
-      let yLow = H-18 - (low/max)*(H-36);
-      let subiu = close >= open;
-      let cor = subiu ? s.corSubiu || '#00C853' : s.corDesceu || '#FF1E1E';
-      // pavio fino - 1px
-      ctx.strokeStyle=cor; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(x+w/2, yHigh); ctx.lineTo(x+w/2, yLow); ctx.stroke();
-      // corpo da vela - fino e elegante
-      let top = Math.min(yOpen, yClose);
-      let h = Math.max(4, Math.abs(yClose - yOpen));
-      ctx.fillStyle=cor;
-      // borda arredondada leve
-      ctx.beginPath();
-      if(ctx.roundRect) ctx.roundRect(x, top, w, h, 2); else ctx.rect(x, top, w, h);
-      ctx.fill();
-      // se desceu, deixa vazada por dentro pra diferenciar
-      if(!subiu){
-        ctx.fillStyle='#0A0F1C';
-        ctx.fillRect(x+1.5, top+1.5, w-3, Math.max(1,h-3));
-      }
-    });
+  let n = Math.max(...series.map(s=>s.valores.length)); let slot = W / n;
+  series.forEach((s, si)=>{ s.valores.forEach((v,i)=>{ let prev = i===0 ? v*0.85 : s.valores[i-1]; let open=prev, close=v; let high=Math.max(open,close)*1.08, low=Math.min(open,close)*0.92; let x=i*slot+slot*0.25+si*3; let w=Math.max(6,slot*0.28); let yOpen=H-18-(open/max)*(H-36), yClose=H-18-(close/max)*(H-36), yHigh=H-18-(high/max)*(H-36), yLow=H-18-(low/max)*(H-36); let subiu=close>=open; let cor=subiu? s.corSubiu||'#00C853' : s.corDesceu||'#FF1E1E'; ctx.strokeStyle=cor; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+w/2,yHigh); ctx.lineTo(x+w/2,yLow); ctx.stroke(); let top=Math.min(yOpen,yClose), h=Math.max(4,Math.abs(yClose-yOpen)); ctx.fillStyle=cor; ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x,top,w,h,2); else ctx.rect(x,top,w,h); ctx.fill(); if(!subiu){ ctx.fillStyle='#0A0F1C'; ctx.fillRect(x+1.5,top+1.5,w-3,Math.max(1,h-3)); } }); });
+}
+// ===== 📈 GRÁFICO DE ÁREA - TOP =====
+function desenharArea(id, valores, cor){
+  let c=document.getElementById(id); if(!c) return;
+  let ctx=c.getContext('2d'); let W=c.width, H=c.height; ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+  for(let y=20;y<H;y+=28){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  let max=Math.max(...valores,1);
+  let pts=valores.map((v,i)=>{ return {x:14+(i/(valores.length-1))*(W-28), y:H-18-(v/max)*(H-36)}; });
+  // área com degradê
+  let grad=ctx.createLinearGradient(0,0,0,H); grad.addColorStop(0, cor+'55'); grad.addColorStop(1, cor+'00');
+  ctx.beginPath(); ctx.moveTo(pts[0].x,H-10); pts.forEach(p=>ctx.lineTo(p.x,p.y)); ctx.lineTo(pts[pts.length-1].x,H-10); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+  // linha suave
+  ctx.beginPath(); ctx.strokeStyle=cor; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++){ let prev=pts[i-1], cur=pts[i]; let mx=(prev.x+cur.x)/2; ctx.bezierCurveTo(mx,prev.y,mx,cur.y,cur.x,cur.y); } ctx.stroke();
+}
+// ===== 🍩 GRÁFICO ROSCA =====
+function desenharRosca(id, partes){
+  // partes = [{valor, cor, nome}]
+  let c=document.getElementById(id); if(!c) return;
+  let ctx=c.getContext('2d'); let W=c.width, H=c.height; ctx.clearRect(0,0,W,H);
+  let total=partes.reduce((s,p)=>s+p.valor,0) || 1;
+  let cx=W/2, cy=H/2, r=Math.min(W,H)/2-14;
+  let ang=-Math.PI/2;
+  partes.forEach(p=>{
+    let fatia=(p.valor/total)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,ang,ang+fatia); ctx.closePath(); ctx.fillStyle=p.cor; ctx.fill();
+    // separação branca fina
+    ctx.strokeStyle='#0A0F1C'; ctx.lineWidth=2; ctx.stroke();
+    ang+=fatia;
   });
+  // buraco do meio
+  ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2); ctx.fillStyle='#111A2E'; ctx.fill();
+  ctx.fillStyle='#fff'; ctx.font='bold 13px Arial'; ctx.textAlign='center'; ctx.fillText('LUCRO',cx,cy-2);
+  ctx.fillStyle='#00E676'; ctx.font='bold 12px Arial'; ctx.fillText(partes[3]?partes[3].valor.toFixed(0)+'%':'',cx,cy+14);
 }
 function atualizarDashboard(){
   let total=listaLicitacoes.length;
@@ -239,22 +261,11 @@ function atualizarDashboard(){
   document.getElementById('n-prazos').innerText=prazos.length+' 🚨';
   document.getElementById('listaPrazos').innerHTML=prazos.length?prazos.map(l=>'<div class="item"><span>📋 <b>'+(l.numero||'')+'</b> — '+(l.objeto||'')+'<div class="mini">📅 '+(l.data_abertura||'')+' 🕐 '+(l.hora||'09:00')+'</div></span><span class="pill pill-red">🚨 Em breve</span></div>').join(''):'✅ Nenhum prazo próximo.';
   document.getElementById('listaHoje').innerText=sessoesHoje?sessoesHoje+' sessões hoje 🗓️':'Nenhuma sessão hoje ✅';document.getElementById('listaSemana').innerText=sessoesSemana?sessoesSemana+' sessões na semana 📆':'Nenhuma sessão na semana ✅';document.getElementById('k-prox').innerText=prazos[0]?prazos[0].numero+' — '+(prazos[0].data_abertura||''): '--';
-  document.getElementById('dre').innerHTML='💰 Receita: R$ '+contratado.toLocaleString('pt-BR')+'<br>💸 Custos: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>🧾 Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b style="color:#fff">🏆 Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';
-  // VELAS
-  desenharVelas('graficoPropostas',[
-    {valores:[Math.max(0.2,ganha-1),Math.max(0.2,ganha-0.5),ganha,ganha+0.6], corSubiu:'#00C853', corDesceu:'#FF1E1E'},
-    {valores:[Math.max(0.2,and-0.5),and,and+0.2,and], corSubiu:'#2563EB', corDesceu:'#FF1E1E'}
-  ]);
-  desenharVelas('graficoPrazos',[
-    {valores:[Math.max(0.2,prazos.length+0.5),prazos.length,Math.max(0.2,prazos.length-0.3),prazos.length+0.4], corSubiu:'#FF1E1E', corDesceu:'#00C853'}
-  ]);
+  document.getElementById('dre').innerHTML='💰 Receita: R$ '+contratado.toLocaleString('pt-BR')+'<br>💸 Custos: R$ '+(contratado*0.65).toLocaleString('pt-BR')+'<br>🧾 Imposto ('+impostos[categoria]+'% '+categoria+'): R$ '+(contratado*impostos[categoria]/100).toLocaleString('pt-BR')+'<br><b>🏆 Lucro: R$ '+(contratado*0.25).toLocaleString('pt-BR')+'</b>';
+  desenharVelas('graficoPropostas',[{valores:[Math.max(0.2,ganha-1),Math.max(0.2,ganha-0.5),ganha,ganha+0.6], corSubiu:'#00C853', corDesceu:'#FF1E1E'},{valores:[Math.max(0.2,and-0.5),and,and+0.2,and], corSubiu:'#2563EB', corDesceu:'#FF1E1E'}]);
+  desenharVelas('graficoPrazos',[{valores:[Math.max(0.2,prazos.length+0.5),prazos.length,Math.max(0.2,prazos.length-0.3),prazos.length+0.4], corSubiu:'#FF1E1E', corDesceu:'#00C853'}]);
   let rec=contratado||1, cus=rec*0.65, luc=rec*0.25;
-  desenharVelas('graficoFinanceiro',[
-    {valores:[rec*0.3,rec*0.55,rec*0.8,rec], corSubiu:'#00C853', corDesceu:'#FF1E1E'},
-    {valores:[cus*0.3,cus*0.55,cus*0.8,cus], corSubiu:'#FF1E1E', corDesceu:'#00C853'},
-    {valores:[luc*0.3,luc*0.55,luc*0.8,luc], corSubiu:'#2563EB', corDesceu:'#FF1E1E'}
-  ]);
-  // mini velas nos KPIs
+  desenharVelas('graficoFinanceiro',[{valores:[rec*0.3,rec*0.55,rec*0.8,rec], corSubiu:'#00C853', corDesceu:'#FF1E1E'},{valores:[cus*0.3,cus*0.55,cus*0.8,cus], corSubiu:'#FF1E1E', corDesceu:'#00C853'}]);
   desenharVelas('spark1',[{valores:[1,2,2.5,total||1], corSubiu:'#00C853', corDesceu:'#FF1E1E'}]);
   desenharVelas('spark2',[{valores:[0.5,1,sessoesHoje||0.5,sessoesSemana||1], corSubiu:'#2563EB', corDesceu:'#FF1E1E'}]);
   desenharVelas('spark3',[{valores:[contratado*0.3||1,contratado*0.6||1,contratado*0.85||1,contratado||1], corSubiu:'#00C853', corDesceu:'#FF1E1E'}]);
@@ -265,13 +276,88 @@ function filtrarGeral(){let t=document.getElementById('pesquisaGeral').value.toL
 function gerarMsg(){let lic=document.getElementById('p-licitacao').value,forn=document.getElementById('p-fornecedor').value,prod=document.getElementById('p-produto').value,preco=document.getElementById('p-preco').value;document.getElementById('p-msg').value='👋 Olá '+forn+'! 📋 Licitação '+lic+' — 📦 '+prod+' — 💰 R$ '+preco+' — 🚀 ALFA NUCLEO ('+categoria+')';}
 function copiarMsg(){let m=document.getElementById('p-msg');m.select();document.execCommand('copy');alert('📋 Copiado! ✅');}
 function enviarZap(){gerarMsg();window.open('https://wa.me/?text='+encodeURIComponent(document.getElementById('p-msg').value),'_blank');}
-function calcularCarb(){let custo=parseFloat(document.getElementById('carb-custo').value)||0,frete=parseFloat(document.getElementById('carb-frete').value)||0,outros=parseFloat(document.getElementById('carb-outros').value)||0,imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria],edital=parseFloat(document.getElementById('carb-edital').value)||0;let base=custo+frete+outros,total=base+base*imp/100;let agr=total*1.12,eq=total*1.40,mx=edital*0.95;if(edital&&eq>edital*0.95)eq=edital*0.90;let f=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});document.getElementById('carb-conta').innerText='💰 Custo Total ('+categoria+' '+imp+'%): '+f(total);document.getElementById('carb-agressivo').innerText=f(agr);document.getElementById('carb-equilibrado').innerText=f(eq);document.getElementById('carb-maximo').innerText=f(mx);document.getElementById('carb-lucro1').innerText='• 💰 Lucro '+f(agr-total);document.getElementById('carb-lucro2').innerText='• 💰 Lucro '+f(eq-total);document.getElementById('carb-lucro3').innerText='• 💰 Lucro '+f(mx-total);document.getElementById('carb-alerta').innerHTML=total>edital&&edital?'<span style="color:#FF5252;font-weight:700">🚨 PREJUÍZO! Não entra! ❌</span>':'<span style="color:#00E676;font-weight:700">✅ SEGURO! Pode entrar! 🚀</span>';desenharVelas('graficoCarb',[{valores:[total,agr,eq,mx||eq], corSubiu:'#00C853', corDesceu:'#FF1E1E'},{valores:[total,total,total,total], corSubiu:'#FF1E1E', corDesceu:'#00C853'}]);}
+
+// ===== ⛽ CARBURADOR COMPLETO - COM UNIDADE / QTD / TOTAL =====
+function calcularCarb(){
+  let nome=document.getElementById('carb-nome')?.value || 'Produto';
+  let unidade=document.getElementById('carb-unidade').value;
+  let qtd=parseFloat(document.getElementById('carb-qtd').value)||1;
+  let custoUnit=parseFloat(document.getElementById('carb-custo').value)||0;
+  let freteTotal=parseFloat(document.getElementById('carb-frete').value)||0;
+  let outrosTotal=parseFloat(document.getElementById('carb-outros').value)||0;
+  let imp=parseFloat(document.getElementById('carb-imposto').value)||impostos[categoria];
+  let editalUnit=parseFloat(document.getElementById('carb-edital').value)||0;
+  let f=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  // rateio: frete e outros divididos pela qtd
+  let freteUnit=freteTotal/qtd;
+  let outrosUnit=outrosTotal/qtd;
+  let baseUnit=custoUnit+freteUnit+outrosUnit;
+  let impostoUnit=baseUnit*imp/100;
+  let custoTotalUnit=baseUnit+impostoUnit;
+  let agr=custoTotalUnit*1.12;
+  let eq=custoTotalUnit*1.40;
+  let mx=editalUnit*0.95;
+  if(editalUnit && eq>editalUnit*0.95) eq=editalUnit*0.90;
+  if(editalUnit && mx>editalUnit) mx=editalUnit*0.85;
+  ultimoEquilibrado=eq;
+  document.getElementById('carb-unidade-label').innerText=unidade;
+  document.getElementById('carb-conta').innerHTML=
+    '📦 <b>'+nome+'</b> • 📏 '+qtd+' '+unidade+'<br>'+
+    '💰 Custo: '+f(custoUnit)+' + 🚚 Frete por '+unidade+': '+f(freteUnit)+' + 🧾 Outros por '+unidade+': '+f(outrosUnit)+' + 📊 Imposto '+imp+'%: '+f(impostoUnit)+'<br>'+
+    '<b>🧮 Custo Total por '+unidade+': '+f(custoTotalUnit)+'</b> • 🏛️ Edital por '+unidade+': '+f(editalUnit);
+  function pct(preco){ let lucro=preco-custoTotalUnit; let markup=custoTotalUnit?lucro/custoTotalUnit*100:0; let margem=preco?lucro/preco*100:0; return {lucro, markup, margem}; }
+  let p1=pct(agr), p2=pct(eq), p3=pct(mx);
+  document.getElementById('carb-agressivo').innerText=f(agr);
+  document.getElementById('carb-equilibrado').innerText=f(eq);
+  document.getElementById('carb-maximo').innerText=f(mx);
+  document.getElementById('carb-lucro1').innerText='💰 Lucro '+f(p1.lucro)+' / '+unidade;
+  document.getElementById('carb-lucro2').innerText='💰 Lucro '+f(p2.lucro)+' / '+unidade;
+  document.getElementById('carb-lucro3').innerText='💰 Lucro '+f(p3.lucro)+' / '+unidade;
+  document.getElementById('carb-pct1').innerText='📈 '+p1.markup.toFixed(1)+'% markup • '+p1.margem.toFixed(1)+'% margem';
+  document.getElementById('carb-pct2').innerText='📈 '+p2.markup.toFixed(1)+'% markup • '+p2.margem.toFixed(1)+'% margem';
+  document.getElementById('carb-pct3').innerText='📈 '+p3.markup.toFixed(1)+'% markup • '+p3.margem.toFixed(1)+'% margem';
+  // TOTAL GERAL
+  let custoGeral=custoTotalUnit*qtd;
+  let precoGeral=eq*qtd;
+  let lucroGeral=p2.lucro*qtd;
+  let temPrejuizo=custoTotalUnit>editalUnit && editalUnit>0;
+  document.getElementById('carb-total-geral').innerHTML=
+    '🔢 Quantidade: <b>'+qtd+' '+unidade+'</b> • 💸 Custo Total Geral: <b>'+f(custoGeral)+'</b><br>'+
+    '💰 Preço Total (Equilibrado): <b>'+f(precoGeral)+'</b> • 🏛️ Teto Edital Total: <b>'+f(editalUnit*qtd)+'</b><br>'+
+    '<span style="font-size:16px">🏆 <b>Lucro Total: '+f(lucroGeral)+'</b> • 📈 '+p2.markup.toFixed(1)+'% markup • 📊 '+p2.margem.toFixed(1)+'% margem</span>';
+  let alerta=document.getElementById('carb-alerta');
+  let box=document.getElementById('carb-box-total');
+  if(temPrejuizo){ alerta.innerText='🚨 PREJUÍZO! NÃO ENTRA ❌'; alerta.className='pill pill-red'; box.className='result-box red'; document.getElementById('carb-fill-lucro').style.background='#FF1E1E'; document.getElementById('carb-fill-lucro').style.width='100%'; }
+  else { alerta.innerText='✅ SEGURO! PODE ENTRAR 🚀'; alerta.className='pill pill-green'; box.className='result-box green'; document.getElementById('carb-fill-lucro').style.background='#00C853'; document.getElementById('carb-fill-lucro').style.width=Math.min(100, p2.margem*3)+'%'; }
+  // 📈 ÁREA
+  desenharArea('graficoCarbArea',[custoTotalUnit, agr, eq, mx], '#00C853');
+  // 🍩 ROSCA - onde vai o dinheiro no preço equilibrado
+  if(eq>0){
+    desenharRosca('graficoCarbRosca',[
+      {valor:custoUnit, cor:'#2563EB', nome:'Custo'},
+      {valor:freteUnit+outrosUnit, cor:'#94A3B8', nome:'Frete+Outros'},
+      {valor:impostoUnit, cor:'#FF1E1E', nome:'Imposto'},
+      {valor:p2.lucro, cor:'#00C853', nome:'Lucro'}
+    ]);
+    document.getElementById('carb-rosca-legenda').innerHTML=
+      '🔵 Custo: '+f(custoUnit)+' • ⚪ Frete+Outros: '+f(freteUnit+outrosUnit)+'<br>'+
+      '🔴 Imposto: '+f(impostoUnit)+' • 🟢 Lucro: '+f(p2.lucro)+' ('+p2.margem.toFixed(1)+'%)';
+  }
+}
+function usarEquilibrado(){
+  if(!ultimoEquilibrado) return alert('Calcula primeiro! ⛽');
+  document.getElementById('p-preco').value=ultimoEquilibrado.toFixed(2);
+  let nome=document.getElementById('carb-nome').value;
+  if(nome) document.getElementById('p-produto').value=nome;
+  aba('proposta'); gerarMsg();
+  alert('✅ Preço Equilibrado R$ '+ultimoEquilibrado.toFixed(2)+' levado pra Proposta! 💬');
+}
 function adicionarPendencia(){let q=prompt('📌 Qual a pendência?');let quem=prompt('👤 Para quem?');if(q){pendencias.push(q+' — '+quem);document.getElementById('listaPendencias').innerHTML=pendencias.map(p=>'<div class="item"><span>📌 '+p+'</span><span class="pill pill-blue">⏳ Pendente</span></div>').join('');document.getElementById('pend-voce').innerText=pendencias.length+' pendências 📌';}}
 async function carregarTudo(){if(!supabaseClient)return;let{data:l}=await supabaseClient.from('licitacoes').select('*').order('created_at',{ascending:false});listaLicitacoes=l||[];document.getElementById('lista-licitacoes').innerHTML=listaLicitacoes.map(x=>'<div class="item"><span>📋 <b>'+(x.numero||'')+'</b> — '+(x.objeto||'')+'<div class="mini">🏛️ '+(x.orgao||'')+' | 📅 '+(x.data_abertura||'')+' 🕐 '+(x.hora||'')+' | '+(x.status||'em_analise')+'</div></span><b>💰 R$ '+(x.valor_estimado||x.valor||0)+'</b></div>').join('')||'Nenhuma';let{data:f}=await supabaseClient.from('fornecedores').select('*').order('created_at',{ascending:false});document.getElementById('lista-fornecedores').innerHTML=(f||[]).map(x=>'<div class="item"><span>🏭 <b>'+(x.nome||'')+'</b></span><small>🪪 '+(x.cnpj||'')+' — 📱 '+(x.telefone||'')+'</small></div>').join('')||'Nenhum';let{data:p}=await supabaseClient.from('produtos').select('*').order('created_at',{ascending:false});document.getElementById('lista-produtos').innerHTML=(p||[]).map(x=>'<div class="item"><span>📦 <b>'+(x.nome||'')+'</b></span><small>💰 R$ '+(x.preco||'')+' — 📊 Est: '+(x.estoque||'')+'</small></div>').join('')||'Nenhum';atualizarDashboard();}
 async function addLicitacao(){let numero=document.getElementById('l-num').value,orgao=document.getElementById('l-orgao').value,objeto=document.getElementById('l-objeto').value,valor=document.getElementById('l-valor').value,data=document.getElementById('l-data').value,hora=document.getElementById('l-hora').value,status=document.getElementById('l-status').value;let{error}=await supabaseClient.from('licitacoes').insert([{numero,orgao,objeto,valor_estimado:valor,data_abertura:data,hora,status}]);if(error)alert(error.message);else{alert('✅ Salva! 📋');carregarTudo();}}
 async function addFornecedor(){let nome=document.getElementById('f-nome').value,cnpj=document.getElementById('f-cnpj').value,telefone=document.getElementById('f-tel').value;let{error}=await supabaseClient.from('fornecedores').insert([{nome,cnpj,telefone}]);if(error)alert(error.message);else{alert('✅ Salvo! 🏭');carregarTudo();}}
 async function addProduto(){let nome=document.getElementById('p-nome').value,preco=document.getElementById('p-preco').value,estoque=document.getElementById('p-estoque').value;let{error}=await supabaseClient.from('produtos').insert([{nome,preco,estoque}]);if(error)alert(error.message);else{alert('✅ Salvo! 📦');carregarTudo();}}
-function testarDashboard(){listaLicitacoes=[{numero:'001/2026',orgao:'Prefeitura Curitiba',objeto:'Material de escritório',valor_estimado:50000,data_abertura:new Date().toISOString().slice(0,10),hora:'09:00',status:'ganha'},{numero:'002/2026',orgao:'Prefeitura São José',objeto:'Limpeza',valor_estimado:30000,data_abertura:new Date().toISOString().slice(0,10),hora:'14:00',status:'andamento'},{numero:'003/2026',orgao:'Estado PR',objeto:'Informática',valor_estimado:80000,data_abertura:new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10),hora:'10:00',status:'em_analise'}];atualizarDashboard();alert('🧪 TESTE OK! 🕯️ Agora é vela, sem bolinha! ✅');}
+function testarDashboard(){listaLicitacoes=[{numero:'001/2026',orgao:'Prefeitura Curitiba',objeto:'Material de escritório',valor_estimado:50000,data_abertura:new Date().toISOString().slice(0,10),hora:'09:00',status:'ganha'},{numero:'002/2026',orgao:'Prefeitura São José',objeto:'Limpeza',valor_estimado:30000,data_abertura:new Date().toISOString().slice(0,10),hora:'14:00',status:'andamento'},{numero:'003/2026',orgao:'Estado PR',objeto:'Informática',valor_estimado:80000,data_abertura:new Date(Date.now()+3*24*60*60*1000).toISOString().slice(0,10),hora:'10:00',status:'em_analise'}];atualizarDashboard();alert('🧪 TESTE OK! ✅');}
 let catSalva=localStorage.getItem('alfa_categoria');if(catSalva){categoria=catSalva;document.getElementById('categoriaEmpresa').value=catSalva;}
 trocarCategoriaEmpresa(categoria);conectar();
 </script>
