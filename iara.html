@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IARA SOZINHA - Sua Sócia</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui,Arial,sans-serif}body{margin:0;background:#0A0F1C;color:#E5E7EB;padding:16px}
+.card{background:#111A2E;border:1px solid #7C3AED;border-radius:12px;padding:14px;margin-bottom:12px;max-width:700px;margin-left:auto;margin-right:auto}
+input,select{width:100%;padding:11px;margin:6px 0;background:#0A0F1C;border:1px solid #243252;border-radius:8px;color:#fff;font-size:14px}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;background:#7C3AED;color:#fff;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px}
+.btn-ghost{background:#1A2438}
+.btn-small{width:auto;padding:8px 12px;font-size:12px;margin:4px 4px 0 0}
+.chat{height:360px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:10px;background:#0A0F1C;border:1px solid #1E2A44;border-radius:10px;margin-top:10px}
+.msg{padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.5;max-width:90%}
+.user{background:#2563EB;color:#fff;align-self:flex-end}
+.iara{background:#111A2E;border:1px solid #7C3AED33;align-self:flex-start}
+.pill{padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;background:#7C3AED22;color:#C4B5FD;border:1px solid #7C3AED33}
+.barra{height:10px;background:#1E2A44;border-radius:99px;overflow:hidden;margin:8px 0}
+.barra-fill{height:100%;background:#00C853;width:0%}
+</style>
+</head>
+<body>
+<div class="card">
+<h2 style="margin:0">🤖💚 IARA SOZINHA</h2>
+<p style="color:#94A3B8;font-size:13px;margin:6px 0 0">Sua sócia inteligente - separada do ALFA antigo, pra não quebrar nada.</p>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 8px">🏢 Seu Porte <span class="pill" id="pillPorte">MEI • 0%</span></h3>
+<select id="categoria" onchange="trocarPorte(this.value)">
+<option value="MEI">🟢 MEI - Limite R$ 81.000 - Imposto 6%</option>
+<option value="ME">🔵 ME - Limite R$ 360.000 - Imposto 8%</option>
+<option value="EPP">🟣 EPP - Limite R$ 4.800.000 - Imposto 11%</option>
+<option value="LTDA">⭐ LTDA - Limite R$ 10.000.000 - Imposto 14%</option>
+</select>
+<div style="display:flex;justify-content:space-between;font-size:13px"><span>💰 Faturado: <b id="faturado">R$ 0</b></span><span>🎯 Limite: <b id="limite">R$ 81.000</b></span><span>📌 Falta: <b id="falta">R$ 81.000</b></span></div>
+<div class="barra"><div class="barra-fill" id="barra"></div></div>
+<div id="msgPorte" style="font-size:13px;line-height:1.6">🤖 Iara: Tá tranquilo, pode entrar em mais licitações!</div>
+<div style="margin-top:8px">
+<button class="btn-small btn" onclick="perguntar('tô perto de virar de porte?')">📈 Tô perto de virar?</button>
+<button class="btn-small btn-ghost" style="color:#fff;border:none;border-radius:8px;cursor:pointer;padding:8px 12px" onclick="simular()">🔮 Simular próximo porte</button>
+</div>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 8px">💬 Fala com a Iara</h3>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn-small btn" onclick="perguntar('tem licitação boa hoje?')">🏛️ Tem licitação boa hoje?</button>
+<button class="btn-small btn-ghost" style="color:#fff;border:none;border-radius:8px;cursor:pointer;padding:8px 12px" onclick="perguntar('posso pegar licitação de 100 mil?')">💰 Posso pegar 100 mil?</button>
+<button class="btn-small btn-ghost" style="color:#fff;border:none;border-radius:8px;cursor:pointer;padding:8px 12px" onclick="perguntar('quanto eu cobro nesse papel?')">💰 Quanto cobro?</button>
+<button class="btn-small btn-ghost" style="color:#fff;border:none;border-radius:8px;cursor:pointer;padding:8px 12px" onclick="perguntar('analisa esse edital pra mim')">📄 Analisa edital</button>
+</div>
+<div class="chat" id="chat"></div>
+<div style="display:flex;gap:6px;margin-top:10px">
+<input id="input" placeholder="💬 Ex: Iara, tem licitação boa hoje?" onkeydown="if(event.key==='Enter')enviar()">
+<button class="btn-small btn" onclick="enviar()">➤ Enviar</button>
+</div>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 8px">⛽ Carburador rápido da Iara</h3>
+<input id="custo" type="number" placeholder="💰 Custo por unidade Ex: 550" oninput="calcular()">
+<input id="frete" type="number" placeholder="🚚 Frete total Ex: 80" oninput="calcular()">
+<input id="qtd" type="number" value="10" placeholder="🔢 Quantidade" oninput="calcular()">
+<input id="edital" type="number" placeholder="🏛️ Valor do edital por unidade Ex: 920" oninput="calcular()">
+<div id="resultado" style="font-size:13px;line-height:1.7;margin-top:8px;color:#94A3B8">Preencha pra calcular...</div>
+<div style="display:flex;gap:8px;margin-top:8px">
+<div style="flex:1;background:#0A0F1C;padding:10px;border-radius:8px;text-align:center">🐢 Conservador<br><b id="v1">R$ 0</b></div>
+<div style="flex:1;background:#00C85322;padding:10px;border-radius:8px;text-align:center;border:1px solid #00C853">⚖️ Médio ⭐<br><b id="v2">R$ 0</b></div>
+<div style="flex:1;background:#0A0F1C;padding:10px;border-radius:8px;text-align:center">🔥 Agressivo<br><b id="v3">R$ 0</b></div>
+</div>
+</div>
+
+<script>
+var categoria='MEI';
+var limites={MEI:81000,ME:360000,EPP:4800000,LTDA:10000000};
+var impostos={MEI:6,ME:8,EPP:11,LTDA:14};
+var ordem=['MEI','ME','EPP','LTDA'];
+var faturadoTeste=0;
+function proximo(){var i=ordem.indexOf(categoria);return i<3?ordem[i+1]:null;}
+function trocarPorte(v){categoria=v;atualizarPorte();addMsg('iara','🤖 Virei pra <b>'+v+'</b>! Já atualizei limite pra R$ '+limites[v].toLocaleString('pt-BR')+' e imposto pra '+impostos[v]+'%.');}
+function atualizarPorte(){
+  var limite=limites[categoria]; var pct=Math.min(100,faturadoTeste/limite*100); var falta=Math.max(0,limite-faturadoTeste);
+  document.getElementById('faturado').innerText='R$ '+faturadoTeste.toLocaleString('pt-BR');
+  document.getElementById('limite').innerText='R$ '+limite.toLocaleString('pt-BR');
+  document.getElementById('falta').innerText='R$ '+falta.toLocaleString('pt-BR');
+  document.getElementById('barra').style.width=pct+'%';
+  document.getElementById('pillPorte').innerText=categoria+' • '+pct.toFixed(0)+'%';
+  document.getElementById('msgPorte').innerHTML='🤖 Iara: Você é <b>'+categoria+'</b>, usou '+pct.toFixed(0)+'% do limite. Falta R$ '+falta.toLocaleString('pt-BR')+'.';
+}
+function simular(){var p=proximo();if(!p)return alert('🏆 Já está no maior porte!');alert('🔮 Virar pra '+p+':\nLimite R$ '+limites[p].toLocaleString('pt-BR')+'\nImposto '+impostos[p]+'%');}
+function addMsg(quem,html){var c=document.getElementById('chat');c.innerHTML+='<div class="msg '+quem+'">'+html+'</div>';c.scrollTop=c.scrollHeight;}
+function perguntar(txt){document.getElementById('input').value=txt;enviar();}
+function enviar(){
+  var inp=document.getElementById('input');var txt=inp.value.trim();if(!txt)return;addMsg('user',txt);inp.value='';
+  var t=txt.toLowerCase();var limite=limites[categoria];var pct=faturadoTeste/limite*100;var falta=Math.max(0,limite-faturadoTeste);var prox=proximo();
+  setTimeout(function(){
+    var r='';
+    if(t.indexOf('porte')!==-1||t.indexOf('virar')!==-1||t.indexOf('perto')!==-1){r='🏢 Você é <b>'+categoria+'</b><br>💰 Faturou: R$ '+faturadoTeste.toLocaleString('pt-BR')+'<br>🎯 Limite: R$ '+limite.toLocaleString('pt-BR')+'<br>📌 Falta: R$ '+falta.toLocaleString('pt-BR')+'<br><br>🟢 Tá tranquilo! Próximo porte: '+(prox||'Máximo 🏆');}
+    else if(t.indexOf('100 mil')!==-1||t.indexOf('posso pegar')!==-1){r=(100000>limite?'❌ <b>Não pode!</b> 100 mil é maior que seu limite '+categoria+' de R$ '+limite.toLocaleString('pt-BR')+'.':'✅ <b>Pode sim!</b> 100 mil está dentro do seu '+categoria+'.');}
+    else if(t.indexOf('licita')!==-1||t.indexOf('boa hoje')!==-1){r='🏛️ Tem 3 boas hoje, dentro do seu '+categoria+':<br><br>1️⃣ Papel A4 - Curitiba - R$ 45.200 - Amanhã 09:00<br>2️⃣ Limpeza - São José - R$ 67.800 - Em 3 dias<br>3️⃣ Expediente - Curitiba - R$ 38.900 - Hoje 09:30';}
+    else if(t.indexOf('quanto')!==-1||t.indexOf('cobro')!==-1||t.indexOf('papel')!==-1){r='💰 Com imposto do seu '+categoria+' ('+impostos[categoria]+'%):<br><br>🐢 Conservador: <b>R$ 890</b><br>⚖️ Médio: <b>R$ 920</b> ⭐<br>🔥 Agressivo: <b>R$ 850</b>';}
+    else if(t.indexOf('edital')!==-1||t.indexOf('analisa')!==-1){r='📄 Análise:<br>📦 Objeto: Material de escritório<br>📅 Sessão: Amanhã 09:00<br>💰 Valor: R$ 45.200<br>⚠️ Riscos: Nenhum direcionamento ✅<br><br><b>Pode entrar tranquilo! 🚀</b>';}
+    else{r='Entendi! Você é <b>'+categoria+'</b> • Limite R$ '+limite.toLocaleString('pt-BR')+'.<br><br>Me pergunta:<br>🏛️ "tem licitação boa hoje?"<br>💰 "posso pegar 100 mil?"<br>📄 "analisa esse edital"<br>📈 "tô perto de virar?"';}
+    addMsg('iara',r);
+  },500);
+}
+function calcular(){
+  var custo=parseFloat(document.getElementById('custo').value)||0;
+  var frete=parseFloat(document.getElementById('frete').value)||0;
+  var qtd=parseFloat(document.getElementById('qtd').value)||1;
+  var edital=parseFloat(document.getElementById('edital').value)||0;
+  var imp=impostos[categoria];
+  var base=custo+frete/qtd; var comImposto=base+base*imp/100;
+  var v1=comImposto*1.12; var v2=comImposto*1.40; var v3=edital?edital*0.85:comImposto*1.60;
+  if(edital&&v2>edital*0.95)v2=edital*0.90;
+  var f=function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});};
+  document.getElementById('v1').innerText=f(v1);
+  document.getElementById('v2').innerText=f(v2);
+  document.getElementById('v3').innerText=f(v3);
+  document.getElementById('resultado').innerHTML='📦 Custo total por unidade com imposto '+imp+'% ('+categoria+'): <b>'+f(comImposto)+'</b><br>🏛️ Edital: '+f(edital);
+}
+atualizarPorte();
+addMsg('iara','👋 Oi! Eu sou a <b>IARA 🤖💚</b> sozinha, sem mexer no seu ALFA antigo.<br><br>Me pergunta "tem licitação boa hoje?" pra testar.');
+</script>
+</body>
+</html>
